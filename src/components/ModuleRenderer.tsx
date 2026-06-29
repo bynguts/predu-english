@@ -277,7 +277,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                       </div>
                       
                       {/* Emoji illustration frame */}
-                      <div className="w-24 h-24 rounded-2xl bg-white/80 flex items-center justify-center text-6xl my-2 border-2 border-gray-100/30">
+                      <div className="w-24 h-24 rounded-xl bg-white/80 flex items-center justify-center text-6xl my-2 border-2 border-gray-100/30">
                         {item.emoji}
                       </div>
                       
@@ -327,7 +327,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             {/* Greetings / Phrases Alternating Dialogues */}
             {scene.phrases && (
-              <div className="flex flex-col gap-4 max-w-xl mx-auto w-full p-6 bg-gray-50 rounded-3xl border-2 border-gray-200/60 min-h-[300px] justify-center shadow-inner relative">
+              <div className="flex flex-col gap-4 max-w-xl mx-auto w-full p-6 bg-gray-50 rounded-xl border-2 border-gray-200/60 min-h-[300px] justify-center shadow-inner relative">
                 <div className="absolute top-2.5 left-4 text-[10px] text-gray-400 font-bold font-din uppercase tracking-wider">
                   Kartu Percakapan
                 </div>
@@ -347,7 +347,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                           ? 'dialogue-left bg-[#eef8ff] border-[#84d8ff] text-[#1cb0f6] align-self-start' 
                           : isB 
                           ? 'dialogue-right bg-[#f0fbe8] border-[#a2e048] text-[#3f8f01] align-self-end' 
-                          : 'align-self-center bg-white border-gray-200 text-gray-800 rounded-2xl'
+                          : 'align-self-center bg-white border-gray-200 text-gray-800 rounded-xl'
                         }`}
                     >
                       <div className="flex items-center gap-2">
@@ -375,13 +375,13 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             <div className="card-3d max-w-2xl mx-auto w-full p-6 bg-white border-2 border-gray-200 shadow-none cursor-default hover:border-gray-200 hover:transform-none hover:shadow-none flex flex-col items-center">
               {q.isAudioOnly ? (
-                <div className="flex flex-col items-center justify-center p-8 gap-4 bg-sky-50/50 rounded-2xl border border-sky-100/50 w-full">
+                <div className="flex flex-col items-center justify-center p-8 gap-4 bg-sky-50/50 rounded-xl border border-sky-100/50 w-full">
                   <p className="text-lg font-bold font-din text-sky-600 uppercase tracking-wider">Dengar dan Tebak Katanya</p>
                   <SoundButton textToSpeak={q.audioText || ""} size="lg" className="scale-125 my-4" />
                   <p className="text-xs font-din text-gray-400">Klik tombol speaker untuk memutar ulang suara</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center text-center w-full bg-emerald-50/20 rounded-2xl p-6 border border-emerald-100/40">
+                <div className="flex flex-col items-center text-center w-full bg-emerald-50/20 rounded-xl border border-emerald-100/40">
                   <h3 className="text-2xl font-feather text-gray-800 mb-4">{q.question}</h3>
                   {/* Visual Icons to match question context */}
                   {q.question.includes("(Buku / Book)") && <span className="text-8xl mb-2 animate-bounce">📘</span>}
@@ -445,7 +445,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             <div className="card-3d max-w-2xl mx-auto w-full p-8 bg-white border-2 border-gray-200 shadow-none cursor-default hover:border-gray-200 hover:transform-none hover:shadow-none flex flex-col items-center">
               {/* Image Hint Container */}
-              <div className="flex flex-col items-center mb-6 bg-amber-50/30 p-5 rounded-3xl border border-amber-100/50 w-full max-w-sm">
+              <div className="flex flex-col items-center mb-6 bg-amber-50/30 p-5 rounded-xl border border-amber-100/50 w-full max-w-sm">
                 <span className="text-8xl mb-2 animate-[wiggle_2s_infinite]">{wb.emoji}</span>
                 <h3 className="text-2xl font-feather text-gray-700">{wb.indonesian}</h3>
               </div>
@@ -457,7 +457,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   return (
                     <div
                       key={idx}
-                      className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center text-3xl font-feather transition-all duration-200 shadow-inner
+                      className={`w-16 h-16 rounded-xl border-2 flex items-center justify-center text-3xl font-feather transition-all duration-200 shadow-inner
                         ${filledLetter 
                           ? 'border-[#58cc02] bg-[#d7ffb8]/30 text-[#3f8f01]' 
                           : 'border-dashed border-gray-300 bg-gray-50/50 text-transparent'
@@ -511,7 +511,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
             <div className="card-3d max-w-3xl mx-auto w-full p-8 bg-white border-2 border-gray-200 shadow-none cursor-default hover:border-gray-200 hover:transform-none hover:shadow-none flex flex-col items-center">
               
               {/* Target Phrase Box */}
-              <div className="flex items-center gap-5 bg-sky-50/50 rounded-3xl px-8 py-5 border border-sky-100/50 mb-8 max-w-md w-full justify-center">
+              <div className="flex items-center gap-5 bg-sky-50/50 rounded-xl px-8 py-5 border border-sky-100/50 mb-8 max-w-md w-full justify-center">
                 {sb.hintEmoji && <span className="text-6xl animate-pulse">{sb.hintEmoji}</span>}
                 <div className="text-left">
                   <p className="text-[10px] text-sky-500 font-din font-bold uppercase tracking-wider mb-0.5">Bahasa Indonesia</p>
@@ -527,7 +527,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   builtSentence.map((word, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#d7ffb8] border-2 border-[#58cc02] text-[#3f8f01] font-extrabold font-din rounded-2xl px-5 py-3 text-lg shadow-sm"
+                      className="bg-[#d7ffb8] border-2 border-[#58cc02] text-[#3f8f01] font-extrabold font-din rounded-xl px-5 py-3 text-lg shadow-sm"
                     >
                       {word}
                     </div>
@@ -596,7 +596,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
             </div>
 
             {/* Statistics Cards */}
-            <div className="bg-white border-2 border-gray-200 rounded-3xl p-6 w-full max-w-sm mb-6 font-din text-gray-700 shadow-none">
+            <div className="bg-white border-2 border-gray-200 rounded-xl p-6 w-full max-w-sm mb-6 font-din text-gray-700 shadow-none">
               <h3 className="font-feather text-gray-800 text-lg mb-4 border-b border-gray-100 pb-2">Statistik Belajar</h3>
               <div className="flex justify-between border-b border-gray-100 pb-3 mb-3">
                 <span className="font-bold text-gray-500">Jawaban Betul:</span>

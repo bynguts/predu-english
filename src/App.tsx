@@ -116,7 +116,7 @@ function App() {
             
             {/* Left Column: Mascot Greeting Box */}
             <div className="w-full md:w-1/3 flex flex-col items-center">
-              <div className="bg-white border-2 border-gray-200 rounded-[32px] p-6 shadow-sm flex flex-col items-center w-full relative">
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-sm flex flex-col items-center w-full relative">
                 <Mascot state={mascotState} speechText={mascotSpeech} />
                 <button
                   onClick={handleTestSpeech}
@@ -134,7 +134,7 @@ function App() {
                 <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold font-din mb-3">
                   <Sparkles size={12} /> INTERAKTIF & FUN
                 </div>
-                <h1 className="text-4xl md:text-5xl font-feather text-gray-800 mb-3">
+                <h1 className="text-4xl md:text-5xl font-feather text-duo-green mb-3">
                   Mari Belajar Bahasa Inggris!
                 </h1>
                 <p className="text-lg text-gray-500 font-din leading-relaxed">
@@ -149,7 +149,7 @@ function App() {
                   return (
                     <div
                       key={module.id}
-                      className={`card-3d bg-white border-2 border-gray-200 rounded-[28px] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:shadow-lg shadow-none cursor-default ${style.border}`}
+                      className={`card-3d bg-white border-2 border-gray-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:shadow-lg shadow-none cursor-default ${style.border}`}
                     >
                       <div className="flex items-start gap-4 text-left">
                         {/* Round numeric badge medallion */}
@@ -185,7 +185,7 @@ function App() {
               </div>
 
               {/* Tips block */}
-              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-5 flex items-start gap-4 mt-2 text-left font-din text-sm text-yellow-900 shadow-sm">
+              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5 flex items-start gap-4 mt-2 text-left font-din text-sm text-yellow-900 shadow-sm">
                 <span className="text-3xl">💡</span>
                 <div>
                   <h4 className="font-bold text-base mb-1 text-yellow-900">Tips Operasi Kelas:</h4>

@@ -1,4 +1,6 @@
-:root {
+@import "tailwindcss";
+
+@theme {
   /* Colors */
   --color-duo-green: #58cc02;
   --color-duo-green-shadow: #3f8f01;
@@ -24,10 +26,10 @@
   --font-din-round: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
   /* Layout and Spacing */
-  --radius-xl: 16px;
-  --radius-cards: 20px;
-  --radius-inputs: 16px;
-  --radius-buttons: 16px;
+  --radius-xl: 12px;
+  --radius-cards: 12px;
+  --radius-inputs: 12px;
+  --radius-buttons: 12px;
 }
 
 /* Reset and Core Styles */
@@ -44,10 +46,8 @@ body {
   letter-spacing: 0.053em;
   color: var(--color-almost-black);
   
-  /* Premium dot-grid background like modern SaaS/edu apps */
-  background-color: #fafafa;
-  background-image: radial-gradient(var(--color-cloud-gray) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  /* Expansive white background as specified in DESIGN.md */
+  background-color: var(--color-snow-white);
   
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
