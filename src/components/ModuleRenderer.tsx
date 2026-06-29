@@ -636,7 +636,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
       {/* Main Slide Card Container */}
       <div className="w-full md:w-2/3 flex flex-col min-h-[500px]">
-        <div className="flex-1 bg-white rounded-[32px] border-2 border-gray-200 p-6 md:p-8 flex flex-col justify-between shadow-none">
+        <div className="flex-1 bg-white rounded-xl border-2 border-cloud-gray p-6 md:p-8 flex flex-col justify-between">
           <div className="flex-1 flex flex-col justify-center">
             {renderSceneContent()}
           </div>

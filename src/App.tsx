@@ -47,7 +47,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 bg-white border-b-2 border-gray-200 z-50 px-6 py-4 shadow-sm">
+      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 px-6 py-4">
         <div className="max-w-[1140px] mx-auto flex items-center justify-between gap-4">
           
           {/* Logo / Brand Name */}
@@ -116,7 +116,7 @@ function App() {
             
             {/* Left Column: Mascot Greeting Box */}
             <div className="w-full md:w-1/3 flex flex-col items-center">
-              <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-sm flex flex-col items-center w-full relative">
+              <div className="bg-white border-2 border-cloud-gray rounded-xl p-6 flex flex-col items-center w-full relative">
                 <Mascot state={mascotState} speechText={mascotSpeech} />
                 <button
                   onClick={handleTestSpeech}
@@ -149,7 +149,7 @@ function App() {
                   return (
                     <div
                       key={module.id}
-                      className={`card-3d bg-white border-2 border-gray-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:shadow-lg shadow-none cursor-default ${style.border}`}
+                      className={`card-3d bg-white border-2 border-cloud-gray p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 cursor-default ${style.border}`}
                     >
                       <div className="flex items-start gap-4 text-left">
                         {/* Round numeric badge medallion */}
@@ -185,7 +185,7 @@ function App() {
               </div>
 
               {/* Tips block */}
-              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5 flex items-start gap-4 mt-2 text-left font-din text-sm text-yellow-900 shadow-sm">
+              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5 flex items-start gap-4 mt-2 text-left font-din text-sm text-yellow-900">
                 <span className="text-3xl">💡</span>
                 <div>
                   <h4 className="font-bold text-base mb-1 text-yellow-900">Tips Operasi Kelas:</h4>
@@ -210,7 +210,7 @@ function App() {
       </main>
 
       {/* Small footer */}
-      <footer className="py-6 border-t border-gray-200 bg-white text-center text-xs text-gray-400 font-din mt-auto">
+      <footer className="py-6 border-t border-cloud-gray bg-white text-center text-xs text-gray-400 font-din mt-auto">
         <p>© 2026 PreEdu EngKids — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
       </footer>
     </div>
