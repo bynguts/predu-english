@@ -103,20 +103,13 @@ h3 {
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, filter 0.1s ease;
   user-select: none;
   border: none;
   font-size: 16px;
-  position: relative;
-  top: 0;
   outline: none;
   letter-spacing: 0.08em;
-}
-
-.btn-3d:active {
-  top: 4px;
-  box-shadow: none !important;
-  margin-bottom: 4px;
+  transform: translateY(0);
 }
 
 .btn-3d-green {
@@ -125,7 +118,13 @@ h3 {
   box-shadow: 0 4px 0 var(--color-duo-green-shadow);
 }
 .btn-3d-green:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-duo-green-shadow);
   filter: brightness(1.05);
+}
+.btn-3d-green:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-duo-green-shadow);
 }
 
 .btn-3d-blue {
@@ -134,7 +133,13 @@ h3 {
   box-shadow: 0 4px 0 var(--color-sky-blue-shadow);
 }
 .btn-3d-blue:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-sky-blue-shadow);
   filter: brightness(1.05);
+}
+.btn-3d-blue:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-sky-blue-shadow);
 }
 
 .btn-3d-yellow {
@@ -143,7 +148,13 @@ h3 {
   box-shadow: 0 4px 0 var(--color-sunshine-yellow-shadow);
 }
 .btn-3d-yellow:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-sunshine-yellow-shadow);
   filter: brightness(1.05);
+}
+.btn-3d-yellow:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-sunshine-yellow-shadow);
 }
 
 .btn-3d-purple {
@@ -152,7 +163,13 @@ h3 {
   box-shadow: 0 4px 0 var(--color-grape-soda-shadow);
 }
 .btn-3d-purple:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-grape-soda-shadow);
   filter: brightness(1.05);
+}
+.btn-3d-purple:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-grape-soda-shadow);
 }
 
 .btn-3d-red {
@@ -161,7 +178,13 @@ h3 {
   box-shadow: 0 4px 0 var(--color-cardinal-red-shadow);
 }
 .btn-3d-red:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-cardinal-red-shadow);
   filter: brightness(1.05);
+}
+.btn-3d-red:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-cardinal-red-shadow);
 }
 
 .btn-3d-gray {
@@ -170,7 +193,13 @@ h3 {
   box-shadow: 0 4px 0 #afafaf;
 }
 .btn-3d-gray:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #afafaf;
   filter: brightness(0.98);
+}
+.btn-3d-gray:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #afafaf;
 }
 
 .btn-3d-outline {
@@ -181,12 +210,14 @@ h3 {
   padding: 12px 26px; /* adjust for border */
 }
 .btn-3d-outline:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-cloud-gray);
   background-color: #f7f7f7;
   border-color: var(--color-silver);
 }
-.btn-3d-outline:active {
-  top: 4px;
-  box-shadow: none !important;
+.btn-3d-outline:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-cloud-gray);
 }
 
 .btn-3d:disabled {
@@ -195,6 +226,7 @@ h3 {
   box-shadow: 0 4px 0 #afafaf !important;
   cursor: not-allowed;
   opacity: 0.6;
+  transform: none !important;
 }
 
 /* Cards (Duolingo Style) */
@@ -203,11 +235,10 @@ h3 {
   border: 2px solid var(--color-cloud-gray);
   border-radius: var(--radius-cards);
   padding: 24px;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
   cursor: pointer;
-  position: relative;
-  top: 0;
   box-shadow: 0 4px 0 var(--color-cloud-gray);
+  transform: translateY(0);
 }
 
 .card-3d:hover {
@@ -217,27 +248,33 @@ h3 {
 }
 
 .card-3d:active {
-  top: 4px;
-  box-shadow: none !important;
-  transform: translateY(0);
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-sky-blue-shadow);
 }
 
 .card-3d.selected {
   border-color: var(--color-sky-blue);
   background-color: #f1f9ff;
   box-shadow: 0 4px 0 var(--color-sky-blue-shadow);
+  transform: translateY(0);
+}
+.card-3d.selected:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--color-sky-blue-shadow);
 }
 
 .card-3d.correct {
   border-color: var(--color-duo-green);
   background-color: var(--color-duo-green-light);
   box-shadow: 0 4px 0 var(--color-duo-green-shadow);
+  transform: translateY(0);
 }
 
 .card-3d.incorrect {
   border-color: var(--color-cardinal-red);
   background-color: #ffefe6;
   box-shadow: 0 4px 0 var(--color-cardinal-red-shadow);
+  transform: translateY(0);
 }
 
 /* Animations */
