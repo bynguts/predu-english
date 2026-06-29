@@ -487,10 +487,7 @@ h3 {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 1140px;
-  margin: 0 auto;
-  position: relative;
-  padding: 0 16px;
+  width: 100%;
 }
 
 .flex-center {
