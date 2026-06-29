@@ -56,9 +56,9 @@ function App() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white w-full overflow-x-hidden">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 py-5 md:py-6 select-none">
+      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 py-5 md:py-6 select-none w-full">
         <div className="max-w-[1140px] mx-auto w-full px-6 md:px-12 flex items-center justify-between gap-6">
           
           {/* Logo / Brand Name */}

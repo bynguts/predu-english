@@ -83,20 +83,21 @@
 }
 
 body {
+  display: block !important;
+  width: 100% !important;
+  min-height: 100vh;
   font-family: var(--font-din-round);
   font-size: 17px;
   line-height: 1.4;
   letter-spacing: 0.053em;
   color: var(--color-almost-black);
-  
-  /* Expansive white background as specified in DESIGN.md */
   background-color: var(--color-snow-white);
-  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   user-select: none;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 /* Typography Classes */
@@ -484,9 +485,12 @@ h3 {
 
 /* Layout Utilities */
 #root {
-  display: flex;
-  flex-direction: column;
+  display: block !important;
+  width: 100% !important;
   min-height: 100vh;
+}
+
+html {
   width: 100%;
 }
 
