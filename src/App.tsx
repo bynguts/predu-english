@@ -1,9 +1,10 @@
+import { useRef } from 'react';
 import { useAppStore } from './store';
 import { modulesData } from './data/modules';
 import { ProgressBar } from './components/ProgressBar';
 import { ModuleRenderer } from './components/ModuleRenderer';
 import { Mascot } from './components/Mascot';
-import { Volume2, VolumeX, Home, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Home, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakEnglish } from './components/SoundButton';
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
     mascotState,
     mascotSpeech
   } = useAppStore();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const activeModuleData = modulesData.find(m => m.id === currentModule);
   const activeScene = activeModuleData?.scenes[currentSceneIndex];
@@ -37,6 +40,14 @@ function App() {
     speakEnglish("Hello children! Welcome to PreEdu EngKids!", audioMuted);
   };
 
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft } = scrollRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - 180 : scrollLeft + 180;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
   // Helper colors for module cards
   const moduleCardStyles = [
     { border: 'border-l-8 border-l-[#58cc02] hover:border-[#58cc02]', iconBg: 'bg-[#d7ffb8] text-[#3f8f01]', btnColor: 'btn-3d-green' },
@@ -45,7 +56,7 @@ function App() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Top Navigation Bar */}
       <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 px-6 py-4">
         <div className="max-w-[1140px] mx-auto flex items-center justify-between gap-4">
@@ -53,12 +64,80 @@ function App() {
           {/* Logo / Brand Name */}
           <div 
             onClick={() => setModule(null)} 
-            className="flex items-center gap-2 cursor-pointer select-none"
+            className="flex items-center gap-2 cursor-pointer select-none shrink-0"
           >
             <span className="text-3xl font-feather text-[#58cc02] tracking-tight hover:scale-105 transition-transform duration-100">
               predu engkids
             </span>
           </div>
+
+          {/* Center: Scrollable Language/Topic selector bar (only on Home) */}
+          {currentModule === null && (
+            <div className="flex-1 max-w-md mx-6 hidden md:flex items-center gap-1.5 border-l border-r border-cloud-gray px-2">
+              <button 
+                onClick={() => scroll('left')}
+                className="p-1.5 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
+                type="button"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              <div 
+                ref={scrollRef}
+                className="flex-1 flex gap-3 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap py-1 select-none"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                <a 
+                  href="#curriculum"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                >
+                  🇬🇧 ENGLISH
+                </a>
+                <a 
+                  href="#module-1"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('module-1')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                >
+                  👦 ALFABET
+                </a>
+                <a 
+                  href="#module-2"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('module-2')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                >
+                  🌳 WARNA & ANGKA
+                </a>
+                <a 
+                  href="#module-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('module-3')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                >
+                  💬 PERCAKAPAN
+                </a>
+              </div>
+
+              <button 
+                onClick={() => scroll('right')}
+                className="p-1.5 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
+                type="button"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
 
           {/* Module Title / Progress Bar */}
           {currentModule !== null && activeModuleData && (
@@ -87,13 +166,21 @@ function App() {
             </button>
 
             {/* Home routing */}
-            {currentModule !== null && (
+            {currentModule !== null ? (
               <button
                 onClick={() => setModule(null)}
                 className="btn-3d btn-3d-gray px-5 py-2.5 text-sm flex items-center gap-2"
                 type="button"
               >
-                <Home size={16} /> <span>Beranda</span>
+                <Home size={16} /> <span className="hidden sm:inline">Beranda</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-3d btn-3d-green px-5 py-2.5 text-xs hidden md:inline-flex"
+                type="button"
+              >
+                Mulai Belajar
               </button>
             )}
           </div>
@@ -108,48 +195,173 @@ function App() {
       </header>
 
       {/* Main Content Arena */}
-      <main className="flex-1 max-w-[1140px] w-full mx-auto p-4 md:p-8 flex flex-col justify-center">
+      <main className="flex-1 w-full flex flex-col">
         {currentModule === null ? (
           
-          /* Home Screen Dashboard */
-          <div className="flex flex-col md:flex-row gap-10 items-center justify-between py-6">
+          /* Redesigned Duolingo Clone Homepage Dashboard */
+          <div className="w-full max-w-[1140px] mx-auto px-6 flex flex-col">
             
-            {/* Left Column: Mascot Greeting Box */}
-            <div className="w-full md:w-1/3 flex flex-col items-center">
-              <div className="bg-white border-2 border-cloud-gray rounded-xl p-6 flex flex-col items-center w-full relative">
-                <Mascot state={mascotState} speechText={mascotSpeech} />
-                <button
-                  onClick={handleTestSpeech}
-                  className="btn-3d btn-3d-blue mt-6 px-8 py-3 text-sm flex items-center gap-2"
-                  type="button"
-                >
-                  🔊 Tes Suara Duo
-                </button>
+            {/* 1. Hero Block */}
+            <div className="flex flex-col md:flex-row gap-12 items-center justify-between py-12 md:py-20">
+              
+              {/* Left Column: Text heading & action buttons */}
+              <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
+                <h1 className="text-5xl md:text-6xl font-feather text-duo-green mb-6 tracking-tight leading-none">
+                  free. fun. effective.
+                </h1>
+                <p className="text-lg md:text-xl text-gray-500 font-din leading-relaxed mb-8 max-w-xl">
+                  Belajar Bahasa Inggris bersama PreEdu EngKids sangat menyenangkan! Dengan metode interaktif tatap muka, bantu anak-anak menguasai kosakata dasar dengan gembira.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  <button
+                    onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="btn-3d btn-3d-green px-8 py-4 text-base font-bold uppercase tracking-wider w-full sm:w-64"
+                    type="button"
+                  >
+                    Mulai Belajar
+                  </button>
+                  <button
+                    onClick={handleTestSpeech}
+                    className="btn-3d btn-3d-outline px-8 py-4 text-base font-bold uppercase tracking-wider w-full sm:w-64"
+                    type="button"
+                  >
+                    Tes Suara Duo
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Column: Styled frame with Mascot */}
+              <div className="w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
+                <div className="absolute w-72 h-72 bg-emerald-100/50 rounded-full filter blur-3xl -z-10 -top-6 -left-6"></div>
+                <div className="absolute w-72 h-72 bg-sky-100/50 rounded-full filter blur-3xl -z-10 -bottom-6 -right-6"></div>
+
+                <div className="relative border-8 border-cloud-gray rounded-[40px] bg-white p-6 w-[310px] shadow-[0_12px_24px_rgba(0,0,0,0.06)] border-b-[16px] select-none">
+                  {/* Smartphone top details */}
+                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-cloud-gray rounded-full"></div>
+                  
+                  {/* Phone interior screen content */}
+                  <div className="flex flex-col items-center py-4">
+                    <div className="inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full font-bold font-din mb-4">
+                      <Sparkles size={10} /> TERAKREDITASI #1
+                    </div>
+                    <Mascot state={mascotState} speechText={mascotSpeech} />
+                    <div className="mt-4 text-center">
+                      <p className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">PRESCHOOL HERO</p>
+                      <h4 className="text-lg font-feather text-gray-800">Duo Si Burung Hantu</h4>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -bottom-4 -left-4 bg-white border-2 border-cloud-gray rounded-2xl p-3 shadow-md flex items-center gap-3 anim-breathe">
+                  <div className="w-10 h-10 rounded-xl bg-yellow-400 flex items-center justify-center text-white text-xl font-bold">
+                    ★
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-gray-800 font-din">METODE SERU</p>
+                    <p className="text-[10px] text-gray-400 font-din">100% Ramah Anak</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: Path & Modules List */}
-            <div className="w-full md:w-2/3 flex flex-col gap-6">
-              <div className="text-center md:text-left mb-2">
-                <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold font-din mb-3">
-                  <Sparkles size={12} /> INTERAKTIF & FUN
+            {/* 2. Feature Section - Stats Grid & Pills */}
+            <div className="py-16 border-t border-cloud-gray flex flex-col items-center text-center">
+              <h2 className="text-4xl md:text-5xl font-feather text-duo-green mb-4">
+                free. fun. effective.
+              </h2>
+              <p className="text-lg text-gray-500 font-din max-w-2xl mb-12">
+                Belajar bahasa baru membutuhkan waktu, namun kami menjamin sesi belajar akan sangat interaktif dengan modul terstruktur dan permainan yang memancing respon aktif anak-anak!
+              </p>
+              
+              {/* Stats Card Boxes */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mb-10">
+                <div className="border-2 border-cloud-gray rounded-xl p-8 bg-white flex flex-col items-center shadow-none">
+                  <span className="text-5xl font-feather text-duo-green mb-3">200+</span>
+                  <span className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">KOSA KATA DASAR</span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-feather text-duo-green mb-3">
-                  Mari Belajar Bahasa Inggris!
-                </h1>
-                <p className="text-lg text-gray-500 font-din leading-relaxed">
-                  Pilih tingkat modul pelajaran di bawah ini. Sesi dirancang interaktif untuk dipandu oleh fasilitator menggunakan proyektor kelas.
+                <div className="border-2 border-cloud-gray rounded-xl p-8 bg-white flex flex-col items-center shadow-none">
+                  <span className="text-5xl font-feather text-[#1cb0f6] mb-3">100%</span>
+                  <span className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">GRATIS & INTERAKTIF</span>
+                </div>
+                <div className="border-2 border-cloud-gray rounded-xl p-8 bg-white flex flex-col items-center shadow-none">
+                  <span className="text-5xl font-feather text-[#a570ff] mb-3">3</span>
+                  <span className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">MODUL UTAMA</span>
+                </div>
+              </div>
+
+              {/* Styled Outline Pills */}
+              <div className="flex flex-wrap justify-center gap-4">
+                <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Pelajaran Pendek
+                </span>
+                <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Dipandu Guru
+                </span>
+                <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> 100% Gratis
+                </span>
+                <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Ramah Anak
+                </span>
+              </div>
+            </div>
+
+            {/* 3. Floating Mock Card Section */}
+            <div className="bg-[#ddf4ff] rounded-3xl p-10 md:p-16 my-12 text-center relative overflow-hidden">
+              <div className="absolute w-20 h-20 bg-sky-300/30 rounded-full -top-6 -left-6 blur-lg"></div>
+              <div className="absolute w-32 h-32 bg-sky-300/20 rounded-full -bottom-10 -right-10 blur-xl"></div>
+              
+              <h2 className="text-4xl md:text-5xl font-feather text-[#1899d6] mb-4">
+                learn anytime, anywhere
+              </h2>
+              <p className="text-lg text-gray-600 font-din max-w-2xl mx-auto mb-10 leading-relaxed">
+                Hubungkan laptop ke proyektor kelas atau gunakan tablet secara langsung. Pembelajaran tatap muka di panti asuhan akan menjadi petualangan visual interaktif yang tidak membosankan bagi anak-anak!
+              </p>
+
+              {/* Floating game screen layouts */}
+              <div className="flex flex-wrap justify-center gap-6 relative z-10 select-none">
+                <div className="bg-white border-2 border-cloud-gray rounded-2xl p-4 w-44 shadow-[0_4px_0_var(--color-cloud-gray)] transform -rotate-3 hover:rotate-0 transition-all cursor-default">
+                  <p className="text-[10px] text-gray-400 font-din font-bold">GAME 1: CHOOSE PHOTO</p>
+                  <div className="w-full h-24 bg-sky-50 rounded-xl my-2 flex items-center justify-center text-3xl">🍎</div>
+                  <p className="text-xs font-bold text-gray-800 font-din">Apple = Apel</p>
+                </div>
+                <div className="bg-white border-2 border-cloud-gray rounded-2xl p-4 w-44 shadow-[0_4px_0_var(--color-cloud-gray)] transform rotate-3 hover:rotate-0 transition-all cursor-default mt-4 md:mt-0">
+                  <p className="text-[10px] text-gray-400 font-din font-bold">GAME 2: WORD MATCH</p>
+                  <div className="w-full h-24 bg-emerald-50 rounded-xl my-2 flex items-center justify-center text-3xl">🐶</div>
+                  <p className="text-xs font-bold text-gray-800 font-din">Dog = Anjing</p>
+                </div>
+                <div className="bg-white border-2 border-cloud-gray rounded-2xl p-4 w-44 shadow-[0_4px_0_var(--color-cloud-gray)] transform -rotate-1 hover:rotate-0 transition-all cursor-default mt-4 md:mt-0">
+                  <p className="text-[10px] text-gray-400 font-din font-bold">GAME 3: SOUND BOX</p>
+                  <div className="w-full h-24 bg-yellow-50 rounded-xl my-2 flex items-center justify-center text-3xl">🔊</div>
+                  <p className="text-xs font-bold text-gray-800 font-din">Klik dengar suara</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Curriculum Modul Path Grid */}
+            <div id="curriculum" className="py-16 border-t border-cloud-gray scroll-mt-10">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 bg-[#d7ffb8] text-[#3f8f01] text-xs px-3 py-1 rounded-full font-bold font-din mb-3">
+                  <Sparkles size={12} /> PILIH MATERI AJAR
+                </div>
+                <h2 className="text-4xl md:text-5xl font-feather text-duo-green mb-4">
+                  pilih modul belajar
+                </h2>
+                <p className="text-lg text-gray-500 font-din max-w-xl mx-auto">
+                  Modul di bawah ini dirancang terstruktur mulai dari alfabet dasar hingga percakapan sederhana.
                 </p>
               </div>
 
-              {/* Module Cards Grid */}
-              <div className="flex flex-col gap-6">
+              {/* Module cards curriculum path list */}
+              <div className="flex flex-col gap-6 max-w-4xl mx-auto">
                 {modulesData.map((module, idx) => {
                   const style = moduleCardStyles[idx % moduleCardStyles.length];
                   return (
                     <div
                       key={module.id}
-                      className={`card-3d bg-white border-2 border-cloud-gray p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 cursor-default ${style.border}`}
+                      id={`module-${module.id}`}
+                      className={`card-3d bg-white border-2 border-cloud-gray p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 cursor-default scroll-mt-24 ${style.border}`}
                     >
                       <div className="flex items-start gap-4 text-left">
                         {/* Round numeric badge medallion */}
@@ -183,36 +395,87 @@ function App() {
                   );
                 })}
               </div>
-
-              {/* Tips block */}
-              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5 flex items-start gap-4 mt-2 text-left font-din text-sm text-yellow-900">
-                <span className="text-3xl">💡</span>
-                <div>
-                  <h4 className="font-bold text-base mb-1 text-yellow-900">Tips Operasi Kelas:</h4>
-                  <p className="leading-relaxed">
-                    Hubungkan laptop ke proyektor / infokus di depan kelas. Fasilitator dapat mengklik kartu materi untuk mengeluarkan suara, dan mengundang anak-anak maju langsung saat mini-game interaktif!
-                  </p>
-                </div>
-              </div>
             </div>
+
           </div>
         ) : (
           /* Active Module Slide Render viewport */
-          activeScene && (
-            <ModuleRenderer
-              isFirst={currentSceneIndex === 0}
-              nextScene={() => nextScene(totalScenes)}
-              prevScene={prevScene}
-              scene={activeScene}
-            />
-          )
+          <div className="max-w-[1140px] w-full mx-auto p-4 md:p-8 flex-1 flex flex-col justify-center">
+            {activeScene && (
+              <ModuleRenderer
+                isFirst={currentSceneIndex === 0}
+                nextScene={() => nextScene(totalScenes)}
+                prevScene={prevScene}
+                scene={activeScene}
+              />
+            )}
+          </div>
         )}
       </main>
 
-      {/* Small footer */}
-      <footer className="py-6 border-t border-cloud-gray bg-white text-center text-xs text-gray-400 font-din mt-auto">
-        <p>© 2026 PreEdu EngKids — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
-      </footer>
+      {/* Curved wave transition divider to green footer (homepage only) */}
+      {currentModule === null && (
+        <div className="w-full overflow-hidden leading-[0] bg-white select-none">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#58cc02]">
+            <path d="M0,0 C150,90 350,120 600,100 C850,80 1050,110 1200,90 L1200,120 L0,120 Z"></path>
+          </svg>
+        </div>
+      )}
+
+      {/* Footer System */}
+      {currentModule === null ? (
+        /* Full Deep Green Footer Grid */
+        <footer className="bg-[#58cc02] text-white py-16 px-8 font-din">
+          <div className="max-w-[1140px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-sm border-b border-white/20 pb-12">
+            <div>
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Tentang Kami</h5>
+              <ul className="flex flex-col gap-2.5 text-white/80">
+                <li><a href="#" className="hover:text-white transition-colors">Visi & Misi</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Panti Asuhan</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Relawan Pengajar</a></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Materi</h5>
+              <ul className="flex flex-col gap-2.5 text-white/80">
+                <li><a href="#" className="hover:text-white transition-colors">Alfabet A-Z</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Warna & Angka</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Percakapan</a></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Aplikasi</h5>
+              <ul className="flex flex-col gap-2.5 text-white/80">
+                <li><a href="#" className="hover:text-white transition-colors">Android App</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">iOS App</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Web PWA</a></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Bantuan</h5>
+              <ul className="flex flex-col gap-2.5 text-white/80">
+                <li><a href="#" className="hover:text-white transition-colors">Panduan Guru</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Hubungi Kami</a></li>
+              </ul>
+            </div>
+            <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start">
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Duo Mascot</h5>
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl shadow-md animate-bounce select-none">
+                🦉
+              </div>
+            </div>
+          </div>
+          <div className="max-w-[1140px] mx-auto pt-6 text-center text-xs text-white/60">
+            <p>© 2026 PreEdu EngKids — Dibuat dengan kasih untuk pendidikan bahasa Inggris anak-anak panti asuhan.</p>
+          </div>
+        </footer>
+      ) : (
+        /* Small Flat Footer inside quiz viewport */
+        <footer className="py-6 border-t border-cloud-gray bg-white text-center text-xs text-gray-400 font-din mt-auto">
+          <p>© 2026 PreEdu EngKids — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
+        </footer>
+      )}
     </div>
   );
 }
