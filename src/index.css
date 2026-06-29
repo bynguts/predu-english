@@ -533,3 +533,9 @@ h3 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-silver);
 }
+
+/* Background dot grid pattern from taste-skill guidelines */
+.bg-dots {
+  background-image: radial-gradient(var(--color-cloud-gray) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}

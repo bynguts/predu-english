@@ -202,8 +202,8 @@ function App() {
           <div className="w-full flex flex-col">
             
             {/* 1. Hero Block Section */}
-            <section className="w-full bg-white">
-              <div className="max-w-[1140px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 items-center justify-between py-12 md:py-20">
+            <section className="w-full bg-white bg-dots relative border-b border-cloud-gray">
+              <div className="max-w-[1140px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 items-center justify-between py-16 md:py-28">
                 
                 {/* Left Column: Text heading & action buttons */}
                 <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
@@ -269,8 +269,8 @@ function App() {
             </section>
 
             {/* 2. Feature Section - Stats Grid & Pills */}
-            <section className="w-full bg-white border-t border-cloud-gray">
-              <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-16 flex flex-col items-center text-center">
+            <section className="w-full bg-white">
+              <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-20 flex flex-col items-center text-center">
                 
                 <h2 className="text-4xl md:text-5xl font-feather text-duo-green mb-4">
                   free. fun. effective.
@@ -316,7 +316,7 @@ function App() {
 
             {/* 3. Floating Mock Card Section */}
             <section className="w-full bg-[#ddf4ff] border-t border-b border-[#84d8ff] overflow-hidden">
-              <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-16 md:py-24 text-center relative">
+              <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-20 md:py-28 text-center relative">
                 <div className="absolute w-20 h-20 bg-sky-300/30 rounded-full -top-6 -left-6 blur-lg"></div>
                 <div className="absolute w-32 h-32 bg-sky-300/20 rounded-full -bottom-10 -right-10 blur-xl"></div>
                 
@@ -349,7 +349,7 @@ function App() {
             </section>
 
             {/* 4. Curriculum Modul Path Grid */}
-            <section id="curriculum" className="w-full bg-white py-16 scroll-mt-20">
+            <section id="curriculum" className="w-full bg-white py-20 scroll-mt-20">
               <div className="max-w-[1140px] mx-auto px-6 md:px-12">
                 
                 <div className="text-center mb-12">
