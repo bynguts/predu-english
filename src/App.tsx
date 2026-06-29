@@ -58,33 +58,33 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 px-6 py-4">
-        <div className="max-w-[1140px] mx-auto flex items-center justify-between gap-4">
+      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 px-6 md:px-12 py-5 md:py-6 select-none">
+        <div className="w-full flex items-center justify-between gap-6">
           
           {/* Logo / Brand Name */}
           <div 
             onClick={() => setModule(null)} 
             className="flex items-center gap-2 cursor-pointer select-none shrink-0"
           >
-            <span className="text-3xl font-feather text-[#58cc02] tracking-tight hover:scale-105 transition-transform duration-100">
+            <span className="text-4xl font-feather text-[#58cc02] tracking-tight hover:scale-105 transition-transform duration-100">
               predu engkids
             </span>
           </div>
 
           {/* Center: Scrollable Language/Topic selector bar (only on Home) */}
           {currentModule === null && (
-            <div className="flex-1 max-w-md mx-6 hidden md:flex items-center gap-1.5 border-l border-r border-cloud-gray px-2">
+            <div className="flex-1 max-w-xl mx-8 hidden md:flex items-center gap-2 border-l border-r border-cloud-gray px-4">
               <button 
                 onClick={() => scroll('left')}
-                className="p-1.5 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
+                className="p-2 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
                 type="button"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={20} />
               </button>
               
               <div 
                 ref={scrollRef}
-                className="flex-1 flex gap-3 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap py-1 select-none"
+                className="flex-1 flex gap-4 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap py-1 select-none"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 <a 
@@ -93,7 +93,7 @@ function App() {
                     e.preventDefault();
                     document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-sm font-din font-bold text-gray-500 transition-all"
                 >
                   🇬🇧 ENGLISH
                 </a>
@@ -103,7 +103,7 @@ function App() {
                     e.preventDefault();
                     document.getElementById('module-1')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-sm font-din font-bold text-gray-500 transition-all"
                 >
                   👦 ALFABET
                 </a>
@@ -113,7 +113,7 @@ function App() {
                     e.preventDefault();
                     document.getElementById('module-2')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-sm font-din font-bold text-gray-500 transition-all"
                 >
                   🌳 WARNA & ANGKA
                 </a>
@@ -123,7 +123,7 @@ function App() {
                     e.preventDefault();
                     document.getElementById('module-3')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-xs font-din font-bold text-gray-500 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-sm font-din font-bold text-gray-500 transition-all"
                 >
                   💬 PERCAKAPAN
                 </a>
@@ -131,10 +131,10 @@ function App() {
 
               <button 
                 onClick={() => scroll('right')}
-                className="p-1.5 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
+                className="p-2 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
                 type="button"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={20} />
               </button>
             </div>
           )}
@@ -150,11 +150,11 @@ function App() {
           )}
 
           {/* Toolbar Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Audio Toggle */}
             <button
               onClick={toggleAudio}
-              className={`p-3 rounded-2xl border-2 transition-all duration-100 relative top-0 active:top-0.5
+              className={`p-3.5 rounded-2xl border-2 transition-all duration-100 relative top-0 active:top-0.5
                 ${audioMuted 
                   ? 'bg-rose-50 border-rose-200 text-rose-500 shadow-[0_3px_0_#fda4af]' 
                   : 'bg-sky-50 border-sky-200 text-sky-500 shadow-[0_3px_0_#bae6fd]'
@@ -169,15 +169,15 @@ function App() {
             {currentModule !== null ? (
               <button
                 onClick={() => setModule(null)}
-                className="btn-3d btn-3d-gray px-5 py-2.5 text-sm flex items-center gap-2"
+                className="btn-3d btn-3d-gray px-6 py-3 text-sm flex items-center gap-2"
                 type="button"
               >
-                <Home size={16} /> <span className="hidden sm:inline">Beranda</span>
+                <Home size={18} /> <span className="hidden sm:inline">Beranda</span>
               </button>
             ) : (
               <button
                 onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-3d btn-3d-green px-5 py-2.5 text-xs hidden md:inline-flex"
+                className="btn-3d btn-3d-green px-7 py-3.5 text-sm hidden md:inline-flex"
                 type="button"
               >
                 Mulai Belajar
@@ -188,7 +188,7 @@ function App() {
 
         {/* Mobile progress viewport */}
         {currentModule !== null && activeModuleData && (
-          <div className="max-w-[1140px] mx-auto mt-3 md:hidden px-2">
+          <div className="w-full mt-4 md:hidden px-2">
             <ProgressBar value={currentSceneIndex} max={totalScenes} />
           </div>
         )}
