@@ -291,15 +291,29 @@ function App() {
                     animate={reducedMotion ? {} : { rotateX: [8, 3, 8], rotateY: [-10, 8, -10] }}
                     transition={{ duration: 6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
                   >
+                    <div className="duo-orbit-glow" />
                     <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>
                     <motion.div className="duo-float-card duo-float-card-b" {...floatMotion(0.35, 12)}>cat</motion.div>
                     <motion.div className="duo-float-card duo-float-card-c" {...floatMotion(0.2, 14)}>10</motion.div>
                     <Mascot state="happy" className="duo-hero-mascot" />
+                    <motion.div className="duo-lesson-badge" {...floatMotion(0.45, 8)}>
+                      <span>Today's path</span>
+                      <b>Alphabet &gt; Words &gt; Review</b>
+                    </motion.div>
                   </motion.div>
                 </motion.div>
 
                 <motion.div className="duo-cta-panel" data-reveal="rise" {...motionPop(0.12)}>
-                  <h1>The free, fun, and effective way to learn a language!</h1>
+                  <span className="duo-hero-kicker">Predu EngKids classroom</span>
+                  <h1>Belajar English jadi berani, seru, dan terarah.</h1>
+                  <p className="duo-hero-subcopy">
+                    Lesson path untuk anak-anak: huruf, kata, suara, mini game, lalu review bareng di layar laptop.
+                  </p>
+                  <div className="duo-hero-progress" aria-hidden="true">
+                    {['Alphabet', 'Words', 'Speaking'].map((item, idx) => (
+                      <span key={item} style={revealDelay(idx)}>{item}</span>
+                    ))}
+                  </div>
                   <motion.button
                     onClick={scrollToCurriculum}
                     className="btn-3d btn-3d-green duo-main-cta"
@@ -348,36 +362,109 @@ function App() {
               </div>
             </section>
 
-            <section className="duo-feature-section" data-reveal="rise">
-              <div className="duo-section-label">Feature Section - Free Fun Effective</div>
-              <h2>free. fun. effective.</h2>
-              <p className="duo-feature-copy">
-                Learning with PreEdu EngKids is fun, guided, and projector-ready. With quick,
-                bite-sized lessons, children learn words, sounds, and simple classroom phrases.
-              </p>
+            <section className="duo-feature-section">
+              <div className="duo-feature-grid">
+                <div className="duo-feature-copyblock" data-reveal="slide-left">
+                  <div className="duo-section-label">Projector ready lessons</div>
+                  <h2>free. fun. effective.</h2>
+                  <p className="duo-feature-copy">
+                    Learning with Predu EngKids is guided, visual, and ready for a laptop classroom.
+                    Every section gives the facilitator a clear action and gives children a big moment to answer together.
+                  </p>
 
-              <div className="duo-stat-row">
-                {[
-                  ['200+', 'basic words'],
-                  ['3', 'class modules'],
-                  ['HD', 'projector ready']
-                ].map(([value, label]) => (
-                  <motion.div
-                    className="duo-stat-card"
-                    key={label}
-                    {...motionPop(0.06)}
-                    whileHover={reducedMotion ? undefined : { y: -4, rotateX: 4 }}
-                  >
-                    <strong>{value}</strong>
-                    <span>{label}</span>
-                  </motion.div>
-                ))}
+                  <div className="duo-pill-row">
+                    {['Bite-sized lessons', 'Teacher guided', 'Audio practice', '100% free'].map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="duo-feature-visual" data-reveal="slide-right" aria-label="Classroom learning metrics">
+                  <div className="duo-feature-board">
+                    <div className="duo-board-topline">
+                      <span>Today</span>
+                      <strong>45 min class</strong>
+                    </div>
+                    <div className="duo-board-path">
+                      {[
+                        ['1', 'Warm up'],
+                        ['2', 'Listen'],
+                        ['3', 'Play'],
+                        ['4', 'Review']
+                      ].map(([step, label], idx) => (
+                        <motion.div
+                          className="duo-board-step"
+                          key={label}
+                          {...floatMotion(idx * 0.08, idx % 2 === 0 ? 4 : 7)}
+                        >
+                          <b>{step}</b>
+                          <span>{label}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="duo-stat-row">
+                    {[
+                      ['200+', 'basic words'],
+                      ['3', 'class modules'],
+                      ['HD', 'projector ready']
+                    ].map(([value, label], idx) => (
+                      <motion.div
+                        className="duo-stat-card"
+                        key={label}
+                        {...motionPop(idx * 0.05)}
+                        whileHover={reducedMotion ? undefined : { y: -4, rotateX: 4 }}
+                      >
+                        <strong>{value}</strong>
+                        <span>{label}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
+            </section>
 
-              <div className="duo-pill-row">
-                {['Bite-sized lessons', 'Teacher guided', 'Audio practice', '100% free'].map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
+            <section className="duo-classroom-section">
+              <div className="duo-classroom-inner">
+                <div className="duo-classroom-stage" data-reveal="pop">
+                  <div className="duo-classroom-screen" aria-hidden="true">
+                    <div className="duo-screen-header">
+                      <span>Live lesson</span>
+                      <strong>Alphabet</strong>
+                    </div>
+                    <div className="duo-screen-letter">B</div>
+                    <div className="duo-screen-answer">Book</div>
+                  </div>
+                  <motion.div
+                    className="duo-classroom-token token-left"
+                    {...floatMotion(0.2, 10)}
+                    aria-hidden="true"
+                  >
+                    cat
+                  </motion.div>
+                  <motion.div
+                    className="duo-classroom-token token-right"
+                    {...floatMotion(0.5, 8)}
+                    aria-hidden="true"
+                  >
+                    A+
+                  </motion.div>
+                </div>
+
+                <div className="duo-classroom-copy" data-reveal="slide-right">
+                  <span>Not just slides</span>
+                  <h2>kelasnya bergerak, tapi tetap gampang dipandu</h2>
+                  <p>
+                    Landing scroll sekarang mengikuti alur kelas: lihat konsep, dengarkan suara, main mini game,
+                    lalu review bareng. Motion dipakai untuk menunjukkan progres, bukan sekadar efek random.
+                  </p>
+                  <div className="duo-classroom-checks">
+                    {['Big laptop controls', 'Audio pronunciation', 'Wrong-answer review'].map((item) => (
+                      <b key={item}>{item}</b>
+                    ))}
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -395,12 +482,29 @@ function App() {
                 <span></span>
                 <span></span>
               </div>
-              <div className="duo-anywhere-inner" data-reveal="pop">
+              <div className="duo-anywhere-inner" data-reveal="slide-left">
                 <h2>learn anytime, anywhere</h2>
                 <p>
                   Open it on a laptop, connect to a projector, and run the whole lesson with big controls
                   the class can follow from across the room.
                 </p>
+              </div>
+              <div className="duo-mini-game-strip" data-reveal="slide-right">
+                {[
+                  ['A', 'Pick the first letter'],
+                  ['🔊', 'Listen and repeat'],
+                  ['3 / 3', 'Celebrate progress']
+                ].map(([mark, label], idx) => (
+                  <motion.div
+                    className="duo-mini-game-card"
+                    key={label}
+                    {...motionPop(idx * 0.07)}
+                    whileHover={reducedMotion ? undefined : { y: -6, rotate: idx === 1 ? 0 : idx === 0 ? -2 : 2 }}
+                  >
+                    <strong>{mark}</strong>
+                    <span>{label}</span>
+                  </motion.div>
+                ))}
               </div>
             </section>
 
