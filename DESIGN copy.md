@@ -3,15 +3,15 @@
 
 **Theme:** light
 
-The design feels like an energetic, gamified classroom. Its core is built on a trinity of exuberant choices: the plump, ultra-rounded 'Feather' headline font, the vibrant 'Duo Green' that saturates all primary actions and logos, and the cast of charming, blob-like character illustrations. The layout uses vast white space as a clean canvas, making these colorful elements pop. A signature detail is the 3D-style button, which uses a solid bottom shadow to feel tactile and pressable, a stark contrast to the otherwise flat UI. The entire experience is crafted to feel fun, friendly, and encouraging, turning language learning from a chore into a game.
+The design feels like an energetic, gamified classroom. Its core is built on a trinity of exuberant choices: the plump, ultra-rounded 'Feather' headline font, the vibrant 'Alfa Green' that saturates all primary actions and logos, and the cast of charming, blob-like character illustrations. The layout uses vast white space as a clean canvas, making these colorful elements pop. A signature detail is the 3D-style button, which uses a solid bottom shadow to feel tactile and pressable, a stark contrast to the otherwise flat UI. The entire experience is crafted to feel fun, friendly, and encouraging, turning language learning from a chore into a game.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Duo Green | `#58cc02` | `--color-duo-green` | Primary CTAs, logos, headlines, interactive highlights — the brand's key signifier of action and identity. |
+| Alfa Green | `#58cc02` | `--color-duo-green` | Primary CTAs, logos, headlines, interactive highlights — the brand's key signifier of action and identity. |
 | Sky Blue | `#1cb0f6` | `--color-sky-blue` | Secondary outline buttons, inline text links — provides a clear, alternative interactive cue. |
-| Duo Green Light | `#d7ffb8` | `--color-duo-green-light` | Background tints for highlighted or active states, often paired with Duo Green. |
+| Alfa Green Light | `#d7ffb8` | `--color-duo-green-light` | Background tints for highlighted or active states, often paired with Alfa Green. |
 | Sunshine Yellow | `#ffc700` | `--color-sunshine-yellow` | Used exclusively within illustrations for pops of warmth and energy. |
 | Grape Soda | `#a570ff` | `--color-grape-soda` | Used exclusively within illustrations as a cool, playful accent. |
 | Bubblegum Pink | `#cc348d` | `--color-bubblegum-pink` | Used exclusively within illustrations for vibrant, friendly details. |
@@ -92,12 +92,12 @@ The design feels like an energetic, gamified classroom. Its core is built on a t
 ### Green Headline
 **Role:** Feature section titles like 'free. fun. effective.'
 
-Uses the 'feather' font at 48px or 64px with '700' weight and tight letter-spacing (-0.02em). The color is 'Duo Green' ('#58cc02'), making it a vibrant focal point.
+Uses the 'feather' font at 48px or 64px with '700' weight and tight letter-spacing (-0.02em). The color is 'Alfa Green' ('#58cc02'), making it a vibrant focal point.
 
 ### Character Illustration
 **Role:** Visual anchors for every major page section.
 
-Large, organic vector illustrations featuring diverse, playful characters. Built with a palette of 'Duo Green', 'Sunshine Yellow', 'Grape Soda', and 'Bubblegum Pink'. They are flat but use simple layering and occasional gradients for depth.
+Large, organic vector illustrations featuring diverse, playful characters. Built with a palette of 'Alfa Green', 'Sunshine Yellow', 'Grape Soda', and 'Bubblegum Pink'. They are flat but use simple layering and occasional gradients for depth.
 
 ### Inline Text Link
 **Role:** Clickable text within a paragraph.
@@ -112,7 +112,7 @@ A small rectangular flag icon followed by uppercase text (e.g., 'ENGLISH') in 'G
 ## Do's and Don'ts
 
 ### Do
-- Use 'Duo Green' '#58cc02' for all primary CTAs and brand-voice headlines.
+- Use 'Alfa Green' '#58cc02' for all primary CTAs and brand-voice headlines.
 - Apply a 12px border-radius to all interactive UI components like buttons and inputs.
 - Use the 'feather' font exclusively for large, impactful headlines (48px+).
 - Create depth on primary buttons with a solid, darker green bottom 'shadow' (e.g., `box-shadow: 0 4px 0 #3f8f01`).
@@ -122,7 +122,7 @@ A small rectangular flag icon followed by uppercase text (e.g., 'ENGLISH') in 'G
 
 ### Don't
 - Don't use sharp corners on any UI element.
-- Don't use any color other than 'Duo Green' '#58cc02' for the main 'Get Started' action.
+- Don't use any color other than 'Alfa Green' '#58cc02' for the main 'Get Started' action.
 - Don't use the 'feather' headline font for small text or body copy.
 - Don't apply traditional `box-shadow` for elevation on panels or cards.
 - Don't create text links in any color other than 'Sky Blue' '#1cb0f6'.
@@ -146,7 +146,7 @@ The site uses a centered, max-width layout (approx. 1140px) on an expansive whit
 ### Quick Color Reference
 - **Page Background**: `#ffffff` (Snow White)
 - **Primary Text**: `#3c3c3c` (Almost Black)
-- **Primary CTA**: `#58cc02` (Duo Green)
+- **Primary CTA**: `#58cc02` (Alfa Green)
 - **Secondary Action**: `#1cb0f6` (Sky Blue)
 - **Borders**: `#e5e5e5` (Cloud Gray)
 

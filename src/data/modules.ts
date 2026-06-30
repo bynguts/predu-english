@@ -74,7 +74,7 @@ export const modulesData: ModuleData[] = [
       {
         type: 'intro',
         title: "Perkenalan Kelas",
-        mascotMessage: "Hello! My name is Duo. Selamat datang di kelas Bahasa Inggris! Ayo kita mulai petualangan kita!",
+        mascotMessage: "Hello! My name is Alfa. Selamat datang di kelas Bahasa Inggris! Ayo kita mulai petualangan kita!",
         instruction: "Klik tombol 'Lanjut' di bawah untuk memulai pelajaran pertama."
       },
       {
@@ -107,7 +107,8 @@ export const modulesData: ModuleData[] = [
           { letter: "J", word: "Juice", indonesian: "Jus", emoji: "🥤" },
           { letter: "K", word: "Key", indonesian: "Kunci", emoji: "🔑" },
           { letter: "L", word: "Lion", indonesian: "Singa", emoji: "🦁" }
-        ]
+        ],
+        mascotMessage: "Bagus! Sekarang klik huruf I, J, K, dan L satu per satu."
       },
       {
         type: 'presentation',
@@ -117,7 +118,8 @@ export const modulesData: ModuleData[] = [
           { letter: "N", word: "Nest", indonesian: "Sarang Burung", emoji: "🪹" },
           { letter: "O", word: "Orange", indonesian: "Jeruk", emoji: "🍊" },
           { letter: "P", word: "Pencil", indonesian: "Pensil", emoji: "✏️" }
-        ]
+        ],
+        mascotMessage: "Lanjut! Dengarkan bunyi huruf M, N, O, dan P."
       },
       {
         type: 'presentation',
@@ -127,19 +129,28 @@ export const modulesData: ModuleData[] = [
           { letter: "R", word: "Rabbit", indonesian: "Kelinci", emoji: "🐰" },
           { letter: "S", word: "Sun", indonesian: "Matahari", emoji: "☀️" },
           { letter: "T", word: "Tree", indonesian: "Pohon", emoji: "🌳" }
-        ]
+        ],
+        mascotMessage: "Keren! Sekarang kita dengarkan Q, R, S, dan T."
       },
       {
         type: 'presentation',
-        title: "Mengenal Alphabet: U sampai Z",
+        title: "Mengenal Alphabet: U sampai X",
         alphabetGroup: [
           { letter: "U", word: "Umbrella", indonesian: "Payung", emoji: "☂️" },
           { letter: "V", word: "Violin", indonesian: "Biola", emoji: "🎻" },
           { letter: "W", word: "Water", indonesian: "Air", emoji: "💧" },
-          { letter: "X", word: "Xylophone", indonesian: "Kolintang", emoji: "🎼" },
-          { letter: "Y", word: "Yo-yo", indonesian: "Yoyo", emoji: "🪀" },
-          { letter: "Z", word: "Zebra", indonesian: "Zebra", emoji: "🦓" }
-        ]
+          { letter: "X", word: "Xylophone", indonesian: "Kolintang", emoji: "🎼" }
+        ],
+        mascotMessage: "Hampir selesai! Klik U, V, W, dan X ya."
+      },
+      {
+        type: 'presentation',
+        title: "Mengenal Alphabet: Y sampai Z",
+        alphabetGroup: [
+          { letter: "Y", word: "Yo-yo", indonesian: "Yoyo", emoji: "\uD83E\uDE80" },
+          { letter: "Z", word: "Zebra", indonesian: "Zebra", emoji: "\uD83E\uDD93" }
+        ],
+        mascotMessage: "Terakhir, kita dengarkan huruf Y dan Z bersama Alfa!"
       },
       {
         type: 'presentation',
@@ -159,8 +170,10 @@ export const modulesData: ModuleData[] = [
         instruction: "Mari pelajari cara menyapa dan memperkenalkan diri dalam Bahasa Inggris!",
         phrases: [
           { english: "Hello!", indonesian: "Halo!", audioText: "Hello!" },
-          { english: "My name is Duo.", indonesian: "Nama saya Duo.", audioText: "My name is Duo." },
+          { english: "What is your name?", indonesian: "Siapa namamu?", audioText: "What is your name?" },
+          { english: "My name is Alfa.", indonesian: "Nama saya Alfa.", audioText: "My name is Alfa." },
           { english: "How are you?", indonesian: "Apa kabar?", audioText: "How are you?" },
+          { english: "Nice to meet you.", indonesian: "Senang bertemu denganmu.", audioText: "Nice to meet you." },
           { english: "I am fine, thank you.", indonesian: "Kabar saya baik, terima kasih.", audioText: "I am fine, thank you." }
         ]
       },
@@ -304,15 +317,27 @@ export const modulesData: ModuleData[] = [
       },
       {
         type: 'presentation',
-        title: "Benda di Sekitar Kita (Objects)",
+        title: "Benda di Sekitar Kita (Objects - Bagian 1)",
         instruction: "Benda-benda yang sering kita pakai saat belajar. Klik untuk mendengar kata Inggrisnya:",
         alphabetGroup: [
-          { letter: "Buku", word: "Book", indonesian: "Buku", emoji: "📖" },
-          { letter: "Tas", word: "Bag", indonesian: "Tas", emoji: "🎒" },
-          { letter: "Pensil", word: "Pencil", indonesian: "Pensil", emoji: "✏️" },
-          { letter: "Meja", word: "Table", indonesian: "Meja", emoji: "🪵" },
-          { letter: "Kursi", word: "Chair", indonesian: "Kursi", emoji: "🪑" }
-        ]
+          { letter: "Buku", word: "Book", indonesian: "Buku", emoji: "\uD83D\uDCD6" },
+          { letter: "Tas", word: "Bag", indonesian: "Tas", emoji: "\uD83C\uDF92" },
+          { letter: "Pensil", word: "Pencil", indonesian: "Pensil", emoji: "\u270F\uFE0F" },
+          { letter: "Meja", word: "Table", indonesian: "Meja", emoji: "\uD83E\uDEB5" }
+        ],
+        mascotMessage: "Klik benda kelas ini: Book, Bag, Pencil, dan Table."
+      },
+      {
+        type: 'presentation',
+        title: "Benda di Sekitar Kita (Objects - Bagian 2)",
+        instruction: "Sekarang lanjut ke benda kelas lainnya. Klik kartu untuk mendengar kata Inggrisnya:",
+        alphabetGroup: [
+          { letter: "Kursi", word: "Chair", indonesian: "Kursi", emoji: "\uD83E\uDE91" },
+          { letter: "Papan", word: "Board", indonesian: "Papan", emoji: "\u2B1C" },
+          { letter: "Penghapus", word: "Eraser", indonesian: "Penghapus", emoji: "\u25FB\uFE0F" },
+          { letter: "Penggaris", word: "Ruler", indonesian: "Penggaris", emoji: "\uD83D\uDCCF" }
+        ],
+        mascotMessage: "Bagus! Sekarang dengarkan Chair, Board, Eraser, dan Ruler."
       },
       {
         type: 'game-quiz',
@@ -380,7 +405,7 @@ export const modulesData: ModuleData[] = [
           { english: "I have a pencil.", indonesian: "Saya punya pensil.", audioText: "I have a pencil" },
           { english: "I have a bag.", indonesian: "Saya punya tas.", audioText: "I have a bag" }
         ],
-        mascotMessage: "Ayo tirukan suara Duo: I have a book!"
+        mascotMessage: "Ayo tirukan suara Alfa: I have a book!"
       },
       {
         type: 'presentation',

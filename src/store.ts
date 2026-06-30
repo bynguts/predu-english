@@ -2,6 +2,18 @@ import { create } from 'zustand';
 
 export type MascotState = 'idle' | 'happy' | 'sad' | 'talking';
 
+export interface IncorrectReview {
+  id: string;
+  moduleId: number;
+  sceneTitle: string;
+  prompt: string;
+  submittedAnswer: string;
+  correctAnswer: string;
+  reflection: string;
+}
+
+type IncorrectReviewInput = Omit<IncorrectReview, 'id'>;
+
 interface Score {
   correct: number;
   incorrect: number;
@@ -16,6 +28,7 @@ interface AppState {
   mascotState: MascotState;
   mascotSpeech: string | null;
   confettiActive: boolean;
+  incorrectReviews: IncorrectReview[];
   
   // Actions
   setModule: (moduleNum: number | null) => void;
@@ -23,7 +36,7 @@ interface AppState {
   nextScene: (totalScenes: number) => void;
   prevScene: () => void;
   addCorrect: () => void;
-  addIncorrect: () => void;
+  addIncorrect: (review?: IncorrectReviewInput) => void;
   toggleAudio: () => void;
   setMascot: (state: MascotState, speech?: string | null) => void;
   triggerConfetti: (active: boolean) => void;
@@ -39,6 +52,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   mascotState: 'idle',
   mascotSpeech: 'Halo! Mari belajar Bahasa Inggris bersama!',
   confettiActive: false,
+  incorrectReviews: [],
 
   setModule: (moduleNum) => {
     let welcomeMessage = 'Halo! Mari belajar Bahasa Inggris bersama!';
@@ -50,6 +64,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       currentModule: moduleNum,
       currentSceneIndex: 0,
       sessionScore: { correct: 0, incorrect: 0, stars: 0 },
+      incorrectReviews: [],
       mascotState: 'talking',
       mascotSpeech: moduleNum === null ? 'Halo! Mari belajar Bahasa Inggris bersama!' : welcomeMessage,
       confettiActive: false
@@ -91,12 +106,21 @@ export const useAppStore = create<AppState>((set, get) => ({
     }));
   },
 
-  addIncorrect: () => {
+  addIncorrect: (review) => {
     set((state) => ({
       sessionScore: {
         ...state.sessionScore,
         incorrect: state.sessionScore.incorrect + 1
       },
+      incorrectReviews: review
+        ? [
+            ...state.incorrectReviews,
+            {
+              ...review,
+              id: `${Date.now()}-${state.incorrectReviews.length}`
+            }
+          ].slice(-6)
+        : state.incorrectReviews,
       mascotState: 'sad',
       mascotSpeech: 'Aduh, coba lagi ya! Kamu pasti bisa!'
     }));
@@ -111,6 +135,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   resetSession: () => set({
     currentSceneIndex: 0,
     sessionScore: { correct: 0, incorrect: 0, stars: 0 },
+    incorrectReviews: [],
     mascotState: 'idle',
     mascotSpeech: null,
     confettiActive: false
@@ -129,13 +154,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     } else if (accuracy >= 0.5) {
       stars = 2;
     }
-    
-    set((state) => ({
-      sessionScore: {
-        ...state.sessionScore,
-        stars
-      }
-    }));
     return stars;
   }
 }));

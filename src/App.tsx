@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { useAppStore } from './store';
 import { modulesData } from './data/modules';
 import { ProgressBar } from './components/ProgressBar';
@@ -6,6 +6,20 @@ import { ModuleRenderer } from './components/ModuleRenderer';
 import { Mascot } from './components/Mascot';
 import { Volume2, VolumeX, Home, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakEnglish } from './components/SoundButton';
+
+const showLegacyHome = false;
+
+const footerGroups: Array<{ title: string; links: string[] }> = [
+  { title: 'Tentang', links: ['Misi kelas', 'Relawan', 'Panti asuhan', 'Materi gratis'] },
+  { title: 'Materi', links: ['Alphabet', 'Vocabulary', 'Speaking', 'Mini game'] },
+  { title: 'Kelas', links: ['Proyektor', 'Audio practice', 'Latihan grup', 'Review bintang'] },
+  { title: 'Bantuan', links: ['Panduan guru', 'Akses suara', 'Mode laptop', 'Kontak'] },
+  { title: 'Sosial', links: ['Dokumentasi', 'Komunitas', 'Kolaborasi', 'Updates'] },
+];
+
+type RevealStyle = CSSProperties & { '--i'?: number };
+
+const revealDelay = (index: number): RevealStyle => ({ '--i': index });
 
 function App() {
   const {
@@ -26,6 +40,33 @@ function App() {
   const activeScene = activeModuleData?.scenes[currentSceneIndex];
   const totalScenes = activeModuleData?.scenes.length || 0;
 
+  useEffect(() => {
+    const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    if (!revealElements.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      revealElements.forEach((element) => element.classList.add('is-visible'));
+      return;
+    }
+
+    revealElements.forEach((element) => element.classList.add('reveal-ready'));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.16 }
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [currentModule]);
+
   const handleStartModule = (moduleId: number) => {
     setModule(moduleId);
     const greetingText = moduleId === 1 
@@ -40,6 +81,14 @@ function App() {
     speakEnglish("Hello children! Welcome to PreEdu EngKids!", audioMuted);
   };
 
+  const scrollToCurriculum = () => {
+    const target = document.getElementById('curriculum-new');
+    if (!target) return;
+    const headerOffset = 64;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const { scrollLeft } = scrollRef.current;
@@ -48,32 +97,47 @@ function App() {
     }
   };
 
-  // Helper colors for module cards
+  // Friendly 3D module card tones, kept as full-card treatments instead of side stripes.
   const moduleCardStyles = [
-    { border: 'border-l-8 border-l-[#58cc02] hover:border-[#58cc02]', iconBg: 'bg-[#d7ffb8] text-[#3f8f01]', btnColor: 'btn-3d-green' },
-    { border: 'border-l-8 border-l-[#1cb0f6] hover:border-[#1cb0f6]', iconBg: 'bg-[#eef8ff] text-[#1899d6]', btnColor: 'btn-3d-blue' },
-    { border: 'border-l-8 border-l-[#a570ff] hover:border-[#a570ff]', iconBg: 'bg-[#f5eefc] text-[#8247df]', btnColor: 'btn-3d-purple' }
+    {
+      border: 'border-[#58cc02] hover:border-[#58cc02]',
+      iconBg: 'bg-[#d7ffb8] text-[#3f8f01] border-[#a2e048]',
+      btnColor: 'btn-3d-green',
+      surface: 'bg-[#f7fff0]'
+    },
+    {
+      border: 'border-[#1cb0f6] hover:border-[#1cb0f6]',
+      iconBg: 'bg-[#eef8ff] text-[#1899d6] border-[#84d8ff]',
+      btnColor: 'btn-3d-blue',
+      surface: 'bg-[#f4fbff]'
+    },
+    {
+      border: 'border-[#a570ff] hover:border-[#a570ff]',
+      iconBg: 'bg-[#f5eefc] text-[#8247df] border-[#d8c2ff]',
+      btnColor: 'btn-3d-purple',
+      surface: 'bg-[#fbf7ff]'
+    }
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white w-full overflow-x-hidden">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 bg-white border-b-2 border-cloud-gray z-50 py-5 md:py-6 select-none w-full">
-        <div className="max-w-[1140px] mx-auto w-full px-6 md:px-12 flex items-center justify-between gap-6">
+      <header className="app-header">
+        <div className="app-header-inner">
           
           {/* Logo / Brand Name */}
           <div 
             onClick={() => setModule(null)} 
-            className="flex items-center gap-2 cursor-pointer select-none shrink-0"
+            className="app-header-brand"
           >
-            <span className="text-4xl font-feather text-[#58cc02] tracking-tight hover:scale-105 transition-transform duration-100">
+            <span className="app-header-logo">
               predu engkids
             </span>
           </div>
 
           {/* Center: Scrollable Language/Topic selector bar (only on Home) */}
           {currentModule === null && (
-            <div className="flex-1 max-w-xl mx-8 hidden md:flex items-center gap-2 border-l border-r border-cloud-gray px-4">
+            <div className="hidden">
               <button 
                 onClick={() => scroll('left')}
                 className="p-2 rounded-full hover:bg-gray-100 text-gray-400 active:scale-95 transition-all"
@@ -88,10 +152,10 @@ function App() {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 <a 
-                  href="#curriculum"
+                  href="#curriculum-new"
                   onClick={(e) => {
                     e.preventDefault();
-                    document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' });
+                    scrollToCurriculum();
                   }}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-transparent hover:border-cloud-gray hover:bg-gray-50 text-sm font-din font-bold text-gray-500 transition-all"
                 >
@@ -141,20 +205,20 @@ function App() {
 
           {/* Module Title / Progress Bar */}
           {currentModule !== null && activeModuleData && (
-            <div className="flex-1 max-w-lg mx-6 hidden md:flex items-center gap-4">
-              <span className="font-feather text-gray-400 text-sm whitespace-nowrap">
+            <div className="app-progress-cluster">
+              <span className="app-progress-title">
                 {activeModuleData.title}
               </span>
-              <ProgressBar value={currentSceneIndex} max={totalScenes} />
+              <ProgressBar value={currentSceneIndex} max={totalScenes} className="app-progress-bar" />
             </div>
           )}
 
           {/* Toolbar Actions */}
-          <div className="flex items-center gap-4">
+          <div className="app-header-actions">
             {/* Audio Toggle */}
             <button
               onClick={toggleAudio}
-              className={`p-3.5 rounded-2xl border-2 transition-all duration-100 relative top-0 active:top-0.5
+              className={`app-header-audio
                 ${audioMuted 
                   ? 'bg-rose-50 border-rose-200 text-rose-500 shadow-[0_3px_0_#fda4af]' 
                   : 'bg-sky-50 border-sky-200 text-sky-500 shadow-[0_3px_0_#bae6fd]'
@@ -176,11 +240,11 @@ function App() {
               </button>
             ) : (
               <button
-                onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-3d btn-3d-green px-7 py-3.5 text-sm hidden md:inline-flex"
+                onClick={scrollToCurriculum}
+                className="btn-3d btn-3d-green app-header-cta"
                 type="button"
               >
-                Mulai Belajar
+                Get Started
               </button>
             )}
           </div>
@@ -188,7 +252,7 @@ function App() {
 
         {/* Mobile progress viewport */}
         {currentModule !== null && activeModuleData && (
-          <div className="w-full mt-4 md:hidden px-2">
+          <div className="app-mobile-progress">
             <ProgressBar value={currentSceneIndex} max={totalScenes} />
           </div>
         )}
@@ -198,11 +262,171 @@ function App() {
       <main className="flex-1 w-full flex flex-col">
         {currentModule === null ? (
           
-          /* Redesigned Duolingo Clone Homepage Dashboard - Full Bleed Modular Layout */
+          /* Redesigned language-learning homepage dashboard - full bleed modular layout */
           <div className="w-full flex flex-col">
+            <section className="duo-hero">
+              <div className="duo-hero-inner">
+                <div className="duo-hero-art" data-reveal="pop" aria-hidden="true">
+                  <div className="duo-art-orbit">
+                    <div className="duo-float-card duo-float-card-a">A</div>
+                    <div className="duo-float-card duo-float-card-b">cat</div>
+                    <div className="duo-float-card duo-float-card-c">10</div>
+                    <Mascot state="happy" className="duo-hero-mascot" />
+                  </div>
+                </div>
+
+                <div className="duo-cta-panel" data-reveal="rise">
+                  <h1>The free, fun, and effective way to learn a language!</h1>
+                  <button
+                    onClick={scrollToCurriculum}
+                    className="btn-3d btn-3d-green duo-main-cta"
+                    type="button"
+                  >
+                    Get Started
+                  </button>
+                  <button
+                    onClick={handleTestSpeech}
+                    className="btn-3d btn-3d-outline duo-secondary-cta"
+                    type="button"
+                  >
+                    Test Voice
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section className="duo-language-bar" aria-label="Lesson topics">
+              <div className="duo-language-inner">
+                <ChevronLeft size={20} className="text-[#afafaf]" />
+                {[
+                  ['US', 'English'],
+                  ['AZ', 'Alphabet'],
+                  ['CL', 'Colors'],
+                  ['NU', 'Numbers'],
+                  ['SP', 'Speaking']
+                ].map(([code, label]) => (
+                  <a
+                    key={label}
+                    href="#curriculum-new"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      scrollToCurriculum();
+                    }}
+                  >
+                    <span>{code}</span>
+                    {label}
+                  </a>
+                ))}
+                <ChevronRight size={20} className="text-[#afafaf]" />
+              </div>
+            </section>
+
+            <section className="duo-feature-section" data-reveal="rise">
+              <div className="duo-section-label">Feature Section - Free Fun Effective</div>
+              <h2>free. fun. effective.</h2>
+              <p className="duo-feature-copy">
+                Learning with PreEdu EngKids is fun, guided, and projector-ready. With quick,
+                bite-sized lessons, children learn words, sounds, and simple classroom phrases.
+              </p>
+
+              <div className="duo-stat-row">
+                {[
+                  ['200+', 'basic words'],
+                  ['3', 'class modules'],
+                  ['HD', 'projector ready']
+                ].map(([value, label]) => (
+                  <div className="duo-stat-card" key={label}>
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="duo-pill-row">
+                {['Bite-sized lessons', 'Teacher guided', 'Audio practice', '100% free'].map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </section>
+
+            <section className="duo-anywhere-section">
+              <div className="duo-anywhere-float duo-anywhere-float-a" aria-hidden="true">A</div>
+              <div className="duo-anywhere-float duo-anywhere-float-b" aria-hidden="true">10</div>
+              <div className="duo-anywhere-float duo-anywhere-float-c" aria-hidden="true">Hi</div>
+              <div className="duo-anywhere-device duo-anywhere-device-left" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div className="duo-anywhere-device duo-anywhere-device-right" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div className="duo-anywhere-inner" data-reveal="pop">
+                <h2>learn anytime, anywhere</h2>
+                <p>
+                  Open it on a laptop, connect to a projector, and run the whole lesson with big controls
+                  the class can follow from across the room.
+                </p>
+              </div>
+            </section>
+
+            <section id="curriculum-new" className="duo-course-section">
+              <div className="duo-course-inner">
+                <div className="duo-course-header" data-reveal="rise">
+                  <span>Learning path</span>
+                  <h2>pilih jalur belajar</h2>
+                  <p>
+                    Tiga level utama untuk kelas tatap muka: mulai dari huruf, lanjut ke kosakata,
+                    lalu latihan bicara sederhana.
+                  </p>
+                </div>
+
+                <div className="duo-course-grid">
+                  {modulesData.map((module, idx) => {
+                    const style = moduleCardStyles[idx % moduleCardStyles.length];
+                    const activityCount = Math.max(module.scenes.length - 2, 1);
+                    return (
+                      <article
+                        key={module.id}
+                        id={`lesson-${module.id}`}
+                        className={`duo-course-card duo-course-card-${idx + 1}`}
+                        data-reveal="pop"
+                        style={revealDelay(idx)}
+                      >
+                        <div className="duo-course-topline">
+                          <div className={`duo-course-badge ${style.iconBg}`}>{module.id}</div>
+                          <span>{module.scenes.length} scenes</span>
+                        </div>
+
+                        <p className="duo-course-topic">{module.topic}</p>
+                        <h3>{module.title}</h3>
+                        <p className="duo-course-description">{module.description}</p>
+
+                        <div className="duo-course-meta">
+                          <span>{activityCount} aktivitas</span>
+                          <span>Audio + mini game</span>
+                        </div>
+
+                        <button
+                          onClick={() => handleStartModule(module.id)}
+                          className={`btn-3d ${style.btnColor} duo-course-button`}
+                          type="button"
+                        >
+                          Mulai Belajar
+                        </button>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
             
+            {showLegacyHome && (
+              <>
             {/* 1. Hero Block Section */}
-            <section className="w-full bg-white bg-dots relative border-b border-cloud-gray">
+            <section className="hidden w-full bg-white bg-dots relative border-b border-cloud-gray">
               <div className="max-w-[1140px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 items-center justify-between py-16 md:py-28">
                 
                 {/* Left Column: Text heading & action buttons */}
@@ -226,7 +450,7 @@ function App() {
                       className="btn-3d btn-3d-outline px-8 py-4 text-base font-bold uppercase tracking-wider w-full sm:w-64"
                       type="button"
                     >
-                      Tes Suara Duo
+                      Tes Suara Alfa
                     </button>
                   </div>
                 </div>
@@ -248,7 +472,7 @@ function App() {
                       <Mascot state={mascotState} speechText={mascotSpeech} />
                       <div className="mt-4 text-center">
                         <p className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">PRESCHOOL HERO</p>
-                        <h4 className="text-lg font-feather text-gray-800">Duo Si Burung Hantu</h4>
+                        <h4 className="text-lg font-feather text-gray-800">Alfa Si Burung Hantu</h4>
                       </div>
                     </div>
                   </div>
@@ -269,7 +493,7 @@ function App() {
             </section>
 
             {/* 2. Feature Section - Stats Grid & Pills */}
-            <section className="w-full bg-white">
+            <section className="hidden w-full bg-white">
               <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-20 flex flex-col items-center text-center">
                 
                 <h2 className="text-4xl md:text-5xl font-feather text-duo-green mb-4">
@@ -315,7 +539,7 @@ function App() {
             </section>
 
             {/* 3. Floating Mock Card Section */}
-            <section className="w-full bg-[#ddf4ff] border-t border-b border-[#84d8ff] overflow-hidden">
+            <section className="hidden w-full bg-[#ddf4ff] border-t border-b border-[#84d8ff] overflow-hidden">
               <div className="max-w-[1140px] mx-auto px-6 md:px-12 py-20 md:py-28 text-center relative">
                 <div className="absolute w-20 h-20 bg-sky-300/30 rounded-full -top-6 -left-6 blur-lg"></div>
                 <div className="absolute w-32 h-32 bg-sky-300/20 rounded-full -bottom-10 -right-10 blur-xl"></div>
@@ -349,7 +573,7 @@ function App() {
             </section>
 
             {/* 4. Curriculum Modul Path Grid */}
-            <section id="curriculum" className="w-full bg-white py-20 scroll-mt-20">
+            <section id="curriculum" className="hidden w-full bg-white py-20 scroll-mt-20">
               <div className="max-w-[1140px] mx-auto px-6 md:px-12">
                 
                 <div className="text-center mb-12">
@@ -409,17 +633,23 @@ function App() {
 
               </div>
             </section>
+              </>
+            )}
 
           </div>
         ) : (
           /* Active Module Slide Render viewport */
-          <div className="max-w-[1140px] w-full mx-auto p-4 md:p-8 flex-1 flex flex-col justify-center">
+          <div className="lesson-page">
             {activeScene && (
               <ModuleRenderer
                 isFirst={currentSceneIndex === 0}
+                moduleId={activeModuleData.id}
+                moduleTitle={activeModuleData.title}
                 nextScene={() => nextScene(totalScenes)}
                 prevScene={prevScene}
                 scene={activeScene}
+                sceneIndex={currentSceneIndex}
+                totalScenes={totalScenes}
               />
             )}
           </div>
@@ -435,10 +665,56 @@ function App() {
         </div>
       )}
 
+      {currentModule === null && (
+        <footer className="duo-footer">
+          <div className="duo-footer-inner">
+            <div className="duo-footer-cta" data-reveal="rise">
+              <div>
+                <h2>predu engkids</h2>
+                <p>
+                  Materi Bahasa Inggris untuk kelas anak: jelas di laptop, mudah dipandu guru,
+                  dan cukup ringan untuk sesi belajar bersama.
+                </p>
+              </div>
+              <button
+                onClick={scrollToCurriculum}
+                className="btn-3d duo-footer-button"
+                type="button"
+              >
+                Pilih Modul
+              </button>
+            </div>
+
+            <div className="duo-footer-columns" aria-label="Footer navigation">
+              {footerGroups.map(({ title, links }, idx) => (
+                <div
+                  className="duo-footer-column"
+                  data-reveal="rise"
+                  key={title}
+                  style={revealDelay(idx)}
+                >
+                  <h3>{title}</h3>
+                  <ul>
+                    {links.map((link) => (
+                      <li key={link}>{link}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="duo-footer-bottom">
+              <span>2026 PreEdu EngKids</span>
+              <span>Alphabet, kosakata, pronunciation, dan mini-game kelas.</span>
+            </div>
+          </div>
+        </footer>
+      )}
+
       {/* Footer System */}
       {currentModule === null ? (
         /* Full Deep Green Footer Grid */
-        <footer className="bg-[#58cc02] text-white py-16 px-8 font-din">
+        <footer className="hidden bg-[#58cc02] text-white py-16 px-8 font-din">
           <div className="max-w-[1140px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-sm border-b border-white/20 pb-12">
             <div>
               <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Tentang Kami</h5>
@@ -473,7 +749,7 @@ function App() {
               </ul>
             </div>
             <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start">
-              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Duo Mascot</h5>
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Alfa Mascot</h5>
               <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl shadow-md animate-bounce select-none">
                 🦉
               </div>
@@ -485,7 +761,7 @@ function App() {
         </footer>
       ) : (
         /* Small Flat Footer inside quiz viewport */
-        <footer className="py-6 border-t border-cloud-gray bg-white text-center text-xs text-gray-400 font-din mt-auto">
+        <footer className="hidden">
           <p>© 2026 PreEdu EngKids — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
         </footer>
       )}

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { RotateCcw, Check, X, Star } from 'lucide-react';
+import { RotateCcw, Check, X, Star, Award, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../store';
 import type { Scene, QuizOption } from '../data/modules';
 import { SoundButton, speakEnglish, playCorrectSound, playIncorrectSound } from './SoundButton';
@@ -11,13 +11,21 @@ interface ModuleRendererProps {
   nextScene: () => void;
   prevScene: () => void;
   isFirst: boolean;
+  moduleId: number;
+  moduleTitle: string;
+  sceneIndex: number;
+  totalScenes: number;
 }
 
 export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
   scene,
   nextScene,
   prevScene,
-  isFirst
+  isFirst,
+  moduleId,
+  moduleTitle,
+  sceneIndex,
+  totalScenes
 }) => {
   const { 
     audioMuted, 
@@ -27,6 +35,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     mascotState, 
     mascotSpeech,
     sessionScore,
+    incorrectReviews,
     calculateStars
   } = useAppStore();
 
@@ -45,6 +54,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
   const [sentenceWords, setSentenceWords] = useState<{ id: number; word: string; used: boolean }[]>([]);
   const [builtSentence, setBuiltSentence] = useState<string[]>([]);
   const [sentenceSuccess, setSentenceSuccess] = useState(false);
+  const nextActivationLock = useRef(false);
 
   // Styling helper lists
   const backgroundTints = [
@@ -63,6 +73,55 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     { bg: 'bg-[#f5eefc]/40', border: 'border-[#a570ff]', text: 'text-[#a570ff]', badge: 'bg-[#a570ff]/10' }, // O
     { bg: 'bg-[#f0fbe8]/40', border: 'border-[#58cc02]', text: 'text-[#58cc02]', badge: 'bg-[#58cc02]/10' }  // U
   ];
+
+  const moduleThemes = {
+    1: {
+      name: 'Start speaking',
+      description: 'Alphabet, greetings, and first introductions.',
+      tokens: ['A', 'B', 'Hi']
+    },
+    2: {
+      name: 'Explore words',
+      description: 'Numbers, colors, animals, and classroom objects.',
+      tokens: ['1', '5', 'red']
+    },
+    3: {
+      name: 'Build sentences',
+      description: 'Simple patterns for speaking in complete sentences.',
+      tokens: ['I', 'am', 'OK']
+    }
+  } as const;
+
+  const moduleTheme = moduleThemes[(moduleId as 1 | 2 | 3)] || moduleThemes[1];
+  const nextModuleTitles: Record<number, string> = {
+    2: 'The World Around You',
+    3: "Let's Talk!"
+  };
+
+  const sceneTypeNames: Record<Scene['type'], string> = {
+    intro: 'Warm up',
+    presentation: 'Lesson',
+    'game-quiz': 'Quiz',
+    'game-word': 'Word game',
+    'game-sentence': 'Sentence game',
+    outro: 'Reward'
+  };
+
+  const getDefaultMascotMessage = (currentScene: Scene) => {
+    if (currentScene.mascotMessage) return currentScene.mascotMessage;
+    if (currentScene.alphabetGroup) {
+      const labels = currentScene.alphabetGroup.slice(0, 4).map((item) => item.letter).join(', ');
+      const isAlphabetLesson = currentScene.title.toLowerCase().includes('alphabet');
+      return isAlphabetLesson
+        ? `Ayo klik kartu huruf ${labels} dan dengarkan suaranya!`
+        : `Ayo klik kartu ${labels} dan dengarkan kata Inggrisnya!`;
+    }
+    if (currentScene.phonicsVowels) return 'Klik huruf vokal untuk mendengar bunyinya.';
+    if (currentScene.phrases) return 'Klik kartu percakapan, lalu tirukan bersama-sama.';
+    if (currentScene.type === 'intro') return 'Mari kita mulai pertemuan kali ini!';
+    if (currentScene.type === 'outro') return 'Kerja bagus semuanya! Sesi telah selesai.';
+    return 'Ikuti instruksi di layar, lalu tekan Lanjut saat sudah siap.';
+  };
 
   // Reset local state on scene change
   useEffect(() => {
@@ -99,18 +158,8 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       setSentenceSuccess(false);
     }
 
-    // Set mascot default message
-    if (scene.mascotMessage) {
-      setMascot('talking', scene.mascotMessage);
-    } else {
-      if (scene.type === 'intro') {
-        setMascot('talking', scene.mascotMessage || 'Mari kita mulai pertemuan kali ini!');
-      } else if (scene.type === 'outro') {
-        setMascot('happy', scene.mascotMessage || 'Kerja bagus semuanya! Sesi telah selesai.');
-      } else {
-        setMascot('idle', null);
-      }
-    }
+    const defaultMessage = getDefaultMascotMessage(scene);
+    setMascot(scene.type === 'outro' ? 'happy' : 'talking', defaultMessage);
   }, [scene, setMascot]);
 
   // Trigger confetti effect
@@ -120,6 +169,11 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       spread: 70,
       origin: { y: 0.6 }
     });
+  };
+
+  const formatQuizAnswer = (option?: QuizOption) => {
+    if (!option) return '-';
+    return [option.text, option.indonesian].filter(Boolean).join(' - ');
   };
 
   // Handle option selection in Quiz
@@ -137,8 +191,16 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       setMascot('happy', 'Hore! Jawabanmu betul!');
       speakEnglish(option.text, audioMuted);
     } else {
+      const correctOption = scene.quizQuestion?.options.find((item) => item.isCorrect);
       setIncorrectSelections([...incorrectSelections, index]);
-      addIncorrect();
+      addIncorrect({
+        moduleId,
+        sceneTitle: scene.title,
+        prompt: scene.quizQuestion?.question || scene.title,
+        submittedAnswer: formatQuizAnswer(option),
+        correctAnswer: formatQuizAnswer(correctOption),
+        reflection: 'Ulangi kata kuncinya bersama-sama, lalu minta anak menyebutkan jawaban benar.'
+      });
       playIncorrectSound(audioMuted);
       setShakeActive(true);
       setMascot('sad', 'Oh no! Coba lagi yuk!');
@@ -167,9 +229,19 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
         setMascot('happy', `Hebat! Kamu berhasil menyusun kata ${targetWord}!`);
         speakEnglish(targetWord, audioMuted);
       } else {
+        const wordLabel = scene.wordBuilder?.indonesian
+          ? `${scene.wordBuilder.indonesian} / ${targetWord}`
+          : targetWord;
         setShakeActive(true);
         playIncorrectSound(audioMuted);
-        addIncorrect();
+        addIncorrect({
+          moduleId,
+          sceneTitle: scene.title,
+          prompt: `Susun kata untuk ${wordLabel}`,
+          submittedAnswer: joined,
+          correctAnswer: targetWord,
+          reflection: `Ajak anak mengeja pelan: ${targetWord.split('').join(' - ')}.`
+        });
         setMascot('sad', 'Tatanan hurufnya belum tepat, ayo coba lagi!');
         setTimeout(() => {
           setShakeActive(false);
@@ -213,7 +285,14 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       } else {
         setShakeActive(true);
         playIncorrectSound(audioMuted);
-        addIncorrect();
+        addIncorrect({
+          moduleId,
+          sceneTitle: scene.title,
+          prompt: scene.sentenceBuilder?.indonesian || 'Susun kalimat yang benar',
+          submittedAnswer: joined,
+          correctAnswer: targetSentence,
+          reflection: 'Baca pola kalimatnya bersama-sama dari kiri ke kanan sebelum mencoba lagi.'
+        });
         setMascot('sad', 'Kalimatnya belum tepat. Yuk kita susun ulang!');
         setTimeout(() => {
           setShakeActive(false);
@@ -237,14 +316,15 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     switch (scene.type) {
       case 'intro':
         return (
-          <div className="flex flex-col items-center justify-center py-10 text-center scene-fade-in">
-            <h2 className="text-4xl font-feather text-gray-800 mb-4">{scene.title}</h2>
+          <div className="lesson-intro-scene scene-fade-in">
+            <span className="lesson-kicker">{moduleTheme.name}</span>
+            <h2>{scene.title}</h2>
             {scene.instruction && (
-              <p className="text-lg text-gray-500 font-din max-w-xl leading-relaxed mb-10">
+              <p>
                 {scene.instruction}
               </p>
             )}
-            <div className="w-64 h-64 bg-emerald-50 rounded-full flex items-center justify-center border-4 border-dashed border-[#58cc02]/30 relative">
+            <div className="lesson-intro-visual legacy-intro-visual" data-module={moduleId}>
               <span className="text-8xl animate-bounce">🎒</span>
               <div className="absolute -top-3 -right-3 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-md animate-pulse">⭐</div>
               <div className="absolute -bottom-2 -left-2 w-10 h-10 bg-sky-400 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-md">🔔</div>
@@ -262,8 +342,8 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             {/* Alphabet presentation cards */}
             {scene.alphabetGroup && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-h-[440px] overflow-y-auto p-3">
-                {scene.alphabetGroup.map((item, idx) => {
+              <div className="lesson-card-grid lesson-alphabet-grid grid grid-cols-2 md:grid-cols-4 gap-6 max-h-[440px] overflow-y-auto p-3">
+                {scene.alphabetGroup.slice(0, 4).map((item, idx) => {
                   const tint = backgroundTints[idx % backgroundTints.length];
                   return (
                     <div
@@ -295,28 +375,28 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             {/* Phonics vowels */}
             {scene.phonicsVowels && (
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-2">
+              <div className="lesson-card-grid lesson-vowel-grid grid grid-cols-2 md:grid-cols-5 gap-4 py-2">
                 {scene.phonicsVowels.map((item, idx) => {
                   const style = vowelStyles[idx % vowelStyles.length];
                   return (
                     <div
                       key={idx}
                       onClick={() => speakEnglish(item.vowel, audioMuted)}
-                      className={`card-3d flex flex-col items-center justify-center p-5 text-center active:scale-95 ${style.bg} ${style.border}`}
+                      className={`card-3d lesson-vowel-card active:scale-95 ${style.bg} ${style.border}`}
                     >
-                      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center font-feather text-6xl ${style.text} bg-white shadow-sm mb-4`}>
+                      <div className={`lesson-vowel-letter ${style.text}`}>
                         {item.vowel}
                       </div>
-                      <span className={`text-xs font-bold ${style.text} ${style.badge} rounded-full px-3 py-1 font-din mb-4 uppercase tracking-wider`}>
+                      <span className={`lesson-vowel-sound ${style.text} ${style.badge}`}>
                         {item.sound}
                       </span>
-                      <div className="text-left w-full text-sm font-din text-gray-600 bg-white/70 p-3 rounded-xl border border-gray-100">
-                        <p className="font-extrabold text-gray-700 text-center mb-1 text-xs border-b border-gray-200/50 pb-1 uppercase">Contoh</p>
+                      <div className="lesson-vowel-examples">
+                        <p>Contoh</p>
                         {item.examples.map((ex, exIdx) => (
                           <p key={exIdx} className="text-xs truncate font-semibold text-gray-700 mt-1">✨ {ex}</p>
                         ))}
                       </div>
-                      <div className="mt-4">
+                      <div className="lesson-vowel-audio">
                         <SoundButton textToSpeak={item.vowel} size="sm" />
                       </div>
                     </div>
@@ -327,8 +407,8 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             {/* Greetings / Phrases Alternating Dialogues */}
             {scene.phrases && (
-              <div className="flex flex-col gap-4 max-w-xl mx-auto w-full p-6 bg-gray-50 rounded-xl border-2 border-gray-200/60 min-h-[300px] justify-center shadow-inner relative">
-                <div className="absolute top-2.5 left-4 text-[10px] text-gray-400 font-bold font-din uppercase tracking-wider">
+              <div className="lesson-phrase-panel">
+                <div className="lesson-phrase-label">
                   Kartu Percakapan
                 </div>
                 
@@ -342,12 +422,12 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                     <div
                       key={idx}
                       onClick={() => speakEnglish(phrase.audioText, audioMuted)}
-                      className={`flex flex-col gap-1 p-4 max-w-[85%] border-2 cursor-pointer transition-all duration-150 relative shadow-sm hover:scale-[1.02] active:scale-98
+                      className={`lesson-phrase-card
                         ${isA 
-                          ? 'dialogue-left bg-[#eef8ff] border-[#84d8ff] text-[#1cb0f6] align-self-start' 
+                          ? 'dialogue-left' 
                           : isB 
-                          ? 'dialogue-right bg-[#f0fbe8] border-[#a2e048] text-[#3f8f01] align-self-end' 
-                          : 'align-self-center bg-white border-gray-200 text-gray-800 rounded-xl'
+                          ? 'dialogue-right' 
+                          : ''
                         }`}
                     >
                       <div className="flex items-center gap-2">
@@ -373,16 +453,16 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
             <h2 className="text-3xl text-gray-800 text-center font-feather">{scene.title}</h2>
             <p className="text-base text-gray-500 text-center font-din -mt-2 mb-2">{scene.instruction}</p>
 
-            <div className="card-3d max-w-2xl mx-auto w-full p-6 bg-white border-2 border-gray-200 shadow-none cursor-default hover:border-gray-200 hover:transform-none hover:shadow-none flex flex-col items-center">
+            <div className="card-3d lesson-quiz-card">
               {q.isAudioOnly ? (
-                <div className="flex flex-col items-center justify-center p-8 gap-4 bg-sky-50/50 rounded-xl border border-sky-100/50 w-full">
+                <div className="lesson-quiz-prompt lesson-quiz-audio">
                   <p className="text-lg font-bold font-din text-sky-600 uppercase tracking-wider">Dengar dan Tebak Katanya</p>
                   <SoundButton textToSpeak={q.audioText || ""} size="lg" className="scale-125 my-4" />
                   <p className="text-xs font-din text-gray-400">Klik tombol speaker untuk memutar ulang suara</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center text-center w-full bg-emerald-50/20 rounded-xl border border-emerald-100/40">
-                  <h3 className="text-2xl font-feather text-gray-800 mb-4">{q.question}</h3>
+                <div className="lesson-quiz-prompt">
+                  <h3>{q.question}</h3>
                   {/* Visual Icons to match question context */}
                   {q.question.includes("(Buku / Book)") && <span className="text-8xl mb-2 animate-bounce">📘</span>}
                   {q.question.includes("🐰") && <span className="text-8xl mb-2 animate-[wiggle_1.5s_infinite]">🐰</span>}
@@ -391,7 +471,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               )}
 
               {/* Options */}
-              <div className="grid grid-cols-2 gap-4 w-full mt-6">
+              <div className="lesson-quiz-options">
                 {q.options.map((option, idx) => {
                   const isIncorrect = incorrectSelections.includes(idx);
                   const isCorrect = answeredCorrectly && option.isCorrect;
@@ -408,7 +488,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                       onClick={() => handleOptionClick(idx, option)}
                       disabled={answeredCorrectly || isIncorrect}
                       className={`card-3d text-left p-4 flex items-center justify-between font-din w-full ${cardClass}`}
-                      style={option.color ? { borderLeft: `8px solid ${option.color}` } : {}}
+                      style={option.color ? { borderColor: option.color, backgroundColor: `${option.color}12` } : undefined}
                       type="button"
                     >
                       <div className="flex items-center gap-4">
@@ -494,7 +574,6 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                 >
                   <RotateCcw size={16} /> Reset
                 </button>
-
               </div>
             </div>
           </div>
@@ -560,59 +639,125 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                 >
                   <RotateCcw size={16} /> Susun Ulang
                 </button>
-
               </div>
             </div>
           </div>
         );
 
-      case 'outro':
+      case 'outro': {
         const stars = calculateStars(3);
+        const hasNextModule = moduleId < 3;
+        const nextModuleTitle = nextModuleTitles[moduleId + 1];
+        const achievementTitle = hasNextModule
+          ? `Modul ${moduleId} selesai!`
+          : 'Semua modul selesai!';
+        const achievementCopy = hasNextModule
+          ? `Kamu sudah siap lanjut ke Modul ${moduleId + 1}: ${nextModuleTitle}.`
+          : 'Kelas Bahasa Inggris hari ini selesai. Rayakan hasil belajar bersama-sama.';
+        const reviewItems = incorrectReviews.filter((item) => item.moduleId === moduleId).slice(-3);
 
         return (
-          <div className="flex flex-col items-center justify-center py-6 text-center scene-fade-in max-w-xl mx-auto">
-            <h2 className="text-4xl text-[#58cc02] font-feather mb-2">Selamat! Kamu Lolos!</h2>
-            <p className="text-lg text-gray-500 font-din mb-8">Modul ini telah berhasil diselesaikan bersama-sama.</p>
+          <div className="lesson-achievement scene-fade-in">
+            <div className="lesson-achievement-badge">
+              <Award size={30} />
+              <span>Achievement unlocked</span>
+            </div>
+
+            <div className="lesson-achievement-copy">
+              <h2>{achievementTitle}</h2>
+              <p>{achievementCopy}</p>
+            </div>
 
             {/* Glowing Reward Stars */}
-            <div className="flex gap-6 mb-8 justify-center items-center">
+            <div className="lesson-achievement-stars" aria-label={`${stars} dari 3 bintang`}>
               {[1, 2, 3].map((starIdx) => {
                 const isActive = starIdx <= stars;
                 return (
                   <div
                     key={starIdx}
-                    className={`transition-all duration-500 transform ${isActive ? 'scale-115 animate-[wiggle_2.5s_infinite]' : 'opacity-25 scale-90'}`}
+                    className={isActive ? 'is-active' : 'is-inactive'}
                     style={{ animationDelay: `${starIdx * 0.25}s` }}
                   >
                     <Star
                       fill={isActive ? "#ffc700" : "none"}
                       stroke={isActive ? "#d0a200" : "#afafaf"}
-                      size={starIdx === 2 ? 96 : 72}
-                      className={isActive ? "drop-shadow-[0_6px_12px_rgba(255,199,0,0.6)]" : ""}
+                      size={starIdx === 2 ? 76 : 60}
                     />
                   </div>
                 );
               })}
             </div>
 
-            {/* Statistics Cards */}
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6 w-full max-w-sm mb-6 font-din text-gray-700 shadow-none">
-              <h3 className="font-feather text-gray-800 text-lg mb-4 border-b border-gray-100 pb-2">Statistik Belajar</h3>
-              <div className="flex justify-between border-b border-gray-100 pb-3 mb-3">
-                <span className="font-bold text-gray-500">Jawaban Betul:</span>
-                <span className="font-extrabold text-emerald-600 text-lg">{sessionScore.correct} ✅</span>
+            <div className="lesson-achievement-stats" aria-label="Statistik belajar">
+              <div className="lesson-achievement-stat">
+                <span>Jawaban Betul</span>
+                <strong>{sessionScore.correct}</strong>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-3 mb-3">
-                <span className="font-bold text-gray-500">Jawaban Salah:</span>
-                <span className="font-extrabold text-rose-500 text-lg">{sessionScore.incorrect} ❌</span>
+              <div className="lesson-achievement-stat">
+                <span>Jawaban Salah</span>
+                <strong>{sessionScore.incorrect}</strong>
               </div>
-              <div className="flex justify-between pt-1">
-                <span className="font-bold text-gray-500">Bintang Didapat:</span>
-                <span className="font-extrabold text-yellow-600 text-lg">{stars} / 3 ⭐</span>
+              <div className="lesson-achievement-stat">
+                <span>Bintang</span>
+                <strong>{stars} / 3</strong>
               </div>
+            </div>
+
+            {reviewItems.length > 0 && (
+              <div className="lesson-achievement-review" aria-label="Review jawaban salah">
+                <div className="lesson-achievement-review-heading">
+                  <span>Review bareng</span>
+                  <strong>Yang tadi perlu diulang</strong>
+                </div>
+
+                <div className="lesson-achievement-review-list">
+                  {reviewItems.map((item) => (
+                    <div key={item.id} className="lesson-achievement-review-item">
+                      <span>{item.sceneTitle}</span>
+                      <p>{item.prompt}</p>
+                      <div>
+                        <em>Jawaban tadi: {item.submittedAnswer}</em>
+                        <strong>Yang benar: {item.correctAnswer}</strong>
+                      </div>
+                      <small>{item.reflection}</small>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="lesson-achievement-next">
+              <div className="lesson-achievement-next-copy">
+                <span>{hasNextModule ? 'Siap lanjut?' : 'Sesi lengkap'}</span>
+                <strong>
+                  {hasNextModule
+                    ? `Modul ${moduleId + 1}: ${nextModuleTitle}`
+                    : 'Semua latihan utama sudah selesai.'}
+                </strong>
+              </div>
+
+              {hasNextModule ? (
+                <button
+                  onClick={() => useAppStore.getState().setModule(moduleId + 1)}
+                  className="btn-3d btn-3d-green lesson-achievement-cta"
+                  type="button"
+                >
+                  Lanjut Modul {moduleId + 1}
+                  <ArrowRight size={18} />
+                </button>
+              ) : (
+                <button
+                  onClick={() => useAppStore.getState().setModule(null)}
+                  className="btn-3d btn-3d-green lesson-achievement-cta"
+                  type="button"
+                >
+                  Kembali Beranda
+                </button>
+              )}
             </div>
           </div>
         );
+      }
 
       default:
         return null;
@@ -626,27 +771,63 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     (scene.type === 'game-sentence' && sentenceSuccess);
   
   const canGoNext = !isGameScene || isGameSolved;
+  const nextButtonLabel = canGoNext
+    ? 'Lanjut'
+    : scene.type === 'game-quiz'
+      ? 'Pilih Jawaban'
+      : 'Selesaikan Dulu';
+  const handleNextActivation = () => {
+    if (!canGoNext) return;
+    if (nextActivationLock.current) return;
+    nextActivationLock.current = true;
+    nextScene();
+    window.setTimeout(() => {
+      nextActivationLock.current = false;
+    }, 250);
+  };
+
+  const handleNextKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    handleNextActivation();
+  };
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row gap-8 items-center md:items-start justify-center py-6 w-full">
-      {/* Mascot Side Panel */}
-      <div className="w-full md:w-1/3 flex flex-col items-center">
-        <Mascot state={mascotState} speechText={mascotSpeech} />
-      </div>
+    <div className={`lesson-shell lesson-module-${moduleId} lesson-scene-${scene.type}`}>
+      <aside className="lesson-coach-panel">
+        <div className="lesson-coach-card">
+          <div className="lesson-coach-heading">
+            <span>Alfa coach</span>
+            <strong>{sceneTypeNames[scene.type]}</strong>
+          </div>
+          <Mascot state={mascotState} speechText={mascotSpeech} className="lesson-coach-mascot" />
+        </div>
+        <div className="lesson-module-note">
+          <span>Module {moduleId}</span>
+          <strong>{moduleTitle.replace(/^Modul\s*\d+\s*[—-]\s*/, '')}</strong>
+          <p>{moduleTheme.description}</p>
+        </div>
+      </aside>
 
-      {/* Main Slide Card Container */}
-      <div className="w-full md:w-2/3 flex flex-col min-h-[500px]">
-        <div className="flex-1 bg-white rounded-xl border-2 border-cloud-gray p-6 md:p-8 flex flex-col justify-between">
-          <div className="flex-1 flex flex-col justify-center">
+      <section className="lesson-stage-panel">
+        <div className="lesson-stage-topline">
+          <div>
+            <span>{sceneTypeNames[scene.type]}</span>
+            <strong>{scene.title}</strong>
+          </div>
+          <em>{Math.min(sceneIndex + 1, totalScenes)} / {totalScenes}</em>
+        </div>
+
+        <div className="lesson-stage-card">
+          <div className="lesson-stage-content">
             {renderSceneContent()}
           </div>
 
-          {/* Bottom Slide Navigation */}
-          <div className="flex justify-between border-t border-gray-100 pt-6 mt-6">
+          <div className="lesson-stage-nav">
             <button
               onClick={prevScene}
               disabled={isFirst || answeredCorrectly || wordSuccess || sentenceSuccess || scene.type === 'outro'}
-              className="btn-3d btn-3d-gray px-6 py-2.5 text-sm"
+              className="btn-3d btn-3d-gray lesson-nav-button"
               type="button"
             >
               Kembali
@@ -654,17 +835,18 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
             {scene.type !== 'outro' ? (
               <button
-                onClick={nextScene}
+                onClick={handleNextActivation}
+                onKeyDown={handleNextKeyDown}
                 disabled={!canGoNext}
-                className={`btn-3d px-10 py-3 text-sm transition-all duration-150 ${canGoNext ? (isGameScene ? 'btn-3d-green animate-pulse' : 'btn-3d-blue') : 'btn-3d-gray'}`}
+                className={`btn-3d lesson-nav-button lesson-next-button ${canGoNext ? (isGameScene ? 'btn-3d-green' : 'btn-3d-blue') : 'btn-3d-gray'}`}
                 type="button"
               >
-                Lanjut
+                {nextButtonLabel}
               </button>
             ) : (
               <button
                 onClick={() => useAppStore.getState().setModule(null)}
-                className="btn-3d btn-3d-green px-10 py-3 text-sm"
+                className="btn-3d btn-3d-green lesson-nav-button lesson-next-button"
                 type="button"
               >
                 Selesai Kelas
@@ -672,7 +854,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
             )}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

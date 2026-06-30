@@ -66,7 +66,7 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = "
         {/* Tummy Patch */}
         <ellipse cx="100" cy="130" rx="45" ry="48" fill="#d7ffb8" />
 
-        {/* Chest Feathers (Duolingo-style V shapes) */}
+        {/* Chest feathers with friendly V shapes */}
         <path d="M85,110 L90,118 L95,110" stroke="#a2e048" strokeWidth="4" strokeLinecap="round" fill="none" />
         <path d="M105,110 L110,118 L115,110" stroke="#a2e048" strokeWidth="4" strokeLinecap="round" fill="none" />
         <path d="M95,130 L100,138 L105,130" stroke="#a2e048" strokeWidth="4" strokeLinecap="round" fill="none" />
