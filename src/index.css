@@ -267,6 +267,18 @@ main {
   gap: 24px;
 }
 
+.lesson-achievement-shell {
+  width: min(100%, 1180px);
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.lesson-achievement-page {
+  min-height: calc(100dvh - var(--app-header-height) - 48px);
+  display: grid;
+  align-items: center;
+}
+
 .lesson-coach-panel,
 .lesson-stage-panel {
   min-width: 0;
@@ -590,6 +602,14 @@ main {
   text-align: center;
 }
 
+.lesson-achievement-full {
+  width: min(100%, 920px);
+  min-height: calc(100dvh - var(--app-header-height) - 58px);
+  align-content: center;
+  gap: 12px;
+  padding: 8px 10px 14px;
+}
+
 .lesson-achievement-badge {
   display: inline-flex;
   align-items: center;
@@ -615,7 +635,7 @@ main {
   margin: 0;
   color: var(--color-duo-green);
   font-family: var(--font-feather);
-  font-size: 38px;
+  font-size: 42px;
   line-height: 1.05;
 }
 
@@ -632,16 +652,16 @@ main {
 .lesson-achievement-showcase {
   position: relative;
   isolation: isolate;
-  width: min(100%, 560px);
-  height: 188px;
-  margin-block: 2px 0;
-  perspective: 760px;
+  width: min(100%, 680px);
+  height: 270px;
+  margin-block: -2px -4px;
+  perspective: 880px;
   transform-style: preserve-3d;
 }
 
 .lesson-showcase-rays {
   position: absolute;
-  inset: 0 40px 22px;
+  inset: 8px 44px 18px;
   z-index: 0;
   border-radius: 999px;
   background:
@@ -655,9 +675,9 @@ main {
 .lesson-showcase-floor {
   position: absolute;
   left: 50%;
-  bottom: 10px;
-  width: 300px;
-  height: 72px;
+  bottom: 18px;
+  width: 430px;
+  height: 96px;
   z-index: 1;
   border: 2px solid rgb(88 204 2 / 0.16);
   border-radius: 50%;
@@ -677,29 +697,29 @@ main {
 }
 
 .lesson-showcase-mascot {
-  bottom: 40px;
+  bottom: 54px;
   z-index: 4;
   transform: translateX(-50%) translateZ(46px);
   animation: reward-mascot-arrive 900ms var(--ease-out-expo) both, reward-mascot-float 2.8s ease-in-out 1s infinite;
 }
 
 .lesson-achievement-mascot {
-  min-height: 112px !important;
+  min-height: 162px !important;
 }
 
 .lesson-achievement-mascot svg {
-  width: 116px;
-  height: 116px;
+  width: 156px;
+  height: 156px;
   filter: drop-shadow(0 14px 14px rgb(63 143 1 / 0.2));
 }
 
 .lesson-showcase-stars {
-  top: 14px;
+  top: 34px;
   z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 26px;
+  gap: 38px;
   transform: translateX(-50%) translateZ(92px);
 }
 
@@ -722,7 +742,7 @@ main {
 }
 
 .lesson-showcase-podium {
-  bottom: 24px;
+  bottom: 46px;
   z-index: 3;
   display: grid;
   min-width: 160px;
@@ -773,42 +793,42 @@ main {
 }
 
 .lesson-reward-token.token-a {
-  left: -214px;
-  top: 62px;
+  left: -266px;
+  top: 108px;
   color: var(--color-sky-blue);
   transform: rotate(-12deg) translateZ(40px);
 }
 
 .lesson-reward-token.token-b {
-  right: -206px;
-  top: 54px;
+  right: -258px;
+  top: 100px;
   color: var(--color-duo-green);
   animation-delay: 420ms;
   transform: rotate(10deg) translateZ(36px);
 }
 
 .lesson-reward-token.token-c {
-  left: -74px;
-  top: 116px;
+  left: -96px;
+  top: 174px;
   color: var(--color-grape-soda);
   animation-delay: 700ms;
   transform: rotate(8deg) translateZ(58px);
 }
 
 .lesson-reward-coin.coin-a {
-  left: -154px;
-  top: 24px;
+  left: -202px;
+  top: 64px;
   animation-delay: 220ms;
 }
 
 .lesson-reward-coin.coin-b {
-  right: -146px;
-  top: 118px;
+  right: -188px;
+  top: 176px;
   animation-delay: 620ms;
 }
 
 .lesson-achievement-stats {
-  width: min(100%, 560px);
+  width: min(100%, 720px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
@@ -843,7 +863,7 @@ main {
 }
 
 .lesson-achievement-review {
-  width: min(100%, 620px);
+  width: 100%;
   display: grid;
   gap: 9px;
   border: 2px solid #c8ecff;
@@ -878,7 +898,7 @@ main {
 }
 
 .lesson-achievement-review-list {
-  max-height: 150px;
+  max-height: 92px;
   display: grid;
   gap: 8px;
   overflow-y: auto;
@@ -887,13 +907,21 @@ main {
 
 .lesson-achievement-review-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 7px 12px;
   border: 1px solid #d6eefb;
   border-radius: 12px;
   background: #ffffff;
   padding: 10px 11px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.lesson-achievement-review-item:hover {
+  border-color: var(--color-sky-blue);
+  transform: translateY(-1px);
 }
 
 .lesson-achievement-review-item > div {
@@ -933,15 +961,36 @@ main {
   white-space: nowrap;
 }
 
-.lesson-review-jump-button {
-  min-width: 132px;
-  min-height: 42px;
-  padding: 0 14px;
+.lesson-achievement-review-empty > p {
+  margin: 0;
+  color: #5f6b7a;
+  font-family: var(--font-din-round);
   font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.lesson-achievement-actions {
+  width: min(100%, 820px);
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-achievement-secondary-actions {
+  display: grid;
+  grid-template-columns: minmax(160px, 190px) minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.lesson-achievement-secondary-button {
+  min-height: 50px;
+  padding-inline: 18px;
+  white-space: nowrap;
 }
 
 .lesson-achievement-next {
-  width: min(100%, 620px);
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -2699,7 +2748,7 @@ html {
   }
 
   .lesson-achievement-showcase {
-    height: 172px;
+    height: 218px;
   }
 
   .lesson-showcase-stars {
@@ -2733,6 +2782,10 @@ html {
     text-align: center;
   }
 
+  .lesson-achievement-secondary-actions {
+    grid-template-columns: 1fr;
+  }
+
   .lesson-achievement-next-copy {
     text-align: center;
   }
@@ -2747,10 +2800,7 @@ html {
     grid-template-columns: 1fr;
   }
 
-  .lesson-review-jump-button {
-    width: 100%;
-  }
-
+  .lesson-achievement-secondary-button,
   .lesson-achievement-cta {
     width: 100%;
   }

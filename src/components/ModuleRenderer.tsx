@@ -664,9 +664,10 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
           ? `Kamu sudah siap lanjut ke Modul ${moduleId + 1}: ${nextModuleTitle}.`
           : 'Kelas Bahasa Inggris hari ini selesai. Rayakan hasil belajar bersama-sama.';
         const reviewItems = incorrectReviews.filter((item) => item.moduleId === moduleId).slice(-3);
+        const primaryCtaLabel = hasNextModule ? `Lanjut Modul ${moduleId + 1}` : 'Kembali Beranda';
 
         return (
-          <div className="lesson-achievement scene-fade-in">
+          <div className="lesson-achievement lesson-achievement-full scene-fade-in">
             <div className="lesson-achievement-badge">
               <Award size={30} />
               <span>Achievement unlocked</span>
@@ -732,62 +733,70 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               </div>
             </div>
 
-            {reviewItems.length > 0 && (
-              <div className="lesson-achievement-review" aria-label="Review jawaban salah">
-                <div className="lesson-achievement-review-heading">
-                  <span>Review bareng</span>
-                  <strong>Masuk kembali ke soal yang salah</strong>
+            <div className="lesson-achievement-actions">
+              <div className="lesson-achievement-next">
+                <div className="lesson-achievement-next-copy">
+                  <span>{hasNextModule ? 'Siap lanjut?' : 'Sesi lengkap'}</span>
+                  <strong>
+                    {hasNextModule
+                      ? `Modul ${moduleId + 1}: ${nextModuleTitle}`
+                      : 'Semua latihan utama sudah selesai.'}
+                  </strong>
                 </div>
 
-                <div className="lesson-achievement-review-list">
-                  {reviewItems.map((item, index) => (
-                    <div key={item.id} className="lesson-achievement-review-item">
-                      <div>
-                        <span>Soal {index + 1}</span>
-                        <strong>{item.sceneTitle}</strong>
-                      </div>
-                      <p>{item.prompt}</p>
-                      <button
-                        onClick={() => handleReviewJump(item.sceneIndex)}
-                        className="btn-3d btn-3d-blue lesson-review-jump-button"
-                        type="button"
-                      >
-                        Masuk ke Soal
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="lesson-achievement-next">
-              <div className="lesson-achievement-next-copy">
-                <span>{hasNextModule ? 'Siap lanjut?' : 'Sesi lengkap'}</span>
-                <strong>
-                  {hasNextModule
-                    ? `Modul ${moduleId + 1}: ${nextModuleTitle}`
-                    : 'Semua latihan utama sudah selesai.'}
-                </strong>
-              </div>
-
-              {hasNextModule ? (
                 <button
-                  onClick={() => useAppStore.getState().setModule(moduleId + 1)}
+                  onClick={() => hasNextModule ? useAppStore.getState().setModule(moduleId + 1) : useAppStore.getState().setModule(null)}
                   className="btn-3d btn-3d-green lesson-achievement-cta"
                   type="button"
                 >
-                  Lanjut Modul {moduleId + 1}
-                  <ArrowRight size={18} />
+                  {primaryCtaLabel}
+                  {hasNextModule && <ArrowRight size={18} />}
                 </button>
-              ) : (
+              </div>
+
+              <div className="lesson-achievement-secondary-actions">
                 <button
                   onClick={() => useAppStore.getState().setModule(null)}
-                  className="btn-3d btn-3d-green lesson-achievement-cta"
+                  className="btn-3d btn-3d-gray lesson-achievement-secondary-button"
                   type="button"
                 >
-                  Kembali Beranda
+                  Selesai Kelas
                 </button>
-              )}
+
+                {reviewItems.length > 0 ? (
+                  <div className="lesson-achievement-review" aria-label="Review jawaban salah">
+                    <div className="lesson-achievement-review-heading">
+                      <span>Review salah tadi</span>
+                      <strong>Masuk lagi ke soalnya</strong>
+                    </div>
+
+                    <div className="lesson-achievement-review-list">
+                      {reviewItems.map((item, index) => (
+                        <button
+                          key={item.id}
+                          onClick={() => handleReviewJump(item.sceneIndex)}
+                          className="lesson-achievement-review-item"
+                          type="button"
+                        >
+                          <div>
+                            <span>Soal {index + 1}</span>
+                            <strong>{item.sceneTitle}</strong>
+                          </div>
+                          <p>{item.prompt}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="lesson-achievement-review lesson-achievement-review-empty">
+                    <div className="lesson-achievement-review-heading">
+                      <span>Review salah tadi</span>
+                      <strong>Tidak ada jawaban salah</strong>
+                    </div>
+                    <p>Semua mini game sudah dikerjakan dengan benar.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -826,6 +835,16 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     handleNextActivation();
   };
 
+  if (scene.type === 'outro') {
+    return (
+      <div className={`lesson-shell lesson-achievement-shell lesson-module-${moduleId} lesson-scene-${scene.type}`}>
+        <section className="lesson-achievement-page">
+          {renderSceneContent()}
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className={`lesson-shell lesson-module-${moduleId} lesson-scene-${scene.type}`}>
       <aside className="lesson-coach-panel">
@@ -860,32 +879,22 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
           <div className="lesson-stage-nav">
             <button
               onClick={prevScene}
-              disabled={isFirst || answeredCorrectly || wordSuccess || sentenceSuccess || scene.type === 'outro'}
+              disabled={isFirst || answeredCorrectly || wordSuccess || sentenceSuccess}
               className="btn-3d btn-3d-gray lesson-nav-button"
               type="button"
             >
               Kembali
             </button>
 
-            {scene.type !== 'outro' ? (
-              <button
-                onClick={handleNextActivation}
-                onKeyDown={handleNextKeyDown}
-                disabled={!canGoNext}
-                className={`btn-3d lesson-nav-button lesson-next-button ${canGoNext ? (isGameScene ? 'btn-3d-green' : 'btn-3d-blue') : 'btn-3d-gray'}`}
-                type="button"
-              >
-                {nextButtonLabel}
-              </button>
-            ) : (
-              <button
-                onClick={() => useAppStore.getState().setModule(null)}
-                className="btn-3d btn-3d-green lesson-nav-button lesson-next-button"
-                type="button"
-              >
-                Selesai Kelas
-              </button>
-            )}
+            <button
+              onClick={handleNextActivation}
+              onKeyDown={handleNextKeyDown}
+              disabled={!canGoNext}
+              className={`btn-3d lesson-nav-button lesson-next-button ${canGoNext ? (isGameScene ? 'btn-3d-green' : 'btn-3d-blue') : 'btn-3d-gray'}`}
+              type="button"
+            >
+              {nextButtonLabel}
+            </button>
           </div>
         </div>
       </section>
