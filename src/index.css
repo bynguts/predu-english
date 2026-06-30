@@ -103,6 +103,18 @@ body {
   padding: 0;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 button:focus-visible,
 a:focus-visible {
   outline: 3px solid #1cb0f6;
@@ -1981,33 +1993,29 @@ html {
   will-change: transform;
 }
 
-.mascot-lottie.duo-hero-mascot {
+.hero-rive-mascot.duo-hero-mascot {
   width: 440px;
   height: 440px;
   min-height: 0;
   transform: none;
-  animation: duo-lottie-pop 720ms var(--ease-out-expo) 120ms both;
+  animation: duo-rive-pop 720ms var(--ease-out-expo) 120ms both;
 }
 
-.mascot-lottie {
+.hero-rive-mascot {
   display: grid;
   place-items: center;
   pointer-events: none;
 }
 
-.mascot-lottie-player,
-.mascot-lottie-static {
+.hero-rive-canvas,
+.hero-alfa-svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.mascot-lottie-player svg {
-  overflow: visible !important;
-}
-
-.mascot-lottie-static {
-  object-fit: contain;
+.hero-rive-canvas {
+  display: block;
 }
 
 .duo-float-card {
@@ -2063,9 +2071,10 @@ html {
 
 .duo-lesson-badge {
   position: absolute;
-  right: -8px;
-  bottom: -14px;
+  left: 112px;
+  bottom: -108px;
   width: 208px;
+  z-index: 3;
   border: 2px solid #dbeafe;
   border-bottom-width: 6px;
   border-radius: 18px;
@@ -3066,7 +3075,7 @@ html {
   }
 }
 
-@keyframes duo-lottie-pop {
+@keyframes duo-rive-pop {
   0% {
     opacity: 0;
     transform: translate3d(0, 14px, 0) scale(0.94);
@@ -3158,7 +3167,7 @@ html {
     --hero-mascot-end: 0.92;
   }
 
-  .mascot-lottie.duo-hero-mascot {
+  .hero-rive-mascot.duo-hero-mascot {
     width: 330px;
     height: 330px;
   }
@@ -3183,8 +3192,8 @@ html {
   }
 
   .duo-lesson-badge {
-    right: -6px;
-    bottom: -8px;
+    left: 76px;
+    bottom: -84px;
     width: 178px;
   }
 

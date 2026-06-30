@@ -5,7 +5,7 @@ import { modulesData } from './data/modules';
 import { ProgressBar } from './components/ProgressBar';
 import { ModuleRenderer } from './components/ModuleRenderer';
 import { Mascot } from './components/Mascot';
-import { MascotLottie } from './components/MascotLottie';
+import { HeroMascotRive } from './components/HeroMascotRive';
 import { Volume2, VolumeX, Home, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakEnglish } from './components/SoundButton';
 
@@ -296,7 +296,7 @@ function App() {
                     <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>
                     <motion.div className="duo-float-card duo-float-card-b" {...floatMotion(0.35, 12)}>cat</motion.div>
                     <motion.div className="duo-float-card duo-float-card-c" {...floatMotion(0.2, 14)}>10</motion.div>
-                    <MascotLottie className="duo-hero-mascot" />
+                    <HeroMascotRive className="duo-hero-mascot" />
                     <motion.div className="duo-lesson-badge" {...floatMotion(0.45, 8)}>
                       <span>Today's path</span>
                       <b>Alphabet &gt; Words &gt; Review</b>
