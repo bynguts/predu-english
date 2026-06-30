@@ -175,6 +175,10 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     setMascot(scene.type === 'outro' ? 'happy' : 'talking', defaultMessage);
   }, [scene, setMascot]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [sceneIndex]);
+
   // Trigger confetti effect
   const triggerConfettiEffect = () => {
     confetti({
@@ -694,13 +698,11 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               className="lesson-achievement-showcase"
               aria-label={`${stars} dari 3 bintang`}
               {...achievementPop(0.16)}
-              animate={reducedMotion ? undefined : { rotateX: [0, 2.5, 0], rotateY: [-1.5, 1.5, -1.5] }}
-              transition={reducedMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
             >
               <motion.div
                 className="lesson-showcase-rays"
-                animate={reducedMotion ? undefined : { rotate: 360, scale: [1, 1.04, 1] }}
-                transition={reducedMotion ? undefined : { rotate: { duration: 10, repeat: Infinity, ease: 'linear' }, scale: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } }}
+                animate={reducedMotion ? undefined : { opacity: [0.78, 0.95, 0.78], scale: [0.98, 1.03, 0.98] }}
+                transition={reducedMotion ? undefined : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
               />
               <div className="lesson-showcase-floor" />
 
