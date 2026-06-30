@@ -677,24 +677,44 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               <p>{achievementCopy}</p>
             </div>
 
-            {/* Glowing Reward Stars */}
-            <div className="lesson-achievement-stars" aria-label={`${stars} dari 3 bintang`}>
-              {[1, 2, 3].map((starIdx) => {
-                const isActive = starIdx <= stars;
-                return (
-                  <div
-                    key={starIdx}
-                    className={isActive ? 'is-active' : 'is-inactive'}
-                    style={{ animationDelay: `${starIdx * 0.25}s` }}
-                  >
-                    <Star
-                      fill={isActive ? "#ffc700" : "none"}
-                      stroke={isActive ? "#d0a200" : "#afafaf"}
-                      size={starIdx === 2 ? 76 : 60}
-                    />
-                  </div>
-                );
-              })}
+            <div className="lesson-achievement-showcase" aria-label={`${stars} dari 3 bintang`}>
+              <div className="lesson-showcase-rays" />
+              <div className="lesson-showcase-floor" />
+
+              <div className="lesson-showcase-orbit" aria-hidden="true">
+                <span className="lesson-reward-token token-a">XP</span>
+                <span className="lesson-reward-token token-b">A+</span>
+                <span className="lesson-reward-token token-c">WOW</span>
+                <span className="lesson-reward-coin coin-a" />
+                <span className="lesson-reward-coin coin-b" />
+              </div>
+
+              <div className="lesson-showcase-mascot">
+                <Mascot state="happy" className="lesson-achievement-mascot" />
+              </div>
+
+              <div className="lesson-showcase-stars">
+                {[1, 2, 3].map((starIdx) => {
+                  const isActive = starIdx <= stars;
+                  return (
+                    <div
+                      key={starIdx}
+                      className={isActive ? 'is-active' : 'is-inactive'}
+                      style={{ animationDelay: `${starIdx * 0.18}s` }}
+                    >
+                      <Star
+                        fill={isActive ? "#ffc700" : "none"}
+                        stroke={isActive ? "#d0a200" : "#afafaf"}
+                        size={starIdx === 2 ? 62 : 48}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="lesson-showcase-podium">
+                <span>Great job!</span>
+              </div>
             </div>
 
             <div className="lesson-achievement-stats" aria-label="Statistik belajar">
