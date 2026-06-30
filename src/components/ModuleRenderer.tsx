@@ -31,6 +31,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     audioMuted, 
     addCorrect, 
     addIncorrect, 
+    setSceneIndex,
     setMascot, 
     mascotState, 
     mascotSpeech,
@@ -195,6 +196,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       setIncorrectSelections([...incorrectSelections, index]);
       addIncorrect({
         moduleId,
+        sceneIndex,
         sceneTitle: scene.title,
         prompt: scene.quizQuestion?.question || scene.title,
         submittedAnswer: formatQuizAnswer(option),
@@ -236,6 +238,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
         playIncorrectSound(audioMuted);
         addIncorrect({
           moduleId,
+          sceneIndex,
           sceneTitle: scene.title,
           prompt: `Susun kata untuk ${wordLabel}`,
           submittedAnswer: joined,
@@ -287,6 +290,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
         playIncorrectSound(audioMuted);
         addIncorrect({
           moduleId,
+          sceneIndex,
           sceneTitle: scene.title,
           prompt: scene.sentenceBuilder?.indonesian || 'Susun kalimat yang benar',
           submittedAnswer: joined,
@@ -309,6 +313,11 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     setSentenceWords(prev => prev.map(item => ({ ...item, used: false })));
     setSentenceSuccess(false);
     setMascot('idle', 'Mari susun ulang kata-katanya!');
+  };
+
+  const handleReviewJump = (targetSceneIndex: number) => {
+    setMascot('talking', 'Ayo kita lihat lagi soalnya dan bahas bersama-sama.');
+    setSceneIndex(targetSceneIndex);
   };
 
   // Render components according to scene type
@@ -707,19 +716,24 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               <div className="lesson-achievement-review" aria-label="Review jawaban salah">
                 <div className="lesson-achievement-review-heading">
                   <span>Review bareng</span>
-                  <strong>Yang tadi perlu diulang</strong>
+                  <strong>Masuk kembali ke soal yang salah</strong>
                 </div>
 
                 <div className="lesson-achievement-review-list">
-                  {reviewItems.map((item) => (
+                  {reviewItems.map((item, index) => (
                     <div key={item.id} className="lesson-achievement-review-item">
-                      <span>{item.sceneTitle}</span>
-                      <p>{item.prompt}</p>
                       <div>
-                        <em>Jawaban tadi: {item.submittedAnswer}</em>
-                        <strong>Yang benar: {item.correctAnswer}</strong>
+                        <span>Soal {index + 1}</span>
+                        <strong>{item.sceneTitle}</strong>
                       </div>
-                      <small>{item.reflection}</small>
+                      <p>{item.prompt}</p>
+                      <button
+                        onClick={() => handleReviewJump(item.sceneIndex)}
+                        className="btn-3d btn-3d-blue lesson-review-jump-button"
+                        type="button"
+                      >
+                        Masuk ke Soal
+                      </button>
                     </div>
                   ))}
                 </div>

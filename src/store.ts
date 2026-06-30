@@ -5,6 +5,7 @@ export type MascotState = 'idle' | 'happy' | 'sad' | 'talking';
 export interface IncorrectReview {
   id: string;
   moduleId: number;
+  sceneIndex: number;
   sceneTitle: string;
   prompt: string;
   submittedAnswer: string;

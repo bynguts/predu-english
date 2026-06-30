@@ -693,10 +693,10 @@ main {
   width: min(100%, 620px);
   display: grid;
   gap: 9px;
-  border: 2px solid #ffd6d6;
+  border: 2px solid #c8ecff;
   border-bottom-width: 5px;
   border-radius: 16px;
-  background: #fff8f8;
+  background: #f6fcff;
   padding: 12px 14px;
   text-align: left;
 }
@@ -709,7 +709,7 @@ main {
 }
 
 .lesson-achievement-review-heading span {
-  color: #d24141;
+  color: var(--color-sky-blue);
   font-family: var(--font-din-round);
   font-size: 12px;
   font-weight: 900;
@@ -725,7 +725,7 @@ main {
 }
 
 .lesson-achievement-review-list {
-  max-height: 132px;
+  max-height: 150px;
   display: grid;
   gap: 8px;
   overflow-y: auto;
@@ -734,15 +734,23 @@ main {
 
 .lesson-achievement-review-item {
   display: grid;
-  gap: 5px;
-  border: 1px solid #f0dada;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px 12px;
+  border: 1px solid #d6eefb;
   border-radius: 12px;
   background: #ffffff;
-  padding: 9px 11px;
+  padding: 10px 11px;
+}
+
+.lesson-achievement-review-item > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
 }
 
 .lesson-achievement-review-item span {
-  color: #9b6b6b;
+  color: #5f9ec4;
   font-family: var(--font-din-round);
   font-size: 10px;
   font-weight: 900;
@@ -751,41 +759,32 @@ main {
 }
 
 .lesson-achievement-review-item p {
+  grid-column: 1 / -1;
   margin: 0;
-  color: var(--color-charcoal);
-  font-family: var(--font-din-round);
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.lesson-achievement-review-item div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 12px;
   color: #5f6b7a;
   font-family: var(--font-din-round);
   font-size: 12px;
   font-weight: 800;
-  line-height: 1.2;
-}
-
-.lesson-achievement-review-item em {
-  color: #d24141;
-  font-style: normal;
-}
-
-.lesson-achievement-review-item strong {
-  color: #3f8f01;
-  font-weight: 900;
-}
-
-.lesson-achievement-review-item small {
-  color: #778191;
-  font-family: var(--font-din-round);
-  font-size: 11px;
-  font-weight: 800;
   line-height: 1.25;
+}
+
+.lesson-achievement-review-item > div strong {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-charcoal);
+  font-family: var(--font-din-round);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lesson-review-jump-button {
+  min-width: 132px;
+  min-height: 42px;
+  padding: 0 14px;
+  font-size: 12px;
 }
 
 .lesson-achievement-next {
@@ -2494,6 +2493,14 @@ html {
     flex-direction: column;
     align-items: flex-start;
     gap: 3px;
+  }
+
+  .lesson-achievement-review-item {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-review-jump-button {
+    width: 100%;
   }
 
   .lesson-achievement-cta {
