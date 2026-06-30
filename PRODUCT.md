@@ -14,7 +14,7 @@ The product is an interactive English teaching tool for limited in-person sessio
 
 ## Brand Personality
 
-Playful, encouraging, classroom-friendly. The interface should feel close to Duolingo: bright, rounded, tactile, optimistic, and game-like without becoming visually chaotic.
+Playful, encouraging, classroom-friendly. The interface should feel like an original campus learning game: bright, rounded, tactile, optimistic, and classroom-friendly without becoming visually chaotic.
 
 ## Anti-references
 
@@ -24,7 +24,7 @@ Avoid generic SaaS landing pages, dark AI gradients, glass cards, tiny marketing
 
 1. Projector-first clarity: every primary instruction, answer, and navigation control must be readable at classroom distance.
 2. One facilitator, many learners: controls should be obvious to the operator while visual feedback is big enough for the children.
-3. Duolingo-like tactility: primary actions use bright green, rounded shapes, chunky shadows, and responsive press states.
+3. Campus-learning tactility: primary actions use academic blue, rounded shapes, chunky shadows, and responsive press states.
 4. Encouragement over pressure: feedback copy, mascot states, and reward moments should feel supportive.
 5. Keep the flow manual and predictable: no auto-advancing lessons or hidden state changes that could disrupt a live session.
 

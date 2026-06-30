@@ -1,17 +1,17 @@
-# Duolingo — Style Reference
+# Predu EngKids - Style Reference
 > Playground Starter Kit
 
 **Theme:** light
 
-The design feels like an energetic, gamified classroom. Its core is built on a trinity of exuberant choices: the plump, ultra-rounded 'Feather' headline font, the vibrant 'Alfa Green' that saturates all primary actions and logos, and the cast of charming, blob-like character illustrations. The layout uses vast white space as a clean canvas, making these colorful elements pop. A signature detail is the 3D-style button, which uses a solid bottom shadow to feel tactile and pressable, a stark contrast to the otherwise flat UI. The entire experience is crafted to feel fun, friendly, and encouraging, turning language learning from a chore into a game.
+The design feels like an energetic, gamified classroom. Its core is built on a trinity of exuberant choices: the plump, ultra-rounded 'Feather' headline font, the vibrant 'Campus Blue' that saturates all primary actions and logos, and the cast of charming, blob-like character illustrations. The layout uses vast white space as a clean canvas, making these colorful elements pop. A signature detail is the 3D-style button, which uses a solid bottom shadow to feel tactile and pressable, a stark contrast to the otherwise flat UI. The entire experience is crafted to feel fun, friendly, and encouraging, turning language learning from a chore into a game.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Alfa Green | `#58cc02` | `--color-duo-green` | Primary CTAs, logos, headlines, interactive highlights — the brand's key signifier of action and identity. |
+| Campus Blue | `#2563eb` | `--color-duo-green` | Primary CTAs, logos, headlines, interactive highlights — the brand's key signifier of action and identity. |
 | Sky Blue | `#1cb0f6` | `--color-sky-blue` | Secondary outline buttons, inline text links — provides a clear, alternative interactive cue. |
-| Alfa Green Light | `#d7ffb8` | `--color-duo-green-light` | Background tints for highlighted or active states, often paired with Alfa Green. |
+| Campus Blue Light | `#dbeafe` | `--color-duo-green-light` | Background tints for highlighted or active states, often paired with Campus Blue. |
 | Sunshine Yellow | `#ffc700` | `--color-sunshine-yellow` | Used exclusively within illustrations for pops of warmth and energy. |
 | Grape Soda | `#a570ff` | `--color-grape-soda` | Used exclusively within illustrations as a cool, playful accent. |
 | Bubblegum Pink | `#cc348d` | `--color-bubblegum-pink` | Used exclusively within illustrations for vibrant, friendly details. |
@@ -92,12 +92,12 @@ The design feels like an energetic, gamified classroom. Its core is built on a t
 ### Green Headline
 **Role:** Feature section titles like 'free. fun. effective.'
 
-Uses the 'feather' font at 48px or 64px with '700' weight and tight letter-spacing (-0.02em). The color is 'Alfa Green' ('#58cc02'), making it a vibrant focal point.
+Uses the 'feather' font at 48px or 64px with '700' weight and tight letter-spacing (-0.02em). The color is 'Campus Blue' ('#2563eb'), making it a vibrant focal point.
 
 ### Character Illustration
 **Role:** Visual anchors for every major page section.
 
-Large, organic vector illustrations featuring diverse, playful characters. Built with a palette of 'Alfa Green', 'Sunshine Yellow', 'Grape Soda', and 'Bubblegum Pink'. They are flat but use simple layering and occasional gradients for depth.
+Large, organic vector illustrations featuring diverse, playful characters. Built with a palette of 'Campus Blue', 'Sunshine Yellow', 'Grape Soda', and 'Bubblegum Pink'. They are flat but use simple layering and occasional gradients for depth.
 
 ### Inline Text Link
 **Role:** Clickable text within a paragraph.
@@ -112,17 +112,17 @@ A small rectangular flag icon followed by uppercase text (e.g., 'ENGLISH') in 'G
 ## Do's and Don'ts
 
 ### Do
-- Use 'Alfa Green' '#58cc02' for all primary CTAs and brand-voice headlines.
+- Use 'Campus Blue' '#2563eb' for all primary CTAs and brand-voice headlines.
 - Apply a 12px border-radius to all interactive UI components like buttons and inputs.
 - Use the 'feather' font exclusively for large, impactful headlines (48px+).
-- Create depth on primary buttons with a solid, darker green bottom 'shadow' (e.g., `box-shadow: 0 4px 0 #3f8f01`).
+- Create depth on primary buttons with a solid, darker blue bottom 'shadow' (e.g., `box-shadow: 0 4px 0 #1e3a8a`).
 - Pair every major content section with a large, on-brand character illustration.
 - Use 'Sky Blue' '#1cb0f6' for all secondary interactive elements like outline buttons and text links.
 - Set body copy and UI text with 'din-round' and its distinctive `letter-spacing: 0.053em`.
 
 ### Don't
 - Don't use sharp corners on any UI element.
-- Don't use any color other than 'Alfa Green' '#58cc02' for the main 'Get Started' action.
+- Don't use any color other than 'Campus Blue' '#2563eb' for the main 'Get Started' action.
 - Don't use the 'feather' headline font for small text or body copy.
 - Don't apply traditional `box-shadow` for elevation on panels or cards.
 - Don't create text links in any color other than 'Sky Blue' '#1cb0f6'.
@@ -146,20 +146,20 @@ The site uses a centered, max-width layout (approx. 1140px) on an expansive whit
 ### Quick Color Reference
 - **Page Background**: `#ffffff` (Snow White)
 - **Primary Text**: `#3c3c3c` (Almost Black)
-- **Primary CTA**: `#58cc02` (Alfa Green)
+- **Primary CTA**: `#2563eb` (Campus Blue)
 - **Secondary Action**: `#1cb0f6` (Sky Blue)
 - **Borders**: `#e5e5e5` (Cloud Gray)
 
 ### Example Component Prompts
-1. **Primary Button**: "Create a button with 'GET STARTED' text. Background is '#58cc02', text is '#ffffff'. Use a 12px border-radius. Font is 'din-round' at 15px, weight 700. Padding is 16px 32px. Add a `box-shadow: 0 4px 0 #3f8f01`."
-2. **Headline**: "Create a headline 'free. fun. effective.'. Font is 'feather' at 64px, weight 700. Color is '#58cc02'. Set letter-spacing to -1.28px."
+1. **Primary Button**: "Create a button with 'GET STARTED' text. Background is '#2563eb', text is '#ffffff'. Use a 12px border-radius. Font is 'din-round' at 15px, weight 700. Padding is 16px 32px. Add a `box-shadow: 0 4px 0 #1e3a8a`."
+2. **Headline**: "Create a headline 'free. fun. effective.'. Font is 'feather' at 64px, weight 700. Color is '#2563eb'. Set letter-spacing to -1.28px."
 3. **Outline Button**: "Create an outline button with 'I ALREADY HAVE AN ACCOUNT' text. Background is transparent. Text color is '#1cb0f6'. Border is 2px solid '#e5e5e5'. Use a 12px border-radius. Font is 'din-round' at 15px, weight 700. Padding is 14px 24px."
 
 ## Similar Brands
 
 - **Headspace** — Nearly identical philosophy of using friendly, rounded illustrations and a soft, approachable UI to demystify a complex topic.
 - **Kahoot!** — Shares the gamified learning aesthetic, with bold primary colors, simple UI, and a focus on fun.
-- **Mailchimp** — Pioneered the use of quirky, brand-defining illustrations and a single-color identity (yellow) in a similar way Duolingo uses green.
+- **Mailchimp** — Pioneered the use of quirky, brand-defining illustrations and a single-color identity (yellow) in a similar way Predu EngKids uses blue.
 - **Discord** — Employs a custom super-rounded font ('gg sans') and mascot-driven illustrations to create a similarly playful and community-focused atmosphere.
 
 ## Quick Start
@@ -169,9 +169,9 @@ The site uses a centered, max-width layout (approx. 1140px) on an expansive whit
 ```css
 :root {
   /* Colors */
-  --color-duo-green: #58cc02;
+  --color-duo-green: #2563eb;
   --color-sky-blue: #1cb0f6;
-  --color-duo-green-light: #d7ffb8;
+  --color-duo-green-light: #dbeafe;
   --color-sunshine-yellow: #ffc700;
   --color-grape-soda: #a570ff;
   --color-bubblegum-pink: #cc348d;
@@ -244,9 +244,9 @@ The site uses a centered, max-width layout (approx. 1140px) on an expansive whit
 ```css
 @theme {
   /* Colors */
-  --color-duo-green: #58cc02;
+  --color-duo-green: #2563eb;
   --color-sky-blue: #1cb0f6;
-  --color-duo-green-light: #d7ffb8;
+  --color-duo-green-light: #dbeafe;
   --color-sunshine-yellow: #ffc700;
   --color-grape-soda: #a570ff;
   --color-bubblegum-pink: #cc348d;

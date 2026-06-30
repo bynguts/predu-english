@@ -31,11 +31,11 @@
 
 @theme {
   /* Colors */
-  --color-duo-green: #58cc02;
-  --color-duo-green-shadow: #3f8f01;
+  --color-duo-green: #2563eb;
+  --color-duo-green-shadow: #1e3a8a;
   --color-sky-blue: #1cb0f6;
   --color-sky-blue-shadow: #1899d6;
-  --color-duo-green-light: #d7ffb8;
+  --color-duo-green-light: #dbeafe;
   --color-sunshine-yellow: #ffc700;
   --color-sunshine-yellow-shadow: #cda000;
   --color-grape-soda: #a570ff;
@@ -404,7 +404,7 @@ main {
 .lesson-stage-topline em {
   min-width: 70px;
   border-radius: 999px;
-  background: #f7fff0;
+  background: #eff6ff;
   color: var(--color-duo-green-shadow);
   font-family: var(--font-din-round);
   font-size: 13px;
@@ -614,11 +614,11 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 2px solid #bdf28c;
+  border: 2px solid #bfdbfe;
   border-bottom-width: 5px;
   border-radius: 999px;
   background: #f2ffe9;
-  color: #3f8f01;
+  color: #1e3a8a;
   padding: 9px 18px 8px;
   font-family: var(--font-din-round);
   font-size: 13px;
@@ -748,11 +748,11 @@ main {
   min-width: 160px;
   height: 46px;
   place-items: center;
-  border: 2px solid #bdf28c;
+  border: 2px solid #bfdbfe;
   border-bottom-width: 7px;
   border-radius: 18px;
   background: linear-gradient(180deg, #ffffff 0%, #f2ffe9 100%);
-  color: #3f8f01;
+  color: #1e3a8a;
   font-family: var(--font-din-round);
   font-size: 13px;
   font-weight: 900;
@@ -995,7 +995,7 @@ main {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 16px;
-  border: 2px solid #d9f2e6;
+  border: 2px solid #dbeafe;
   border-bottom-width: 5px;
   border-radius: 16px;
   background: #f8fffb;
@@ -1146,7 +1146,7 @@ main {
   grid-template-columns: minmax(0, 1fr) 112px;
   align-items: center;
   gap: 18px;
-  border: 1px solid #d9f2e6;
+  border: 1px solid #dbeafe;
   border-radius: 14px;
   background: #f8fffb;
   padding: 16px 22px;
@@ -1222,9 +1222,9 @@ main {
   position: relative;
   width: 238px;
   height: 238px;
-  border: 2px dashed #a2e048;
+  border: 2px dashed #93c5fd;
   border-radius: 50%;
-  background: linear-gradient(180deg, #f0fbe8, #ffffff);
+  background: linear-gradient(180deg, #eff6ff, #ffffff);
   display: grid !important;
   place-items: center;
 }
@@ -1769,8 +1769,8 @@ h3 {
 .dialogue-right {
   align-self: flex-end;
   background: var(--color-duo-green-light);
-  border-color: #a2e048;
-  color: #3f8f01;
+  border-color: #93c5fd;
+  color: #1e3a8a;
   border-radius: 20px 20px 4px 20px;
 }
 
@@ -2110,7 +2110,7 @@ html {
   padding: 0 16px;
   border: 1.5px solid var(--color-duo-green);
   border-radius: 999px;
-  background: #f7fff0;
+  background: #eff6ff;
   color: var(--color-duo-green-shadow);
   font-family: var(--font-din-round);
   font-size: 13px;
@@ -2219,7 +2219,7 @@ html {
 
 .duo-anywhere-device span:first-child {
   grid-column: span 2;
-  background: #58cc02;
+  background: #2563eb;
 }
 
 .duo-anywhere-device-left {
@@ -2311,7 +2311,7 @@ html {
 }
 
 .duo-course-card-1 {
-  background: linear-gradient(180deg, #f7fff0 0%, #ffffff 62%);
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 62%);
 }
 
 .duo-course-card-2 {
@@ -2458,7 +2458,7 @@ html {
   min-height: 50px;
   background: #ffffff;
   color: var(--color-duo-green-shadow);
-  box-shadow: 0 4px 0 #3f8f01;
+  box-shadow: 0 4px 0 #1e3a8a;
   font-size: 14px;
   transform: translateY(0);
 }
@@ -2467,12 +2467,12 @@ html {
   background: #ffffff;
   filter: brightness(1.01);
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #3f8f01;
+  box-shadow: 0 2px 0 #1e3a8a;
 }
 
 .duo-footer-button:active:not(:disabled) {
   transform: translateY(4px);
-  box-shadow: 0 0 0 #3f8f01;
+  box-shadow: 0 0 0 #1e3a8a;
   filter: brightness(0.99);
 }
 
@@ -2539,12 +2539,12 @@ html {
   background: #ffffff;
   filter: brightness(1.01);
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #3f8f01;
+  box-shadow: 0 2px 0 #1e3a8a;
 }
 
 .duo-footer-button:active:not(:disabled) {
   transform: translateY(4px);
-  box-shadow: 0 0 0 #3f8f01;
+  box-shadow: 0 0 0 #1e3a8a;
   filter: brightness(0.99);
 }
 

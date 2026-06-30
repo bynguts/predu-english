@@ -19,7 +19,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value, max, className 
       >
         {/* Fill */}
         <div
-          className="h-full bg-[#58cc02] rounded-full transition-all duration-300 ease-out relative"
+          className="h-full bg-[#2563eb] rounded-full transition-all duration-300 ease-out relative"
           style={{ 
             width: `${percentage}%`,
             boxShadow: 'inset 0 -2px 0 rgba(0, 0, 0, 0.2)' 

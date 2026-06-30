@@ -72,7 +72,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     { bg: 'bg-[#ffebf5]/40', border: 'border-[#cc348d]', text: 'text-[#cc348d]', badge: 'bg-[#cc348d]/10' }, // E
     { bg: 'bg-[#eef8ff]/40', border: 'border-[#1cb0f6]', text: 'text-[#1cb0f6]', badge: 'bg-[#1cb0f6]/10' }, // I
     { bg: 'bg-[#f5eefc]/40', border: 'border-[#a570ff]', text: 'text-[#a570ff]', badge: 'bg-[#a570ff]/10' }, // O
-    { bg: 'bg-[#f0fbe8]/40', border: 'border-[#58cc02]', text: 'text-[#58cc02]', badge: 'bg-[#58cc02]/10' }  // U
+    { bg: 'bg-[#eff6ff]/40', border: 'border-[#2563eb]', text: 'text-[#2563eb]', badge: 'bg-[#2563eb]/10' }  // U
   ];
 
   const moduleThemes = {
@@ -548,7 +548,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                       key={idx}
                       className={`w-16 h-16 rounded-xl border-2 flex items-center justify-center text-3xl font-feather transition-all duration-200 shadow-inner
                         ${filledLetter 
-                          ? 'border-[#58cc02] bg-[#d7ffb8]/30 text-[#3f8f01]' 
+                          ? 'border-[#2563eb] bg-[#dbeafe]/30 text-[#1e3a8a]' 
                           : 'border-dashed border-gray-300 bg-gray-50/50 text-transparent'
                         }`}
                     >
@@ -615,7 +615,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   builtSentence.map((word, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#d7ffb8] border-2 border-[#58cc02] text-[#3f8f01] font-extrabold font-din rounded-xl px-5 py-3 text-lg shadow-sm"
+                      className="bg-[#dbeafe] border-2 border-[#2563eb] text-[#1e3a8a] font-extrabold font-din rounded-xl px-5 py-3 text-lg shadow-sm"
                     >
                       {word}
                     </div>
@@ -850,7 +850,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
       <aside className="lesson-coach-panel">
         <div className="lesson-coach-card">
           <div className="lesson-coach-heading">
-            <span>Alfa coach</span>
+            <span>Mimo coach</span>
             <strong>{sceneTypeNames[scene.type]}</strong>
           </div>
           <Mascot state={mascotState} speechText={mascotSpeech} className="lesson-coach-mascot" />

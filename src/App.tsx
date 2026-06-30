@@ -100,10 +100,10 @@ function App() {
   // Friendly 3D module card tones, kept as full-card treatments instead of side stripes.
   const moduleCardStyles = [
     {
-      border: 'border-[#58cc02] hover:border-[#58cc02]',
-      iconBg: 'bg-[#d7ffb8] text-[#3f8f01] border-[#a2e048]',
+      border: 'border-[#2563eb] hover:border-[#2563eb]',
+      iconBg: 'bg-[#dbeafe] text-[#1e3a8a] border-[#93c5fd]',
       btnColor: 'btn-3d-green',
-      surface: 'bg-[#f7fff0]'
+      surface: 'bg-[#eff6ff]'
     },
     {
       border: 'border-[#1cb0f6] hover:border-[#1cb0f6]',
@@ -450,7 +450,7 @@ function App() {
                       className="btn-3d btn-3d-outline px-8 py-4 text-base font-bold uppercase tracking-wider w-full sm:w-64"
                       type="button"
                     >
-                      Tes Suara Alfa
+                      Tes Suara Mimo
                     </button>
                   </div>
                 </div>
@@ -472,7 +472,7 @@ function App() {
                       <Mascot state={mascotState} speechText={mascotSpeech} />
                       <div className="mt-4 text-center">
                         <p className="text-xs text-gray-400 font-din font-bold uppercase tracking-wider">PRESCHOOL HERO</p>
-                        <h4 className="text-lg font-feather text-gray-800">Alfa Si Burung Hantu</h4>
+                        <h4 className="text-lg font-feather text-gray-800">Mimo Si Kucing Kampus</h4>
                       </div>
                     </div>
                   </div>
@@ -521,17 +521,17 @@ function App() {
 
                 {/* Styled Outline Pills */}
                 <div className="flex flex-wrap justify-center gap-4">
-                  <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Pelajaran Pendek
+                  <span className="border-2 border-[#2563eb] text-[#1e3a8a] bg-[#dbeafe]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2563eb]"></span> Pelajaran Pendek
                   </span>
-                  <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Dipandu Guru
+                  <span className="border-2 border-[#2563eb] text-[#1e3a8a] bg-[#dbeafe]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2563eb]"></span> Dipandu Guru
                   </span>
-                  <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> 100% Gratis
+                  <span className="border-2 border-[#2563eb] text-[#1e3a8a] bg-[#dbeafe]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2563eb]"></span> 100% Gratis
                   </span>
-                  <span className="border-2 border-[#58cc02] text-[#3f8f01] bg-[#d7ffb8]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#58cc02]"></span> Ramah Anak
+                  <span className="border-2 border-[#2563eb] text-[#1e3a8a] bg-[#dbeafe]/20 px-5 py-2.5 rounded-full text-sm font-din font-bold flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2563eb]"></span> Ramah Anak
                   </span>
                 </div>
 
@@ -577,7 +577,7 @@ function App() {
               <div className="max-w-[1140px] mx-auto px-6 md:px-12">
                 
                 <div className="text-center mb-12">
-                  <div className="inline-flex items-center gap-2 bg-[#d7ffb8] text-[#3f8f01] text-xs px-3 py-1 rounded-full font-bold font-din mb-3">
+                  <div className="inline-flex items-center gap-2 bg-[#dbeafe] text-[#1e3a8a] text-xs px-3 py-1 rounded-full font-bold font-din mb-3">
                     <Sparkles size={12} /> PILIH MATERI AJAR
                   </div>
                   <h2 className="text-4xl md:text-5xl font-feather text-duo-green mb-4">
@@ -659,7 +659,7 @@ function App() {
       {/* Curved wave transition divider to green footer (homepage only) */}
       {currentModule === null && (
         <div className="w-full overflow-hidden leading-[0] bg-white select-none">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#58cc02]">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#2563eb]">
             <path d="M0,0 C150,90 350,120 600,100 C850,80 1050,110 1200,90 L1200,120 L0,120 Z"></path>
           </svg>
         </div>
@@ -713,8 +713,8 @@ function App() {
 
       {/* Footer System */}
       {currentModule === null ? (
-        /* Full Deep Green Footer Grid */
-        <footer className="hidden bg-[#58cc02] text-white py-16 px-8 font-din">
+        /* Full Deep Blue Footer Grid */
+        <footer className="hidden bg-[#2563eb] text-white py-16 px-8 font-din">
           <div className="max-w-[1140px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-sm border-b border-white/20 pb-12">
             <div>
               <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Tentang Kami</h5>
@@ -749,9 +749,9 @@ function App() {
               </ul>
             </div>
             <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start">
-              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Alfa Mascot</h5>
-              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl shadow-md animate-bounce select-none">
-                🦉
+              <h5 className="font-bold text-base mb-4 uppercase tracking-wider">Mimo Mascot</h5>
+              <div className="w-16 h-16 rounded-full bg-white text-duo-green flex items-center justify-center text-3xl font-feather shadow-md animate-bounce select-none">
+                M
               </div>
             </div>
           </div>

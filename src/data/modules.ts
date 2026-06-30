@@ -74,7 +74,7 @@ export const modulesData: ModuleData[] = [
       {
         type: 'intro',
         title: "Perkenalan Kelas",
-        mascotMessage: "Hello! My name is Alfa. Selamat datang di kelas Bahasa Inggris! Ayo kita mulai petualangan kita!",
+        mascotMessage: "Hello! My name is Mimo. Selamat datang di kelas Bahasa Inggris! Ayo kita mulai petualangan kita!",
         instruction: "Klik tombol 'Lanjut' di bawah untuk memulai pelajaran pertama."
       },
       {
@@ -150,7 +150,7 @@ export const modulesData: ModuleData[] = [
           { letter: "Y", word: "Yo-yo", indonesian: "Yoyo", emoji: "\uD83E\uDE80" },
           { letter: "Z", word: "Zebra", indonesian: "Zebra", emoji: "\uD83E\uDD93" }
         ],
-        mascotMessage: "Terakhir, kita dengarkan huruf Y dan Z bersama Alfa!"
+        mascotMessage: "Terakhir, kita dengarkan huruf Y dan Z bersama Mimo!"
       },
       {
         type: 'presentation',
@@ -171,7 +171,7 @@ export const modulesData: ModuleData[] = [
         phrases: [
           { english: "Hello!", indonesian: "Halo!", audioText: "Hello!" },
           { english: "What is your name?", indonesian: "Siapa namamu?", audioText: "What is your name?" },
-          { english: "My name is Alfa.", indonesian: "Nama saya Alfa.", audioText: "My name is Alfa." },
+          { english: "My name is Mimo.", indonesian: "Nama saya Mimo.", audioText: "My name is Mimo." },
           { english: "How are you?", indonesian: "Apa kabar?", audioText: "How are you?" },
           { english: "Nice to meet you.", indonesian: "Senang bertemu denganmu.", audioText: "Nice to meet you." },
           { english: "I am fine, thank you.", indonesian: "Kabar saya baik, terima kasih.", audioText: "I am fine, thank you." }
@@ -405,7 +405,7 @@ export const modulesData: ModuleData[] = [
           { english: "I have a pencil.", indonesian: "Saya punya pensil.", audioText: "I have a pencil" },
           { english: "I have a bag.", indonesian: "Saya punya tas.", audioText: "I have a bag" }
         ],
-        mascotMessage: "Ayo tirukan suara Alfa: I have a book!"
+        mascotMessage: "Ayo tirukan suara Mimo: I have a book!"
       },
       {
         type: 'presentation',
