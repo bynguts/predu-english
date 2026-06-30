@@ -90,6 +90,7 @@ const FaceHappy = () => (
     <path d="M93 110 Q100 106 107 110 Q103 116 100 117 Q97 116 93 110 Z" fill="#FF9E92" />
     <path d="M80 116 Q100 140 120 116 Q110 130 100 130 Q90 130 80 116 Z" fill="#C76B5D" />
     <path d="M80 116 Q100 140 120 116" fill="none" stroke="#7A7F8C" strokeWidth="2" strokeLinecap="round" />
+    <path d="M91 123 Q100 129 109 123" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.78" />
     <g opacity="0.82">
       <path d="M40 60 L45 55 L43 65 L48 62" stroke="#FFD700" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path d="M160 60 L155 55 L157 65 L152 62" stroke="#FFD700" strokeWidth="2.5" strokeLinecap="round" fill="none" />
@@ -195,9 +196,83 @@ const getMascotLoopMotion = (state: MascotState, reducedMotion: boolean) => {
   };
 };
 
+const getWaveMotion = (state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion || state === 'sad') {
+    return {
+      animate: { rotate: 0, y: 0, scale: 1 },
+      transition: { duration: 0 }
+    };
+  }
+
+  if (state === 'happy') {
+    return {
+      animate: {
+        rotate: [0, -22, 18, -18, 12, 0],
+        y: [0, -4, -7, -4, -2, 0],
+        scale: [1, 1.04, 1.02, 1.04, 1.01, 1]
+      },
+      transition: {
+        duration: 1.42,
+        repeat: Infinity,
+        repeatDelay: 1.15,
+        ease: easeOutQuint
+      }
+    };
+  }
+
+  if (state === 'talking') {
+    return {
+      animate: {
+        rotate: [0, -8, 7, 0],
+        y: [0, -2, -1, 0]
+      },
+      transition: { duration: 1.2, repeat: Infinity, ease: 'easeInOut' as const }
+    };
+  }
+
+  return {
+    animate: {
+      rotate: [0, -5, 0],
+      y: [0, -1, 0]
+    },
+    transition: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' as const }
+  };
+};
+
+const getPawMotion = (state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion || state === 'sad') {
+    return {
+      animate: { rotate: 0, scale: 1 },
+      transition: { duration: 0 }
+    };
+  }
+
+  if (state === 'happy') {
+    return {
+      animate: {
+        rotate: [0, 12, -8, 10, 0],
+        scale: [1, 1.05, 1, 1.04, 1]
+      },
+      transition: {
+        duration: 1.42,
+        repeat: Infinity,
+        repeatDelay: 1.15,
+        ease: easeOutQuint
+      }
+    };
+  }
+
+  return {
+    animate: { rotate: [0, 4, 0], scale: [1, 1.02, 1] },
+    transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
+  };
+};
+
 export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => {
   const reducedMotion = useReducedMotion();
   const mascotLoopMotion = getMascotLoopMotion(state, Boolean(reducedMotion));
+  const waveMotion = getWaveMotion(state, Boolean(reducedMotion));
+  const pawMotion = getPawMotion(state, Boolean(reducedMotion));
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center relative ${className}`} style={{ minHeight: '260px' }}>
@@ -254,6 +329,35 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
       <path d="M146 48 Q160 22 138 10 Q120 16 124 44 Q136 40 146 48 Z" fill="url(#mimo-earInner)" />
       <circle cx="100" cy="96" r="62" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" />
       <path d="M84 48 Q89 39 94 48 M106 48 Q111 39 116 48 M97 39 L100 54 L103 39" stroke="#C9CDD4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.7" />
+      <motion.g
+        className="mimo-wave-arm"
+        style={{ transformOrigin: '65px 148px', transformBox: 'view-box' }}
+        {...waveMotion}
+      >
+        <path d="M66 150 Q37 121 39 84 Q41 61 54 56 Q65 56 66 68 Q56 78 56 100 Q59 126 79 149 Z" fill="url(#mimo-furBody)" stroke="#B8BEC8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <motion.g
+          className="mimo-wave-lines"
+          style={{ transformOrigin: '38px 58px', transformBox: 'view-box' }}
+          initial={false}
+          animate={
+            reducedMotion || state === 'sad'
+              ? { opacity: 0, scale: 1 }
+              : { opacity: [0.35, 1, 0.5], scale: [0.96, 1.08, 1] }
+          }
+          transition={{ duration: 1.42, repeat: reducedMotion || state === 'sad' ? 0 : Infinity, repeatDelay: 1.15, ease: easeOutQuint }}
+        >
+          <path d="M31 48 Q24 55 27 65" stroke="#1CB0F6" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+          <path d="M23 42 Q14 55 18 70" stroke="#FFD700" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+        </motion.g>
+        <motion.g
+          className="mimo-wave-paw"
+          style={{ transformOrigin: '54px 57px', transformBox: 'view-box' }}
+          {...pawMotion}
+        >
+          <ellipse cx="54" cy="57" rx="16" ry="13" fill="url(#mimo-bellyFur)" stroke="#C3C9D1" strokeWidth="2" />
+          <path d="M43 55 Q48 48 52 55 M54 51 Q58 44 63 53 M64 58 Q70 53 72 61" stroke="#C3C9D1" strokeWidth="2" strokeLinecap="round" fill="none" />
+        </motion.g>
+      </motion.g>
       {getFace(state)}
       <path d="M30 98 Q47 96 58 101 M30 109 Q47 109 58 109" stroke="#B8BEC8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path d="M170 98 Q153 96 142 101 M170 109 Q153 109 142 109" stroke="#B8BEC8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
