@@ -140,88 +140,64 @@ const getFace = (state: MascotState) => {
   return <FaceIdle />;
 };
 
-const getMascotMotion = (state: MascotState, reducedMotion: boolean) => {
+const getMascotLoopMotion = (state: MascotState, reducedMotion: boolean) => {
   if (reducedMotion) {
     return {
-      initial: false,
-      animate: { opacity: 1, y: 0, rotate: 0, rotateY: 0, scale: 1 },
+      animate: { y: 0, rotate: 0, rotateY: 0, scale: 1 },
       transition: { duration: 0 }
     };
   }
 
   if (state === 'happy') {
     return {
-      initial: { opacity: 0, y: 20, scale: 0.92, rotateY: -10 },
       animate: {
-        opacity: 1,
-        y: [0, -18, 0, -8, 0],
-        rotate: [0, -3, 3, -1, 0],
-        rotateY: [-8, 8, -4, 0],
-        scale: [1, 1.08, 1, 1.04, 1]
+        y: [0, -10, 0, -4, 0],
+        rotate: [0, -2, 2, -1, 0],
+        rotateY: [-3, 3, 0],
+        scale: [1, 1.035, 1, 1.015, 1]
       },
-      transition: { duration: 1.15, ease: easeOutExpo }
+      transition: { duration: 0.9, ease: easeOutExpo }
     };
   }
 
   if (state === 'sad') {
     return {
-      initial: { opacity: 0, y: 16, scale: 0.96 },
       animate: {
-        opacity: 1,
-        y: [0, 3, 0],
-        rotate: [0, -2.2, 2.2, -1.2, 0],
+        y: [0, 2, 0],
+        rotate: [0, -1.4, 1.4, -0.8, 0],
         rotateY: 0,
-        scale: 0.98
+        scale: 0.99
       },
-      transition: { duration: 0.55, ease: easeOutQuint }
+      transition: { duration: 0.44, ease: easeOutQuint }
     };
   }
 
   if (state === 'talking') {
     return {
-      initial: { opacity: 0, y: 18, scale: 0.95 },
       animate: {
-        opacity: 1,
-        y: [0, -6, 0],
-        rotate: [0, -1, 1, 0],
-        rotateY: [-5, 5, -5],
-        scale: [1, 1.02, 1]
+        y: [0, -3, 0],
+        rotate: [0, -0.6, 0.6, 0],
+        rotateY: [-2, 2, -2],
+        scale: [1, 1.008, 1]
       },
-      transition: { duration: 1.25, repeat: Infinity, repeatType: 'mirror' as const, ease: 'easeInOut' as const }
+      transition: { duration: 1.65, repeat: Infinity, ease: 'easeInOut' as const }
     };
   }
 
   return {
-    initial: { opacity: 0, y: 18, scale: 0.94, rotateY: -8 },
     animate: {
-      opacity: 1,
-      y: [0, -8, 0],
-      rotate: [0, -1, 1, 0],
-      rotateY: [-5, 5, -5],
-      scale: [1, 1.015, 1]
+      y: [0, -4, 0],
+      rotate: [0, -0.5, 0.5, 0],
+      rotateY: [-2, 2, -2],
+      scale: [1, 1.006, 1]
     },
-    transition: { duration: 2.8, repeat: Infinity, repeatType: 'mirror' as const, ease: 'easeInOut' as const }
-  };
-};
-
-const getCapMotion = (state: MascotState, reducedMotion: boolean) => {
-  if (reducedMotion) return {};
-  if (state === 'happy') {
-    return {
-      animate: { rotate: [0, -4, 4, 0], y: [0, -5, 0] },
-      transition: { duration: 0.85, ease: easeOutExpo }
-    };
-  }
-  return {
-    animate: { rotate: [-1.5, 1.5, -1.5], y: [0, -2, 0] },
-    transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
+    transition: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' as const }
   };
 };
 
 export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => {
   const reducedMotion = useReducedMotion();
-  const mascotMotion = getMascotMotion(state, Boolean(reducedMotion));
-  const capMotion = getCapMotion(state, Boolean(reducedMotion));
+  const mascotLoopMotion = getMascotLoopMotion(state, Boolean(reducedMotion));
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center relative ${className}`} style={{ minHeight: '260px' }}>
@@ -246,16 +222,23 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
         transition={{ duration: 2.6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
       />
 
-      <motion.svg
-        width="190"
-        height="209"
-        viewBox="0 0 200 220"
-        className="mimo-mascot"
-        style={{ transformOrigin: 'bottom center' }}
-        role="img"
-        aria-label="Mimo, maskot Predu EngKids"
-        {...mascotMotion}
+      <motion.div
+        className="mimo-motion-frame"
+        key={state}
+        initial={reducedMotion ? false : { opacity: 0, y: 8, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.22, ease: easeOutQuint }}
       >
+        <motion.svg
+          width="190"
+          height="209"
+          viewBox="0 0 200 220"
+          className="mimo-mascot"
+          style={{ transformOrigin: 'bottom center' }}
+          role="img"
+          aria-label="Mimo, maskot Predu EngKids"
+          {...mascotLoopMotion}
+        >
       <MimoDefs />
       <ellipse cx="100" cy="193" rx="48" ry="7" fill="#000000" opacity="0.1" />
       <path d="M132 190 Q168 190 178 164 Q188 138 178 114 Q172 98 156 96 Q148 95 144 101 Q158 102 166 118 Q172 134 164 152 Q156 170 138 184 Q135 187 132 190 Z" fill="url(#mimo-furBody)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
@@ -278,7 +261,7 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
       <path d="M75 141 Q100 150 125 141" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
       <circle cx="100" cy="149" r="10" fill="url(#mimo-bell)" stroke="#E8AE3D" strokeWidth="2" />
       <path d="M94 149 L106 149 M100 145 L100 153" stroke="#E8AE3D" strokeWidth="1.8" strokeLinecap="round" />
-      <motion.g transform="translate(100, 38)" style={{ transformOrigin: '100px 38px' }} {...capMotion}>
+      <g transform="translate(100, 38)">
         <ellipse cx="0" cy="8" rx="40" ry="15" fill="url(#mimo-navy)" stroke="#1A365D" strokeWidth="2" />
         <path d="M-44 -2 L44 -2 L40 14 L-40 14 Z" fill="url(#mimo-navy)" stroke="#1A365D" strokeWidth="2" strokeLinejoin="round" />
         <path d="M-40 3 L40 3" stroke="url(#mimo-gold)" strokeWidth="4" strokeLinecap="round" />
@@ -287,8 +270,9 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
         <path d="M0 2 Q18 25 15 40" stroke="url(#mimo-gold)" strokeWidth="3" fill="none" strokeLinecap="round" />
         <path d="M15 40 L10 52 M15 40 L12 52 M15 40 L15 52 M15 40 L18 52 M15 40 L20 52" stroke="url(#mimo-gold)" strokeWidth="2" strokeLinecap="round" fill="none" />
         <circle cx="15" cy="40" r="4" fill="url(#mimo-gold)" stroke="#D69E2E" strokeWidth="1" />
-      </motion.g>
-      </motion.svg>
+      </g>
+        </motion.svg>
+      </motion.div>
     </div>
   );
 };
