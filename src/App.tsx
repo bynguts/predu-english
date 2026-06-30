@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useAppStore } from './store';
 import { modulesData } from './data/modules';
 import { ProgressBar } from './components/ProgressBar';
@@ -20,6 +21,7 @@ const footerGroups: Array<{ title: string; links: string[] }> = [
 type RevealStyle = CSSProperties & { '--i'?: number };
 
 const revealDelay = (index: number): RevealStyle => ({ '--i': index });
+const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
 function App() {
   const {
@@ -35,6 +37,7 @@ function App() {
   } = useAppStore();
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
   const activeModuleData = modulesData.find(m => m.id === currentModule);
   const activeScene = activeModuleData?.scenes[currentSceneIndex];
@@ -96,6 +99,21 @@ function App() {
       scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
     }
   };
+
+  const motionPop = (delay = 0) => reducedMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 24, scale: 0.96 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        transition: { duration: 0.56, delay, ease: easeOutExpo }
+      };
+
+  const floatMotion = (delay = 0, lift = 12) => reducedMotion
+    ? {}
+    : {
+        animate: { y: [0, -lift, 0], rotateZ: [-1, 1, -1] },
+        transition: { duration: 4.2, delay, repeat: Infinity, ease: 'easeInOut' as const }
+      };
 
   // Friendly 3D module card tones, kept as full-card treatments instead of side stripes.
   const moduleCardStyles = [
@@ -266,32 +284,41 @@ function App() {
           <div className="w-full flex flex-col">
             <section className="duo-hero">
               <div className="duo-hero-inner">
-                <div className="duo-hero-art" data-reveal="pop" aria-hidden="true">
-                  <div className="duo-art-orbit">
-                    <div className="duo-float-card duo-float-card-a">A</div>
-                    <div className="duo-float-card duo-float-card-b">cat</div>
-                    <div className="duo-float-card duo-float-card-c">10</div>
+                <motion.div className="duo-hero-art" data-reveal="pop" aria-hidden="true" {...motionPop(0.04)}>
+                  <motion.div
+                    className="duo-art-orbit"
+                    initial={reducedMotion ? false : { rotateX: 8, rotateY: -10 }}
+                    animate={reducedMotion ? {} : { rotateX: [8, 3, 8], rotateY: [-10, 8, -10] }}
+                    transition={{ duration: 6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
+                  >
+                    <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>
+                    <motion.div className="duo-float-card duo-float-card-b" {...floatMotion(0.35, 12)}>cat</motion.div>
+                    <motion.div className="duo-float-card duo-float-card-c" {...floatMotion(0.2, 14)}>10</motion.div>
                     <Mascot state="happy" className="duo-hero-mascot" />
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
 
-                <div className="duo-cta-panel" data-reveal="rise">
+                <motion.div className="duo-cta-panel" data-reveal="rise" {...motionPop(0.12)}>
                   <h1>The free, fun, and effective way to learn a language!</h1>
-                  <button
+                  <motion.button
                     onClick={scrollToCurriculum}
                     className="btn-3d btn-3d-green duo-main-cta"
                     type="button"
+                    whileHover={reducedMotion ? undefined : { scale: 1.03, y: -2 }}
+                    whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                   >
                     Get Started
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     onClick={handleTestSpeech}
                     className="btn-3d btn-3d-outline duo-secondary-cta"
                     type="button"
+                    whileHover={reducedMotion ? undefined : { scale: 1.02, y: -1 }}
+                    whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                   >
                     Test Voice
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               </div>
             </section>
 
@@ -335,10 +362,15 @@ function App() {
                   ['3', 'class modules'],
                   ['HD', 'projector ready']
                 ].map(([value, label]) => (
-                  <div className="duo-stat-card" key={label}>
+                  <motion.div
+                    className="duo-stat-card"
+                    key={label}
+                    {...motionPop(0.06)}
+                    whileHover={reducedMotion ? undefined : { y: -4, rotateX: 4 }}
+                  >
                     <strong>{value}</strong>
                     <span>{label}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -388,12 +420,15 @@ function App() {
                     const style = moduleCardStyles[idx % moduleCardStyles.length];
                     const activityCount = Math.max(module.scenes.length - 2, 1);
                     return (
-                      <article
+                      <motion.article
                         key={module.id}
                         id={`lesson-${module.id}`}
                         className={`duo-course-card duo-course-card-${idx + 1}`}
                         data-reveal="pop"
                         style={revealDelay(idx)}
+                        {...motionPop(idx * 0.08)}
+                        whileHover={reducedMotion ? undefined : { y: -8, rotateX: 2, rotateY: idx === 1 ? 0 : idx === 0 ? -2 : 2 }}
+                        whileTap={reducedMotion ? undefined : { scale: 0.99 }}
                       >
                         <div className="duo-course-topline">
                           <div className={`duo-course-badge ${style.iconBg}`}>{module.id}</div>
@@ -409,14 +444,16 @@ function App() {
                           <span>Audio + mini game</span>
                         </div>
 
-                        <button
+                        <motion.button
                           onClick={() => handleStartModule(module.id)}
                           className={`btn-3d ${style.btnColor} duo-course-button`}
                           type="button"
+                          whileHover={reducedMotion ? undefined : { scale: 1.02 }}
+                          whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                         >
                           Mulai Belajar
-                        </button>
-                      </article>
+                        </motion.button>
+                      </motion.article>
                     );
                   })}
                 </div>

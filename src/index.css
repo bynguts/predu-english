@@ -354,6 +354,33 @@ main {
   line-height: 1.35;
 }
 
+.mimo-stage {
+  perspective: 760px;
+  transform-style: preserve-3d;
+}
+
+.mimo-halo {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 0;
+  width: 172px;
+  height: 88px;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at center, rgb(37 99 235 / 0.2), transparent 68%),
+    radial-gradient(ellipse at center, rgb(255 199 0 / 0.16), transparent 58%);
+  filter: blur(10px);
+  transform: translateX(-50%) rotateX(66deg) translateZ(-26px);
+  pointer-events: none;
+}
+
+.mimo-mascot {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 18px 18px rgb(30 58 138 / 0.18));
+}
+
 .lesson-module-note {
   padding: 18px;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { MascotState } from '../store';
 
 interface MascotProps {
@@ -6,6 +7,9 @@ interface MascotProps {
   speechText?: string | null;
   className?: string;
 }
+
+const easeOutExpo = [0.16, 1, 0.3, 1] as const;
+const easeOutQuint = [0.22, 1, 0.36, 1] as const;
 
 const MimoDefs = () => (
   <defs>
@@ -136,31 +140,122 @@ const getFace = (state: MascotState) => {
   return <FaceIdle />;
 };
 
-const getAnimationClass = (state: MascotState) => {
-  if (state === 'happy') return 'anim-jump';
-  if (state === 'sad') return 'anim-shake';
-  return 'anim-breathe';
+const getMascotMotion = (state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion) {
+    return {
+      initial: false,
+      animate: { opacity: 1, y: 0, rotate: 0, rotateY: 0, scale: 1 },
+      transition: { duration: 0 }
+    };
+  }
+
+  if (state === 'happy') {
+    return {
+      initial: { opacity: 0, y: 20, scale: 0.92, rotateY: -10 },
+      animate: {
+        opacity: 1,
+        y: [0, -18, 0, -8, 0],
+        rotate: [0, -3, 3, -1, 0],
+        rotateY: [-8, 8, -4, 0],
+        scale: [1, 1.08, 1, 1.04, 1]
+      },
+      transition: { duration: 1.15, ease: easeOutExpo }
+    };
+  }
+
+  if (state === 'sad') {
+    return {
+      initial: { opacity: 0, y: 16, scale: 0.96 },
+      animate: {
+        opacity: 1,
+        y: [0, 3, 0],
+        rotate: [0, -2.2, 2.2, -1.2, 0],
+        rotateY: 0,
+        scale: 0.98
+      },
+      transition: { duration: 0.55, ease: easeOutQuint }
+    };
+  }
+
+  if (state === 'talking') {
+    return {
+      initial: { opacity: 0, y: 18, scale: 0.95 },
+      animate: {
+        opacity: 1,
+        y: [0, -6, 0],
+        rotate: [0, -1, 1, 0],
+        rotateY: [-5, 5, -5],
+        scale: [1, 1.02, 1]
+      },
+      transition: { duration: 1.25, repeat: Infinity, repeatType: 'mirror' as const, ease: 'easeInOut' as const }
+    };
+  }
+
+  return {
+    initial: { opacity: 0, y: 18, scale: 0.94, rotateY: -8 },
+    animate: {
+      opacity: 1,
+      y: [0, -8, 0],
+      rotate: [0, -1, 1, 0],
+      rotateY: [-5, 5, -5],
+      scale: [1, 1.015, 1]
+    },
+    transition: { duration: 2.8, repeat: Infinity, repeatType: 'mirror' as const, ease: 'easeInOut' as const }
+  };
 };
 
-export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => (
-  <div className={`flex flex-col items-center justify-center relative ${className}`} style={{ minHeight: '260px' }}>
-    {speechText && (
-      <div className="mb-6 animate-[fadeIn_0.3s_ease-out] z-10">
-        <div className="speech-bubble speech-bubble-mimo relative">
-          <p className="text-base text-gray-800 font-bold">{speechText}</p>
-        </div>
-      </div>
-    )}
+const getCapMotion = (state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion) return {};
+  if (state === 'happy') {
+    return {
+      animate: { rotate: [0, -4, 4, 0], y: [0, -5, 0] },
+      transition: { duration: 0.85, ease: easeOutExpo }
+    };
+  }
+  return {
+    animate: { rotate: [-1.5, 1.5, -1.5], y: [0, -2, 0] },
+    transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
+  };
+};
 
-    <svg
-      width="190"
-      height="209"
-      viewBox="0 0 200 220"
-      className={`mimo-mascot ${getAnimationClass(state)}`}
-      style={{ transformOrigin: 'bottom center' }}
-      role="img"
-      aria-label="Mimo, maskot Predu EngKids"
-    >
+export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => {
+  const reducedMotion = useReducedMotion();
+  const mascotMotion = getMascotMotion(state, Boolean(reducedMotion));
+  const capMotion = getCapMotion(state, Boolean(reducedMotion));
+
+  return (
+    <div className={`mimo-stage flex flex-col items-center justify-center relative ${className}`} style={{ minHeight: '260px' }}>
+      {speechText && (
+        <motion.div
+          className="mb-6 z-10"
+          initial={reducedMotion ? false : { opacity: 0, y: 10, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.24, ease: easeOutQuint }}
+        >
+          <div className="speech-bubble speech-bubble-mimo relative">
+            <p className="text-base text-gray-800 font-bold">{speechText}</p>
+          </div>
+        </motion.div>
+      )}
+
+      <motion.div
+        className="mimo-halo"
+        aria-hidden="true"
+        initial={false}
+        animate={reducedMotion ? { opacity: 0.72 } : { opacity: [0.5, 0.82, 0.5], scale: [0.94, 1.05, 0.94] }}
+        transition={{ duration: 2.6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
+      />
+
+      <motion.svg
+        width="190"
+        height="209"
+        viewBox="0 0 200 220"
+        className="mimo-mascot"
+        style={{ transformOrigin: 'bottom center' }}
+        role="img"
+        aria-label="Mimo, maskot Predu EngKids"
+        {...mascotMotion}
+      >
       <MimoDefs />
       <ellipse cx="100" cy="193" rx="48" ry="7" fill="#000000" opacity="0.1" />
       <path d="M132 190 Q168 190 178 164 Q188 138 178 114 Q172 98 156 96 Q148 95 144 101 Q158 102 166 118 Q172 134 164 152 Q156 170 138 184 Q135 187 132 190 Z" fill="url(#mimo-furBody)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
@@ -183,7 +278,7 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
       <path d="M75 141 Q100 150 125 141" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
       <circle cx="100" cy="149" r="10" fill="url(#mimo-bell)" stroke="#E8AE3D" strokeWidth="2" />
       <path d="M94 149 L106 149 M100 145 L100 153" stroke="#E8AE3D" strokeWidth="1.8" strokeLinecap="round" />
-      <g transform="translate(100, 38)">
+      <motion.g transform="translate(100, 38)" style={{ transformOrigin: '100px 38px' }} {...capMotion}>
         <ellipse cx="0" cy="8" rx="40" ry="15" fill="url(#mimo-navy)" stroke="#1A365D" strokeWidth="2" />
         <path d="M-44 -2 L44 -2 L40 14 L-40 14 Z" fill="url(#mimo-navy)" stroke="#1A365D" strokeWidth="2" strokeLinejoin="round" />
         <path d="M-40 3 L40 3" stroke="url(#mimo-gold)" strokeWidth="4" strokeLinecap="round" />
@@ -192,7 +287,8 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
         <path d="M0 2 Q18 25 15 40" stroke="url(#mimo-gold)" strokeWidth="3" fill="none" strokeLinecap="round" />
         <path d="M15 40 L10 52 M15 40 L12 52 M15 40 L15 52 M15 40 L18 52 M15 40 L20 52" stroke="url(#mimo-gold)" strokeWidth="2" strokeLinecap="round" fill="none" />
         <circle cx="15" cy="40" r="4" fill="url(#mimo-gold)" stroke="#D69E2E" strokeWidth="1" />
-      </g>
-    </svg>
-  </div>
-);
+      </motion.g>
+      </motion.svg>
+    </div>
+  );
+};

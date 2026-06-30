@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import { motion, useReducedMotion } from 'framer-motion';
 import { RotateCcw, Check, X, Star, Award, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../store';
 import type { Scene, QuizOption } from '../data/modules';
 import { SoundButton, speakEnglish, playCorrectSound, playIncorrectSound } from './SoundButton';
 import { Mascot } from './Mascot';
+
+const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
 interface ModuleRendererProps {
   scene: Scene;
@@ -27,6 +30,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
   sceneIndex,
   totalScenes
 }) => {
+  const reducedMotion = useReducedMotion();
   const { 
     audioMuted, 
     addCorrect, 
@@ -39,6 +43,14 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
     incorrectReviews,
     calculateStars
   } = useAppStore();
+
+  const achievementPop = (delay = 0) => reducedMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 24, scale: 0.96 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        transition: { duration: 0.52, delay, ease: easeOutExpo }
+      };
 
   // Local game states
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -667,48 +679,66 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
         const primaryCtaLabel = hasNextModule ? `Lanjut Modul ${moduleId + 1}` : 'Kembali Beranda';
 
         return (
-          <div className="lesson-achievement lesson-achievement-full scene-fade-in">
-            <div className="lesson-achievement-badge">
+          <motion.div className="lesson-achievement lesson-achievement-full scene-fade-in" {...achievementPop(0)}>
+            <motion.div className="lesson-achievement-badge" {...achievementPop(0.04)}>
               <Award size={30} />
               <span>Achievement unlocked</span>
-            </div>
+            </motion.div>
 
-            <div className="lesson-achievement-copy">
+            <motion.div className="lesson-achievement-copy" {...achievementPop(0.1)}>
               <h2>{achievementTitle}</h2>
               <p>{achievementCopy}</p>
-            </div>
+            </motion.div>
 
-            <div className="lesson-achievement-showcase" aria-label={`${stars} dari 3 bintang`}>
-              <div className="lesson-showcase-rays" />
+            <motion.div
+              className="lesson-achievement-showcase"
+              aria-label={`${stars} dari 3 bintang`}
+              {...achievementPop(0.16)}
+              animate={reducedMotion ? undefined : { rotateX: [0, 2.5, 0], rotateY: [-1.5, 1.5, -1.5] }}
+              transition={reducedMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <motion.div
+                className="lesson-showcase-rays"
+                animate={reducedMotion ? undefined : { rotate: 360, scale: [1, 1.04, 1] }}
+                transition={reducedMotion ? undefined : { rotate: { duration: 10, repeat: Infinity, ease: 'linear' }, scale: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } }}
+              />
               <div className="lesson-showcase-floor" />
 
               <div className="lesson-showcase-orbit" aria-hidden="true">
-                <span className="lesson-reward-token token-a">XP</span>
-                <span className="lesson-reward-token token-b">A+</span>
-                <span className="lesson-reward-token token-c">WOW</span>
-                <span className="lesson-reward-coin coin-a" />
-                <span className="lesson-reward-coin coin-b" />
+                <motion.span className="lesson-reward-token token-a" animate={reducedMotion ? undefined : { y: [0, -13, 0], rotate: [-12, -4, -12] }} transition={{ duration: 3.4, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}>XP</motion.span>
+                <motion.span className="lesson-reward-token token-b" animate={reducedMotion ? undefined : { y: [0, -11, 0], rotate: [10, 3, 10] }} transition={{ duration: 3.1, delay: 0.3, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}>A+</motion.span>
+                <motion.span className="lesson-reward-token token-c" animate={reducedMotion ? undefined : { y: [0, -9, 0], rotate: [8, 14, 8] }} transition={{ duration: 3.6, delay: 0.15, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}>WOW</motion.span>
+                <motion.span className="lesson-reward-coin coin-a" animate={reducedMotion ? undefined : { y: [0, -16, 0], rotate: [0, 18, 0] }} transition={{ duration: 3, delay: 0.1, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }} />
+                <motion.span className="lesson-reward-coin coin-b" animate={reducedMotion ? undefined : { y: [0, -13, 0], rotate: [0, -18, 0] }} transition={{ duration: 3.3, delay: 0.45, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }} />
               </div>
 
               <div className="lesson-showcase-mascot">
-                <Mascot state="happy" className="lesson-achievement-mascot" />
+                <motion.div
+                  animate={reducedMotion ? undefined : { y: [0, -10, 0], scale: [1, 1.03, 1] }}
+                  transition={{ duration: 2.6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
+                >
+                  <Mascot state="happy" className="lesson-achievement-mascot" />
+                </motion.div>
               </div>
 
               <div className="lesson-showcase-stars">
                 {[1, 2, 3].map((starIdx) => {
                   const isActive = starIdx <= stars;
                   return (
-                    <div
+                    <motion.div
                       key={starIdx}
                       className={isActive ? 'is-active' : 'is-inactive'}
                       style={{ animationDelay: `${starIdx * 0.18}s` }}
+                      initial={reducedMotion ? false : { opacity: 0, y: 20, scale: 0.7, rotate: -12 }}
+                      animate={{ opacity: isActive ? 1 : 0.26, y: 0, scale: isActive ? 1 : 0.86, rotate: isActive ? 0 : -8 }}
+                      transition={{ duration: 0.48, delay: 0.24 + starIdx * 0.13, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <Star
                         fill={isActive ? "#ffc700" : "none"}
                         stroke={isActive ? "#d0a200" : "#afafaf"}
                         size={starIdx === 2 ? 62 : 48}
                       />
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -716,9 +746,9 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
               <div className="lesson-showcase-podium">
                 <span>Great job!</span>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="lesson-achievement-stats" aria-label="Statistik belajar">
+            <motion.div className="lesson-achievement-stats" aria-label="Statistik belajar" {...achievementPop(0.24)}>
               <div className="lesson-achievement-stat">
                 <span>Jawaban Betul</span>
                 <strong>{sessionScore.correct}</strong>
@@ -731,10 +761,10 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                 <span>Bintang</span>
                 <strong>{stars} / 3</strong>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="lesson-achievement-actions">
-              <div className="lesson-achievement-next">
+            <motion.div className="lesson-achievement-actions" {...achievementPop(0.3)}>
+              <motion.div className="lesson-achievement-next" whileHover={reducedMotion ? undefined : { y: -3 }}>
                 <div className="lesson-achievement-next-copy">
                   <span>{hasNextModule ? 'Siap lanjut?' : 'Sesi lengkap'}</span>
                   <strong>
@@ -744,24 +774,28 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   </strong>
                 </div>
 
-                <button
+                <motion.button
                   onClick={() => hasNextModule ? useAppStore.getState().setModule(moduleId + 1) : useAppStore.getState().setModule(null)}
                   className="btn-3d btn-3d-green lesson-achievement-cta"
                   type="button"
+                  whileHover={reducedMotion ? undefined : { scale: 1.03 }}
+                  whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                 >
                   {primaryCtaLabel}
                   {hasNextModule && <ArrowRight size={18} />}
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
               <div className="lesson-achievement-secondary-actions">
-                <button
+                <motion.button
                   onClick={() => useAppStore.getState().setModule(null)}
                   className="btn-3d btn-3d-gray lesson-achievement-secondary-button"
                   type="button"
+                  whileHover={reducedMotion ? undefined : { scale: 1.02 }}
+                  whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                 >
                   Selesai Kelas
-                </button>
+                </motion.button>
 
                 {reviewItems.length > 0 ? (
                   <div className="lesson-achievement-review" aria-label="Review jawaban salah">
@@ -772,18 +806,22 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
 
                     <div className="lesson-achievement-review-list">
                       {reviewItems.map((item, index) => (
-                        <button
+                        <motion.button
                           key={item.id}
                           onClick={() => handleReviewJump(item.sceneIndex)}
                           className="lesson-achievement-review-item"
                           type="button"
+                          initial={reducedMotion ? false : { opacity: 0, x: 16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.28, delay: index * 0.05 }}
+                          whileHover={reducedMotion ? undefined : { x: 4 }}
                         >
                           <div>
                             <span>Soal {index + 1}</span>
                             <strong>{item.sceneTitle}</strong>
                           </div>
                           <p>{item.prompt}</p>
-                        </button>
+                        </motion.button>
                       ))}
                     </div>
                   </div>
@@ -797,8 +835,8 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   </div>
                 )}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         );
       }
 
