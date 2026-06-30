@@ -8,8 +8,8 @@ interface MascotProps {
   className?: string;
 }
 
-const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 const easeOutQuint = [0.22, 1, 0.36, 1] as const;
+const cinematicEase = [0.33, 1, 0.68, 1] as const;
 
 const MimoDefs = () => (
   <defs>
@@ -152,12 +152,17 @@ const getMascotLoopMotion = (state: MascotState, reducedMotion: boolean) => {
   if (state === 'happy') {
     return {
       animate: {
-        y: [0, -10, 0, -4, 0],
-        rotate: [0, -2, 2, -1, 0],
-        rotateY: [-3, 3, 0],
-        scale: [1, 1.035, 1, 1.015, 1]
+        y: [0, 2, -8, -5, -7, -2, 0, 0],
+        rotate: [0, 0.6, -1.8, 1.2, -0.8, 0.35, 0, 0],
+        rotateY: [-2, -4, 4, -2, 2, 0, -2, -2],
+        scale: [1, 0.992, 1.038, 1.018, 1.028, 1.006, 1, 1]
       },
-      transition: { duration: 0.9, ease: easeOutExpo }
+      transition: {
+        duration: 3.65,
+        repeat: Infinity,
+        times: [0, 0.08, 0.2, 0.33, 0.46, 0.62, 0.78, 1],
+        ease: cinematicEase
+      }
     };
   }
 
@@ -207,15 +212,15 @@ const getWaveMotion = (state: MascotState, reducedMotion: boolean) => {
   if (state === 'happy') {
     return {
       animate: {
-        rotate: [0, -22, 18, -18, 12, 0],
-        y: [0, -4, -7, -4, -2, 0],
-        scale: [1, 1.04, 1.02, 1.04, 1.01, 1]
+        rotate: [0, 5, -30, 22, -25, 18, -10, 4, 0, 0],
+        y: [0, 2, -9, -11, -9, -7, -4, -1, 0, 0],
+        scale: [1, 0.98, 1.055, 1.025, 1.045, 1.02, 1.01, 1, 1, 1]
       },
       transition: {
-        duration: 1.42,
+        duration: 3.65,
         repeat: Infinity,
-        repeatDelay: 1.15,
-        ease: easeOutQuint
+        times: [0, 0.08, 0.2, 0.3, 0.4, 0.5, 0.62, 0.72, 0.82, 1],
+        ease: cinematicEase
       }
     };
   }
@@ -250,14 +255,14 @@ const getPawMotion = (state: MascotState, reducedMotion: boolean) => {
   if (state === 'happy') {
     return {
       animate: {
-        rotate: [0, 12, -8, 10, 0],
-        scale: [1, 1.05, 1, 1.04, 1]
+        rotate: [0, -8, 21, -17, 19, -11, 8, 0, 0],
+        scale: [1, 0.98, 1.1, 1.02, 1.08, 1.03, 1.01, 1, 1]
       },
       transition: {
-        duration: 1.42,
+        duration: 3.65,
         repeat: Infinity,
-        repeatDelay: 1.15,
-        ease: easeOutQuint
+        times: [0, 0.1, 0.22, 0.34, 0.46, 0.58, 0.7, 0.82, 1],
+        ease: cinematicEase
       }
     };
   }
@@ -268,11 +273,56 @@ const getPawMotion = (state: MascotState, reducedMotion: boolean) => {
   };
 };
 
+const getEarMotion = (side: 'left' | 'right', state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion || state !== 'happy') {
+    return {
+      animate: { rotate: 0 },
+      transition: { duration: 0 }
+    };
+  }
+
+  const direction = side === 'left' ? -1 : 1;
+  return {
+    animate: { rotate: [0, direction * 1.5, direction * -5, direction * 3, 0, 0] },
+    transition: {
+      duration: 3.65,
+      repeat: Infinity,
+      times: [0, 0.12, 0.28, 0.48, 0.72, 1],
+      ease: cinematicEase
+    }
+  };
+};
+
+const getCheerMotion = (state: MascotState, reducedMotion: boolean) => {
+  if (reducedMotion || state !== 'happy') {
+    return {
+      animate: { opacity: 0.82, scale: 1 },
+      transition: { duration: 0 }
+    };
+  }
+
+  return {
+    animate: {
+      opacity: [0.45, 1, 0.9, 1, 0.5, 0.35],
+      scale: [0.92, 1.08, 1.02, 1.12, 0.96, 0.92]
+    },
+    transition: {
+      duration: 3.65,
+      repeat: Infinity,
+      times: [0, 0.2, 0.34, 0.5, 0.72, 1],
+      ease: cinematicEase
+    }
+  };
+};
+
 export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => {
   const reducedMotion = useReducedMotion();
   const mascotLoopMotion = getMascotLoopMotion(state, Boolean(reducedMotion));
   const waveMotion = getWaveMotion(state, Boolean(reducedMotion));
   const pawMotion = getPawMotion(state, Boolean(reducedMotion));
+  const leftEarMotion = getEarMotion('left', state, Boolean(reducedMotion));
+  const rightEarMotion = getEarMotion('right', state, Boolean(reducedMotion));
+  const cheerMotion = getCheerMotion(state, Boolean(reducedMotion));
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center relative ${className}`} style={{ minHeight: '260px' }}>
@@ -323,10 +373,22 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
       <ellipse cx="100" cy="158" rx="33" ry="31" fill="url(#mimo-bellyFur)" />
       <ellipse cx="78" cy="181" rx="18" ry="15" fill="url(#mimo-bellyFur)" stroke="#C3C9D1" strokeWidth="2" />
       <ellipse cx="122" cy="181" rx="18" ry="15" fill="url(#mimo-bellyFur)" stroke="#C3C9D1" strokeWidth="2" />
-      <path d="M46 58 Q22 18 60 4 Q92 8 86 50 Q66 46 46 58 Z" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M54 48 Q40 22 62 10 Q80 16 76 44 Q64 40 54 48 Z" fill="url(#mimo-earInner)" />
-      <path d="M154 58 Q178 18 140 4 Q108 8 114 50 Q134 46 154 58 Z" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M146 48 Q160 22 138 10 Q120 16 124 44 Q136 40 146 48 Z" fill="url(#mimo-earInner)" />
+      <motion.g
+        className="mimo-left-ear"
+        style={{ transformOrigin: '70px 52px', transformBox: 'view-box' }}
+        {...leftEarMotion}
+      >
+        <path d="M46 58 Q22 18 60 4 Q92 8 86 50 Q66 46 46 58 Z" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M54 48 Q40 22 62 10 Q80 16 76 44 Q64 40 54 48 Z" fill="url(#mimo-earInner)" />
+      </motion.g>
+      <motion.g
+        className="mimo-right-ear"
+        style={{ transformOrigin: '130px 52px', transformBox: 'view-box' }}
+        {...rightEarMotion}
+      >
+        <path d="M154 58 Q178 18 140 4 Q108 8 114 50 Q134 46 154 58 Z" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M146 48 Q160 22 138 10 Q120 16 124 44 Q136 40 146 48 Z" fill="url(#mimo-earInner)" />
+      </motion.g>
       <circle cx="100" cy="96" r="62" fill="url(#mimo-furHead)" stroke="#B8BEC8" strokeWidth="2.5" />
       <path d="M84 48 Q89 39 94 48 M106 48 Q111 39 116 48 M97 39 L100 54 L103 39" stroke="#C9CDD4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.7" />
       <motion.g
@@ -334,31 +396,48 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
         style={{ transformOrigin: '65px 148px', transformBox: 'view-box' }}
         {...waveMotion}
       >
-        <path d="M66 150 Q37 121 39 84 Q41 61 54 56 Q65 56 66 68 Q56 78 56 100 Q59 126 79 149 Z" fill="url(#mimo-furBody)" stroke="#B8BEC8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M66 150 Q33 124 28 92 Q23 64 39 52 Q51 48 56 59 Q46 72 49 94 Q54 122 79 149 Z" fill="url(#mimo-furBody)" stroke="#B8BEC8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
         <motion.g
           className="mimo-wave-lines"
-          style={{ transformOrigin: '38px 58px', transformBox: 'view-box' }}
+          style={{ transformOrigin: '24px 56px', transformBox: 'view-box' }}
           initial={false}
           animate={
             reducedMotion || state === 'sad'
               ? { opacity: 0, scale: 1 }
-              : { opacity: [0.35, 1, 0.5], scale: [0.96, 1.08, 1] }
+              : {
+                  opacity: [0, 0.95, 0.7, 1, 0.45, 0, 0],
+                  scale: [0.9, 1.12, 1.02, 1.18, 1.05, 0.95, 0.9]
+                }
           }
-          transition={{ duration: 1.42, repeat: reducedMotion || state === 'sad' ? 0 : Infinity, repeatDelay: 1.15, ease: easeOutQuint }}
+          transition={{
+            duration: 3.65,
+            repeat: reducedMotion || state === 'sad' ? 0 : Infinity,
+            times: [0, 0.2, 0.34, 0.5, 0.68, 0.82, 1],
+            ease: cinematicEase
+          }}
         >
           <path d="M31 48 Q24 55 27 65" stroke="#1CB0F6" strokeWidth="2.4" strokeLinecap="round" fill="none" />
           <path d="M23 42 Q14 55 18 70" stroke="#FFD700" strokeWidth="2.4" strokeLinecap="round" fill="none" />
         </motion.g>
         <motion.g
           className="mimo-wave-paw"
-          style={{ transformOrigin: '54px 57px', transformBox: 'view-box' }}
+          style={{ transformOrigin: '36px 55px', transformBox: 'view-box' }}
           {...pawMotion}
         >
-          <ellipse cx="54" cy="57" rx="16" ry="13" fill="url(#mimo-bellyFur)" stroke="#C3C9D1" strokeWidth="2" />
-          <path d="M43 55 Q48 48 52 55 M54 51 Q58 44 63 53 M64 58 Q70 53 72 61" stroke="#C3C9D1" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <ellipse cx="36" cy="55" rx="17" ry="14" fill="url(#mimo-bellyFur)" stroke="#B8BEC8" strokeWidth="2.2" />
+          <path d="M24 53 Q29 45 34 53 M36 49 Q40 42 45 51 M47 56 Q54 51 56 60" stroke="#B8BEC8" strokeWidth="2.1" strokeLinecap="round" fill="none" />
         </motion.g>
       </motion.g>
       {getFace(state)}
+      <motion.g
+        aria-hidden="true"
+        className="mimo-cheer-spark"
+        style={{ transformOrigin: '100px 76px', transformBox: 'view-box' }}
+        {...cheerMotion}
+      >
+        <path d="M53 75 L56 69 L59 75 L65 78 L59 81 L56 87 L53 81 L47 78 Z" fill="#FFD700" opacity="0.86" />
+        <path d="M143 75 L146 69 L149 75 L155 78 L149 81 L146 87 L143 81 L137 78 Z" fill="#1CB0F6" opacity="0.8" />
+      </motion.g>
       <path d="M30 98 Q47 96 58 101 M30 109 Q47 109 58 109" stroke="#B8BEC8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path d="M170 98 Q153 96 142 101 M170 109 Q153 109 142 109" stroke="#B8BEC8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path d="M70 138 Q100 148 130 138 L128 145 Q100 154 72 145 Z" fill="url(#mimo-collar)" stroke="#E8763D" strokeWidth="1.5" opacity="0.95" />
