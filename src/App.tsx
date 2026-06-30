@@ -295,7 +295,7 @@ function App() {
                     <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>
                     <motion.div className="duo-float-card duo-float-card-b" {...floatMotion(0.35, 12)}>cat</motion.div>
                     <motion.div className="duo-float-card duo-float-card-c" {...floatMotion(0.2, 14)}>10</motion.div>
-                    <Mascot state="happy" className="duo-hero-mascot" />
+                    <Mascot state="happy" className="duo-hero-mascot" showSunglasses={false} />
                     <motion.div className="duo-lesson-badge" {...floatMotion(0.45, 8)}>
                       <span>Today's path</span>
                       <b>Alphabet &gt; Words &gt; Review</b>

@@ -6,6 +6,7 @@ interface MascotProps {
   state: MascotState;
   speechText?: string | null;
   className?: string;
+  showSunglasses?: boolean;
 }
 
 const easeOutQuint = [0.22, 1, 0.36, 1] as const;
@@ -79,14 +80,31 @@ const FaceIdle = () => (
   </>
 );
 
-const FaceHappy = () => (
+const FaceHappy = ({ showSunglasses = true }: { showSunglasses?: boolean }) => (
   <>
     <ellipse cx="58" cy="106" rx="15" ry="11" fill="url(#mimo-cheek)" />
     <ellipse cx="142" cy="106" rx="15" ry="11" fill="url(#mimo-cheek)" />
-    <ellipse cx="75" cy="95" rx="20" ry="15" fill="#1A202C" stroke="#2D3748" strokeWidth="2" />
-    <ellipse cx="125" cy="95" rx="20" ry="15" fill="#1A202C" stroke="#2D3748" strokeWidth="2" />
-    <path d="M95 95 L105 95" stroke="#2D3748" strokeWidth="3" strokeLinecap="round" />
-    <path d="M65 88 L70 88 M115 88 L120 88" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+    {showSunglasses ? (
+      <>
+        <ellipse cx="75" cy="95" rx="20" ry="15" fill="#1A202C" stroke="#2D3748" strokeWidth="2" />
+        <ellipse cx="125" cy="95" rx="20" ry="15" fill="#1A202C" stroke="#2D3748" strokeWidth="2" />
+        <path d="M95 95 L105 95" stroke="#2D3748" strokeWidth="3" strokeLinecap="round" />
+        <path d="M65 88 L70 88 M115 88 L120 88" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+      </>
+    ) : (
+      <g className="mascot-eye">
+        <ellipse cx="75" cy="94" rx="17" ry="19" fill="url(#mimo-eye)" />
+        <ellipse cx="125" cy="94" rx="17" ry="19" fill="url(#mimo-eye)" />
+        <ellipse cx="78" cy="98" rx="9" ry="11" fill="#1E5266" opacity="0.86" />
+        <ellipse cx="122" cy="98" rx="9" ry="11" fill="#1E5266" opacity="0.86" />
+        <ellipse cx="82" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.96" />
+        <ellipse cx="118" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.96" />
+        <circle cx="72" cy="102" r="2.8" fill="#FFFFFF" opacity="0.82" />
+        <circle cx="128" cy="102" r="2.8" fill="#FFFFFF" opacity="0.82" />
+        <path d="M60 82 Q75 73 90 82" stroke="#7A7F8C" strokeWidth="2.2" strokeLinecap="round" fill="none" opacity="0.45" />
+        <path d="M110 82 Q125 73 140 82" stroke="#7A7F8C" strokeWidth="2.2" strokeLinecap="round" fill="none" opacity="0.45" />
+      </g>
+    )}
     <path d="M93 110 Q100 106 107 110 Q103 116 100 117 Q97 116 93 110 Z" fill="#FF9E92" />
     <path d="M80 116 Q100 140 120 116 Q110 130 100 130 Q90 130 80 116 Z" fill="#C76B5D" />
     <path d="M80 116 Q100 140 120 116" fill="none" stroke="#7A7F8C" strokeWidth="2" strokeLinecap="round" />
@@ -134,8 +152,8 @@ const FaceTalking = () => (
   </>
 );
 
-const getFace = (state: MascotState) => {
-  if (state === 'happy') return <FaceHappy />;
+const getFace = (state: MascotState, showSunglasses = true) => {
+  if (state === 'happy') return <FaceHappy showSunglasses={showSunglasses} />;
   if (state === 'sad') return <FaceSad />;
   if (state === 'talking') return <FaceTalking />;
   return <FaceIdle />;
@@ -315,7 +333,7 @@ const getCheerMotion = (state: MascotState, reducedMotion: boolean) => {
   };
 };
 
-export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '' }) => {
+export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '', showSunglasses = true }) => {
   const reducedMotion = useReducedMotion();
   const mascotLoopMotion = getMascotLoopMotion(state, Boolean(reducedMotion));
   const waveMotion = getWaveMotion(state, Boolean(reducedMotion));
@@ -428,7 +446,7 @@ export const Mascot: React.FC<MascotProps> = ({ state, speechText, className = '
           <path d="M24 53 Q29 45 34 53 M36 49 Q40 42 45 51 M47 56 Q54 51 56 60" stroke="#B8BEC8" strokeWidth="2.1" strokeLinecap="round" fill="none" />
         </motion.g>
       </motion.g>
-      {getFace(state)}
+      {getFace(state, showSunglasses)}
       <motion.g
         aria-hidden="true"
         className="mimo-cheer-spark"
