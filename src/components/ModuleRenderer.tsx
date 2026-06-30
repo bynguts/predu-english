@@ -719,7 +719,7 @@ export const ModuleRenderer: React.FC<ModuleRendererProps> = ({
                   animate={reducedMotion ? undefined : { y: [0, -10, 0], scale: [1, 1.03, 1] }}
                   transition={{ duration: 2.6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
                 >
-                  <Mascot state="happy" className="lesson-achievement-mascot" />
+                  <Mascot state="achievement" className="lesson-achievement-mascot" />
                 </motion.div>
               </div>
 

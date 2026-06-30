@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type MascotState = 'idle' | 'happy' | 'sad' | 'talking';
+export type MascotState = 'idle' | 'happy' | 'sad' | 'talking' | 'achievement';
 
 export interface IncorrectReview {
   id: string;
