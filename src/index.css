@@ -353,12 +353,13 @@ main {
 }
 
 .lesson-coach-mascot svg {
-  width: 152px;
-  height: 152px;
+  width: 132px;
+  height: 145px;
 }
 
 .lesson-coach-mascot .speech-bubble {
   max-width: 235px;
+  top: 108px !important;
 }
 
 .lesson-coach-mascot .speech-bubble p {
