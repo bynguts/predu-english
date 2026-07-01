@@ -3294,7 +3294,8 @@ html {
   background: #ffffff;
   padding: 18px;
   text-align: left;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  scale: 1;
+  transition: scale 180ms ease, transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
   transform-style: preserve-3d;
 }
 
@@ -3318,6 +3319,7 @@ html {
 
 .duo-course-card:hover,
 .duo-course-card:focus-within {
+  scale: 1.045;
   transform: translateY(-8px) rotate(-0.35deg);
   border-color: rgb(37 99 235 / 0.25);
   box-shadow: 0 18px 34px rgb(37 99 235 / 0.1);
@@ -3325,6 +3327,7 @@ html {
 
 .duo-course-card-2:hover,
 .duo-course-card-2:focus-within {
+  scale: 1.045;
   transform: translateY(-8px) rotate(0.35deg);
   border-color: rgb(28 176 246 / 0.32);
   box-shadow: 0 18px 34px rgb(28 176 246 / 0.12);
@@ -3332,6 +3335,7 @@ html {
 
 .duo-course-card-3:hover,
 .duo-course-card-3:focus-within {
+  scale: 1.045;
   transform: translateY(-8px) rotate(0.35deg);
   border-color: rgb(165 112 255 / 0.32);
   box-shadow: 0 18px 34px rgb(165 112 255 / 0.12);

@@ -564,7 +564,7 @@ function App() {
                         data-reveal="pop"
                         style={revealDelay(idx)}
                         {...motionPop(idx * 0.08)}
-                        whileHover={reducedMotion ? undefined : { y: -8, rotateX: 2, rotateY: idx === 1 ? 0 : idx === 0 ? -2 : 2 }}
+                        whileHover={reducedMotion ? undefined : { y: -10, scale: 1.045, rotateX: 2, rotateY: idx === 1 ? 0 : idx === 0 ? -2 : 2 }}
                         whileTap={reducedMotion ? undefined : { scale: 0.99 }}
                       >
                         <div className="duo-course-topline">
