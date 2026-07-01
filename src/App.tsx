@@ -470,8 +470,8 @@ function App() {
                               scale: isCenter ? 1 : 0.86,
                               rotateY: position * -9,
                               rotateZ: isCenter ? 0 : isLeft ? -2.5 : 2.5,
-                              opacity: isCenter ? 1 : 0.62,
-                              filter: isCenter ? 'blur(0px)' : 'blur(1.6px)'
+                              opacity: 1,
+                              filter: 'blur(0px)'
                             }}
                             transition={reducedMotion
                               ? { duration: 0 }
