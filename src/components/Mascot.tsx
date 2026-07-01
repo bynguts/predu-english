@@ -231,8 +231,12 @@ const MimoBody = ({ children }: { children: React.ReactNode }) => (
 // ---- Per-mood face content ----
 const FaceIdle = ({ eyeMotion }: FaceProps) => (
   <>
-    <ellipse cx="58" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)" />
-    <ellipse cx="142" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)" />
+    <ellipse cx="58" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)">
+      <animate attributeName="opacity" values="0.72; 1; 0.72" dur="2.8s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="142" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)">
+      <animate attributeName="opacity" values="0.72; 1; 0.72" dur="2.8s" repeatCount="indefinite" />
+    </ellipse>
 
     {/* Left Eye with BLINK & 3 HIGHLIGHTS */}
     <g transform="translate(75, 95)">
@@ -265,7 +269,14 @@ const FaceIdle = ({ eyeMotion }: FaceProps) => (
     </g>
 
     <path d="M93 117 Q100 113 107 117 Q103 123 100 124 Q97 123 93 117 Z" fill="#FF9E92" />
-    <path d="M89 122 Q95 130 100 130 Q106 131 113 121" stroke="#7A7F8C" strokeWidth="2.3" strokeLinecap="round" fill="none" />
+    <path d="M89 122 Q95 130 100 130 Q106 131 113 121" stroke="#7A7F8C" strokeWidth="2.3" strokeLinecap="round" fill="none">
+      <animate
+        attributeName="d"
+        values="M89 122 Q95 130 100 130 Q106 131 113 121; M86 121 Q96 135 100 135 Q106 135 116 120; M89 122 Q95 130 100 130 Q106 131 113 121"
+        dur="3.1s"
+        repeatCount="indefinite"
+      />
+    </path>
   </>
 );
 
