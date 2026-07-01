@@ -2074,7 +2074,7 @@ html {
 
 .duo-hero-mimo.duo-hero-mascot {
   position: relative;
-  z-index: 5;
+  z-index: 8;
   width: 430px;
   height: 350px;
   min-height: 0 !important;
@@ -2117,7 +2117,7 @@ html {
 
 .duo-float-card {
   position: absolute;
-  z-index: 8;
+  z-index: 3;
   display: grid;
   place-items: center;
   border: 2px solid var(--color-cloud-gray);
@@ -2135,11 +2135,11 @@ html {
 
 .duo-float-card-a {
   --float-rotate: -12deg;
-  --float-depth: 118px;
-  width: 82px;
-  height: 82px;
-  left: 94px;
-  top: 132px;
+  --float-depth: 28px;
+  width: 78px;
+  height: 78px;
+  left: 34px;
+  top: 126px;
   transform: rotate(var(--float-rotate));
   background: #eef8ff;
   color: var(--color-sky-blue);
@@ -2148,11 +2148,11 @@ html {
 
 .duo-float-card-b {
   --float-rotate: 9deg;
-  --float-depth: 132px;
+  --float-depth: 34px;
   width: 108px;
   height: 66px;
-  right: 128px;
-  top: 126px;
+  right: 54px;
+  top: 136px;
   transform: rotate(var(--float-rotate));
   background: #fffbeb;
   color: #7a5b00;
@@ -2161,11 +2161,11 @@ html {
 
 .duo-float-card-c {
   --float-rotate: 8deg;
-  --float-depth: 108px;
-  width: 82px;
-  height: 70px;
-  left: 126px;
-  bottom: 54px;
+  --float-depth: 22px;
+  width: 74px;
+  height: 62px;
+  left: 142px;
+  bottom: 34px;
   transform: rotate(var(--float-rotate));
   background: #f5eefc;
   color: var(--color-grape-soda-shadow);
@@ -2181,7 +2181,7 @@ html {
 }
 
 .duo-coin {
-  z-index: 7;
+  z-index: 4;
   width: 52px;
   height: 52px;
   border: 2px solid #e4ad00;
@@ -2197,15 +2197,15 @@ html {
 }
 
 .duo-coin-a {
-  left: 280px;
-  top: 76px;
+  left: 214px;
+  top: 80px;
   --coin-rotate: -10deg;
   --coin-depth: 92px;
 }
 
 .duo-coin-b {
-  right: 252px;
-  bottom: 80px;
+  right: 214px;
+  bottom: 84px;
   width: 42px;
   height: 42px;
   --coin-rotate: 12deg;
@@ -2243,9 +2243,9 @@ html {
 }
 
 .duo-check-chip {
-  right: 160px;
-  bottom: 172px;
-  z-index: 6;
+  right: 12px;
+  bottom: 236px;
+  z-index: 3;
   width: 78px;
   height: 54px;
   display: grid;

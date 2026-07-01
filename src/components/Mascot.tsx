@@ -144,21 +144,21 @@ const MimoBody = ({ children }: { children: React.ReactNode }) => (
     <path d="M170 98 Q153 96 142 101 M170 109 Q153 109 142 109" stroke="#B8BEC8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
 
     {/* Sporty Collar with Racing Stripes */}
-    <path d="M70 138 Q100 148 130 138 L128 145 Q100 154 72 145 Z" fill="url(#mimo-collarGrad)" stroke="#E8763D" strokeWidth="1.5" opacity="0.95" />
-    <path d="M75 141 Q100 150 125 141" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+    <path d="M72 146 Q100 156 128 146 L126 153 Q100 162 74 153 Z" fill="url(#mimo-collarGrad)" stroke="#E8763D" strokeWidth="1.5" opacity="0.95" />
+    <path d="M78 149 Q100 157 122 149" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.82" />
     
     {/* Swinging Bell */}
-    <g transform="translate(100, 142)">
+    <g transform="translate(100, 150)">
       <animateTransform 
         attributeName="transform" type="rotate" values="-12; 12; -12" 
         keyTimes="0; 0.5; 1" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1" 
         dur="2s" repeatCount="indefinite" additive="sum" 
       />
-      <g transform="translate(-100, -142)">
-        <circle cx="100" cy="149" r="10" fill="url(#mimo-bellGrad)" stroke="#E8AE3D" strokeWidth="2" />
-        <path d="M94 149 L106 149 M100 145 L100 153" stroke="#E8AE3D" strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="100" cy="154" r="2" fill="#B8842A" />
-        <circle cx="96" cy="145" r="2.5" fill="#FFFFFF" opacity="0.7" />
+      <g transform="translate(-100, -150)">
+        <circle cx="100" cy="157" r="9.5" fill="url(#mimo-bellGrad)" stroke="#E8AE3D" strokeWidth="2" />
+        <path d="M94.5 157 L105.5 157 M100 153 L100 161" stroke="#E8AE3D" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="100" cy="162" r="2" fill="#B8842A" />
+        <circle cx="96" cy="153" r="2.4" fill="#FFFFFF" opacity="0.7" />
       </g>
     </g>
 
@@ -269,11 +269,11 @@ const FaceIdle = ({ eyeMotion }: FaceProps) => (
     </g>
 
     <path d="M93 117 Q100 113 107 117 Q103 123 100 124 Q97 123 93 117 Z" fill="#FF9E92" />
-    <path d="M89 122 Q95 130 100 130 Q106 131 113 121" stroke="#7A7F8C" strokeWidth="2.3" strokeLinecap="round" fill="none">
+    <path d="M88 123 Q100 128 112 123" stroke="#6F7480" strokeWidth="2.5" strokeLinecap="round" fill="none">
       <animate
         attributeName="d"
-        values="M89 122 Q95 130 100 130 Q106 131 113 121; M86 121 Q96 135 100 135 Q106 135 116 120; M89 122 Q95 130 100 130 Q106 131 113 121"
-        dur="3.1s"
+        values="M88 123 Q100 124 112 123; M87 122 Q100 136 113 122; M88 123 Q100 128 112 123"
+        dur="2.6s"
         repeatCount="indefinite"
       />
     </path>
