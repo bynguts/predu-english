@@ -1,5 +1,5 @@
-import { useEffect, useRef, type CSSProperties } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, type CSSProperties, type PointerEvent } from 'react';
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import { useAppStore } from './store';
 import { modulesData } from './data/modules';
 import { ProgressBar } from './components/ProgressBar';
@@ -38,6 +38,23 @@ function App() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
+  const heroPointerX = useMotionValue(0);
+  const heroPointerY = useMotionValue(0);
+  const heroRotateX = useSpring(useTransform(heroPointerY, [-1, 1], [7, -7]), {
+    stiffness: 120,
+    damping: 18,
+    mass: 0.5
+  });
+  const heroRotateY = useSpring(useTransform(heroPointerX, [-1, 1], [-9, 9]), {
+    stiffness: 120,
+    damping: 18,
+    mass: 0.5
+  });
+  const heroLift = useSpring(useTransform(heroPointerY, [-1, 1], [-7, 7]), {
+    stiffness: 140,
+    damping: 20,
+    mass: 0.45
+  });
 
   const activeModuleData = modulesData.find(m => m.id === currentModule);
   const activeScene = activeModuleData?.scenes[currentSceneIndex];
@@ -98,6 +115,20 @@ function App() {
       const scrollTo = direction === 'left' ? scrollLeft - 180 : scrollLeft + 180;
       scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
     }
+  };
+
+  const handleHeroPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (reducedMotion) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    heroPointerX.set(Math.max(-1, Math.min(1, x)));
+    heroPointerY.set(Math.max(-1, Math.min(1, y)));
+  };
+
+  const resetHeroPointer = () => {
+    heroPointerX.set(0);
+    heroPointerY.set(0);
   };
 
   const motionPop = (delay = 0) => reducedMotion
@@ -287,8 +318,17 @@ function App() {
                 <motion.div className="duo-hero-art" data-reveal="pop" aria-hidden="true" {...motionPop(0.04)}>
                   <motion.div
                     className="duo-art-orbit"
+                    onPointerMove={handleHeroPointerMove}
+                    onPointerLeave={resetHeroPointer}
+                    style={reducedMotion ? undefined : { rotateX: heroRotateX, rotateY: heroRotateY, y: heroLift }}
                   >
                     <div className="duo-orbit-glow" />
+                    <div className="duo-hero-floor" />
+                    <div className="duo-coin duo-coin-a" />
+                    <div className="duo-coin duo-coin-b" />
+                    <div className="duo-gem duo-gem-a" />
+                    <div className="duo-gem duo-gem-b" />
+                    <div className="duo-check-chip">✓</div>
                     <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>
                     <motion.div className="duo-float-card duo-float-card-b" {...floatMotion(0.35, 12)}>cat</motion.div>
                     <motion.div className="duo-float-card duo-float-card-c" {...floatMotion(0.2, 14)}>10</motion.div>

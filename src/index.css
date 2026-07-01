@@ -1943,9 +1943,10 @@ html {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 15% 22%, rgb(219 234 254 / 0.82), transparent 24%),
-    radial-gradient(circle at 82% 16%, rgb(255 247 200 / 0.7), transparent 22%),
-    radial-gradient(circle at 78% 82%, rgb(243 236 255 / 0.65), transparent 24%),
+    radial-gradient(circle at 15% 22%, rgb(219 234 254 / 0.72), transparent 24%),
+    radial-gradient(circle at 82% 16%, rgb(255 247 200 / 0.72), transparent 22%),
+    radial-gradient(circle at 78% 82%, rgb(255 235 245 / 0.58), transparent 23%),
+    radial-gradient(circle at 45% 82%, rgb(220 252 231 / 0.64), transparent 24%),
     #ffffff;
   min-height: calc(100dvh - var(--app-header-height) - 49px);
   display: flex;
@@ -2004,6 +2005,9 @@ html {
   align-items: center;
   justify-content: center;
   isolation: isolate;
+  perspective: 900px;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .duo-orbit-glow {
@@ -2017,6 +2021,24 @@ html {
     radial-gradient(circle at 70% 62%, rgb(243 236 255 / 0.64), transparent 48%);
   filter: blur(10px);
   animation: duo-glow-breathe 7s ease-in-out infinite;
+  transform: translateZ(-80px);
+}
+
+.duo-hero-floor {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  z-index: 0;
+  width: 346px;
+  height: 88px;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at center, rgb(37 99 235 / 0.18), transparent 64%),
+    radial-gradient(ellipse at center, rgb(34 197 94 / 0.18), transparent 72%);
+  filter: blur(1px);
+  transform: translateX(-50%) rotateX(72deg) translateZ(-95px);
+  box-shadow: 0 24px 36px rgb(37 99 235 / 0.13);
+  pointer-events: none;
 }
 
 .duo-hero-mascot {
@@ -2038,7 +2060,7 @@ html {
 
 .duo-hero-mimo.duo-hero-mascot {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   width: 430px;
   height: 430px;
   min-height: 0 !important;
@@ -2048,9 +2070,14 @@ html {
   pointer-events: none;
 }
 
+.duo-hero-mimo.mimo-stage {
+  transform-style: preserve-3d;
+}
+
 .duo-hero-mimo .mimo-mascot {
   width: 330px;
   height: 363px;
+  transform: translateZ(64px);
 }
 
 .duo-hero-mimo .speech-bubble {
@@ -2076,7 +2103,7 @@ html {
 
 .duo-float-card {
   position: absolute;
-  z-index: 6;
+  z-index: 8;
   display: grid;
   place-items: center;
   border: 2px solid var(--color-cloud-gray);
@@ -2088,15 +2115,17 @@ html {
   font-size: 26px;
   box-shadow: 0 10px 20px rgb(75 75 75 / 0.08);
   pointer-events: none;
+  transform-style: preserve-3d;
   will-change: transform;
 }
 
 .duo-float-card-a {
   --float-rotate: -12deg;
+  --float-depth: 118px;
   width: 72px;
   height: 72px;
-  left: 34px;
-  top: 84px;
+  left: 10px;
+  top: 88px;
   transform: rotate(var(--float-rotate));
   background: #eef8ff;
   color: var(--color-sky-blue);
@@ -2105,10 +2134,11 @@ html {
 
 .duo-float-card-b {
   --float-rotate: 9deg;
+  --float-depth: 132px;
   width: 96px;
   height: 62px;
-  right: 12px;
-  top: 82px;
+  right: -22px;
+  top: 74px;
   transform: rotate(var(--float-rotate));
   background: #fffbeb;
   color: #7a5b00;
@@ -2117,28 +2147,119 @@ html {
 
 .duo-float-card-c {
   --float-rotate: 8deg;
+  --float-depth: 108px;
   width: 78px;
   height: 66px;
-  left: 54px;
-  bottom: 24px;
+  left: 18px;
+  bottom: 8px;
   transform: rotate(var(--float-rotate));
   background: #f5eefc;
   color: var(--color-grape-soda-shadow);
   animation: duo-float 5.1s ease-in-out 450ms infinite reverse;
 }
 
+.duo-coin,
+.duo-gem,
+.duo-check-chip {
+  position: absolute;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.duo-coin {
+  z-index: 7;
+  width: 52px;
+  height: 52px;
+  border: 2px solid #e4ad00;
+  border-bottom-width: 6px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 26%, #fff6a3 0 22%, transparent 23%),
+    radial-gradient(circle at 48% 48%, #ffd84d 0 48%, #ffc700 49% 70%, #e4a400 71%);
+  box-shadow:
+    inset 0 0 0 8px rgb(255 255 255 / 0.24),
+    0 16px 26px rgb(122 91 0 / 0.18);
+  animation: duo-coin-flip 3.8s ease-in-out infinite;
+}
+
+.duo-coin-a {
+  left: 116px;
+  top: 24px;
+  --coin-rotate: -10deg;
+  --coin-depth: 92px;
+}
+
+.duo-coin-b {
+  right: 60px;
+  bottom: 42px;
+  width: 42px;
+  height: 42px;
+  --coin-rotate: 12deg;
+  --coin-depth: 70px;
+  animation-delay: 620ms;
+}
+
+.duo-gem {
+  z-index: 3;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgb(255 255 255 / 0.78);
+  border-radius: 9px;
+  background: linear-gradient(135deg, #1cb0f6 0%, #7dd3fc 42%, #a570ff 100%);
+  box-shadow: 0 14px 22px rgb(37 99 235 / 0.15);
+  animation: duo-gem-twinkle 4.2s ease-in-out infinite;
+}
+
+.duo-gem-a {
+  left: 74px;
+  top: 42px;
+  --gem-rotate: -16deg;
+  --gem-depth: 28px;
+}
+
+.duo-gem-b {
+  right: 46px;
+  top: 154px;
+  width: 22px;
+  height: 22px;
+  --gem-rotate: 20deg;
+  --gem-depth: 38px;
+  animation-delay: 520ms;
+  background: linear-gradient(135deg, #22c55e 0%, #bbf7d0 54%, #ffc700 100%);
+}
+
+.duo-check-chip {
+  right: 18px;
+  bottom: 134px;
+  z-index: 6;
+  width: 78px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #0f9fb7;
+  border-bottom-width: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #21d4d4 0%, #0ea5b7 100%);
+  color: #ffffff;
+  font-family: var(--font-feather);
+  font-size: 30px;
+  box-shadow: 0 16px 24px rgb(14 165 183 / 0.22);
+  animation: duo-chip-wobble 4.8s ease-in-out infinite;
+}
+
 .duo-lesson-badge {
   position: absolute;
-  left: 112px;
-  bottom: -108px;
+  left: 124px;
+  bottom: -96px;
   width: 208px;
-  z-index: 3;
+  z-index: 9;
   border: 2px solid #e7e5e4;
   border-bottom-width: 6px;
   border-radius: 18px;
   background: rgb(255 255 255 / 0.94);
   padding: 13px 15px;
   box-shadow: 0 18px 34px rgb(75 75 75 / 0.08);
+  transform-style: preserve-3d;
 }
 
 .duo-lesson-badge span {
@@ -2374,14 +2495,31 @@ html {
 }
 
 .duo-feature-board {
+  position: relative;
+  overflow: hidden;
   border: 2px solid var(--color-cloud-gray);
   border-bottom-width: 7px;
   border-radius: 18px;
   background:
+    radial-gradient(circle at 88% 18%, rgb(255 199 0 / 0.18), transparent 20%),
     linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(247 255 241 / 0.98));
   padding: 18px;
   box-shadow: 0 20px 40px rgb(88 204 2 / 0.1);
   animation: duo-card-breathe 5.6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.duo-feature-board::before {
+  content: "";
+  position: absolute;
+  width: 136px;
+  height: 76px;
+  right: -42px;
+  top: -24px;
+  border-radius: 999px;
+  background: rgb(28 176 246 / 0.1);
+  transform: rotate(-15deg);
+  pointer-events: none;
 }
 
 .duo-board-topline {
@@ -2416,6 +2554,7 @@ html {
 }
 
 .duo-board-step {
+  position: relative;
   min-height: 104px;
   display: grid;
   align-content: center;
@@ -2427,6 +2566,8 @@ html {
   background: #ffffff;
   text-align: center;
   animation: duo-card-breathe 5s ease-in-out infinite;
+  box-shadow: 0 10px 18px rgb(75 75 75 / 0.05);
+  transform-style: preserve-3d;
 }
 
 .duo-board-step:nth-child(2) {
@@ -2485,6 +2626,8 @@ html {
 }
 
 .duo-stat-card {
+  position: relative;
+  overflow: hidden;
   min-height: 112px;
   border: 2px solid var(--color-cloud-gray);
   border-radius: 12px;
@@ -2492,6 +2635,18 @@ html {
   background: rgb(255 255 255 / 0.94);
   border-bottom-width: 5px;
   box-shadow: 0 14px 28px rgb(75 75 75 / 0.06);
+}
+
+.duo-stat-card::after {
+  content: "";
+  position: absolute;
+  right: -22px;
+  bottom: -28px;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  background: rgb(37 99 235 / 0.06);
+  pointer-events: none;
 }
 
 .duo-stat-card:nth-child(1) strong {
@@ -2695,6 +2850,8 @@ html {
 }
 
 .duo-classroom-screen {
+  position: relative;
+  overflow: hidden;
   width: min(100%, 360px);
   min-height: 292px;
   border: 2px solid var(--color-cloud-gray);
@@ -2705,6 +2862,15 @@ html {
   transform: rotate(-2deg);
   box-shadow: 0 24px 48px rgb(121 91 0 / 0.12);
   animation: duo-screen-wiggle 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.duo-classroom-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.42), transparent 38%);
+  pointer-events: none;
 }
 
 .duo-screen-header {
@@ -2920,6 +3086,8 @@ html {
 }
 
 .duo-mini-game-card {
+  position: relative;
+  overflow: hidden;
   min-height: 104px;
   display: grid;
   grid-template-columns: 86px minmax(0, 1fr);
@@ -2932,6 +3100,19 @@ html {
   padding: 14px 16px;
   box-shadow: 0 18px 32px rgb(75 75 75 / 0.07);
   animation: duo-card-breathe 5.8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.duo-mini-game-card::after {
+  content: "";
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  right: -34px;
+  top: -38px;
+  border-radius: 999px;
+  background: rgb(255 199 0 / 0.16);
+  pointer-events: none;
 }
 
 .duo-mini-game-card:nth-child(2) {
@@ -3064,6 +3245,8 @@ html {
 }
 
 .duo-course-card {
+  position: relative;
+  overflow: hidden;
   display: flex;
   min-height: 398px;
   flex-direction: column;
@@ -3074,6 +3257,19 @@ html {
   padding: 18px;
   text-align: left;
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transform-style: preserve-3d;
+}
+
+.duo-course-card::before {
+  content: "";
+  position: absolute;
+  right: -42px;
+  top: -38px;
+  width: 132px;
+  height: 132px;
+  border-radius: 999px;
+  opacity: 0.62;
+  pointer-events: none;
 }
 
 .duo-course-card:hover {
@@ -3084,17 +3280,32 @@ html {
 
 .duo-course-card-1 {
   background:
+    radial-gradient(circle at 86% 12%, rgb(37 99 235 / 0.16), transparent 26%),
     linear-gradient(180deg, #eaf3ff 0%, #ffffff 66%);
+}
+
+.duo-course-card-1::before {
+  background: #bfdbfe;
 }
 
 .duo-course-card-2 {
   background:
+    radial-gradient(circle at 86% 12%, rgb(28 176 246 / 0.18), transparent 28%),
     linear-gradient(180deg, #e6f8ff 0%, #ffffff 66%);
+}
+
+.duo-course-card-2::before {
+  background: #bae6fd;
 }
 
 .duo-course-card-3 {
   background:
+    radial-gradient(circle at 86% 12%, rgb(165 112 255 / 0.17), transparent 28%),
     linear-gradient(180deg, #f3ecff 0%, #ffffff 66%);
+}
+
+.duo-course-card-3::before {
+  background: #ddd6fe;
 }
 
 .duo-course-topline {
@@ -3301,10 +3512,45 @@ html {
 @keyframes duo-float {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) rotate(var(--float-rotate));
+    transform: translate3d(0, 0, var(--float-depth, 0px)) rotate(var(--float-rotate));
   }
   50% {
-    transform: translate3d(0, -12px, 0) rotate(calc(var(--float-rotate) * 0.75));
+    transform: translate3d(0, -12px, var(--float-depth, 0px)) rotate(calc(var(--float-rotate) * 0.75));
+  }
+}
+
+@keyframes duo-coin-flip {
+  0%,
+  100% {
+    transform: translate3d(0, 0, var(--coin-depth, 70px)) rotate(var(--coin-rotate, 0deg)) rotateY(0deg);
+  }
+  45% {
+    transform: translate3d(0, -14px, var(--coin-depth, 70px)) rotate(calc(var(--coin-rotate, 0deg) * 0.7)) rotateY(28deg);
+  }
+  60% {
+    transform: translate3d(0, -8px, var(--coin-depth, 70px)) rotate(calc(var(--coin-rotate, 0deg) * 0.85)) rotateY(-12deg);
+  }
+}
+
+@keyframes duo-gem-twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translate3d(0, 0, var(--gem-depth, 24px)) rotate(var(--gem-rotate, 0deg)) scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(0, -10px, var(--gem-depth, 24px)) rotate(calc(var(--gem-rotate, 0deg) + 22deg)) scale(1.05);
+  }
+}
+
+@keyframes duo-chip-wobble {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 98px) rotate(-6deg);
+  }
+  50% {
+    transform: translate3d(0, -13px, 98px) rotate(5deg);
   }
 }
 
@@ -3453,6 +3699,34 @@ html {
     height: 270px;
   }
 
+  .duo-hero-floor {
+    width: 260px;
+    height: 68px;
+    bottom: -2px;
+  }
+
+  .duo-coin-a {
+    left: 78px;
+    top: 4px;
+    scale: 0.8;
+  }
+
+  .duo-coin-b {
+    right: 38px;
+    bottom: 26px;
+    scale: 0.78;
+  }
+
+  .duo-gem-a {
+    left: 44px;
+    top: 34px;
+  }
+
+  .duo-gem-b,
+  .duo-check-chip {
+    display: none;
+  }
+
   .duo-hero-mascot {
     --hero-mascot-start: 0.78;
     --hero-mascot-peak: 0.98;
@@ -3479,18 +3753,18 @@ html {
   }
 
   .duo-float-card-a {
-    left: 18px;
-    top: 32px;
+    left: 4px;
+    top: 40px;
   }
 
   .duo-float-card-b {
-    right: 12px;
-    top: 22px;
+    right: -4px;
+    top: 28px;
   }
 
   .duo-float-card-c {
-    left: 24px;
-    bottom: 30px;
+    left: 8px;
+    bottom: 20px;
   }
 
   .duo-lesson-badge {
