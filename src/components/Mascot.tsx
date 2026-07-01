@@ -269,14 +269,7 @@ const FaceIdle = ({ eyeMotion }: FaceProps) => (
     </g>
 
     <path d="M93 117 Q100 113 107 117 Q103 123 100 124 Q97 123 93 117 Z" fill="#FF9E92" />
-    <path d="M88 123 Q100 128 112 123" stroke="#6F7480" strokeWidth="2.5" strokeLinecap="round" fill="none">
-      <animate
-        attributeName="d"
-        values="M88 123 Q100 124 112 123; M87 122 Q100 136 113 122; M88 123 Q100 128 112 123"
-        dur="2.6s"
-        repeatCount="indefinite"
-      />
-    </path>
+    <path d="M87 122 Q100 134 113 122" stroke="#6F7480" strokeWidth="2.5" strokeLinecap="round" fill="none" />
   </>
 );
 
