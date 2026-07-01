@@ -794,10 +794,10 @@ function App() {
         )}
       </main>
 
-      {/* Curved wave transition divider to green footer (homepage only) */}
+      {/* Curved wave transition divider to soft footer (homepage only) */}
       {currentModule === null && (
         <div className="w-full overflow-hidden leading-[0] bg-white select-none">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#2563eb]">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#f7fbff]">
             <path d="M0,0 C150,90 350,120 600,100 C850,80 1050,110 1200,90 L1200,120 L0,120 Z"></path>
           </svg>
         </div>
