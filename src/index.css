@@ -1455,7 +1455,11 @@ h3 {
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, filter 0.1s ease;
+  transition:
+    transform 150ms var(--ease-out-quint),
+    box-shadow 150ms var(--ease-out-quint),
+    background-color 150ms var(--ease-out-quint),
+    filter 150ms var(--ease-out-quint);
   user-select: none;
   border: none;
   font-size: 16px;
@@ -2189,6 +2193,27 @@ html {
   margin-top: 14px;
 }
 
+.duo-secondary-cta.btn-3d-outline {
+  background-color: var(--color-duo-green);
+  color: var(--color-snow-white);
+  border: none;
+  box-shadow: 0 4px 0 var(--color-duo-green-shadow);
+  padding: 14px 28px;
+}
+
+.duo-secondary-cta.btn-3d-outline:hover:not(:disabled) {
+  background-color: var(--color-duo-green);
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--color-duo-green-shadow);
+  filter: brightness(1.04);
+}
+
+.duo-secondary-cta.btn-3d-outline:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-duo-green-shadow);
+  filter: brightness(0.98);
+}
+
 .duo-language-bar {
   background: #ffffff;
   border-bottom: 1px solid var(--color-cloud-gray);
@@ -2839,15 +2864,18 @@ html {
 }
 
 .duo-course-card-1 {
-  background: linear-gradient(180deg, #f7f9fb 0%, #ffffff 62%);
+  background:
+    linear-gradient(180deg, #eff6ff 0%, #ffffff 68%);
 }
 
 .duo-course-card-2 {
-  background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 62%);
+  background:
+    linear-gradient(180deg, #f4f9ff 0%, #ffffff 68%);
 }
 
 .duo-course-card-3 {
-  background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 62%);
+  background:
+    linear-gradient(180deg, #f7faff 0%, #ffffff 68%);
 }
 
 .duo-course-topline {
@@ -3045,23 +3073,6 @@ html {
   color: var(--color-graphite);
   font-size: 12px;
   font-weight: 800;
-}
-
-.btn-3d {
-  transition:
-    transform 150ms var(--ease-out-quint),
-    filter 150ms var(--ease-out-quint),
-    box-shadow 150ms var(--ease-out-quint);
-}
-
-.btn-3d:hover {
-  filter: brightness(1.02);
-  transform: translateY(-1px);
-}
-
-.btn-3d:active {
-  transform: translateY(2px);
-  filter: brightness(0.98);
 }
 
 .duo-footer-button:hover:not(:disabled) {

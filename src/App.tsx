@@ -125,15 +125,15 @@ function App() {
     },
     {
       border: 'border-[#2563eb] hover:border-[#2563eb]',
-      iconBg: 'bg-[#f7f9fb] text-[#2563eb] border-[#dbeafe]',
+      iconBg: 'bg-[#e0f2fe] text-[#1d4ed8] border-[#bfdbfe]',
       btnColor: 'btn-3d-green',
-      surface: 'bg-[#ffffff]'
+      surface: 'bg-[#f4f9ff]'
     },
     {
       border: 'border-[#2563eb] hover:border-[#2563eb]',
-      iconBg: 'bg-[#f7f9fb] text-[#2563eb] border-[#dbeafe]',
+      iconBg: 'bg-[#eef2ff] text-[#1e40af] border-[#c7d2fe]',
       btnColor: 'btn-3d-green',
-      surface: 'bg-[#ffffff]'
+      surface: 'bg-[#f7faff]'
     }
   ];
 
