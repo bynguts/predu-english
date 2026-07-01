@@ -124,16 +124,16 @@ function App() {
       surface: 'bg-[#eff6ff]'
     },
     {
-      border: 'border-[#1cb0f6] hover:border-[#1cb0f6]',
-      iconBg: 'bg-[#eef8ff] text-[#1899d6] border-[#84d8ff]',
-      btnColor: 'btn-3d-blue',
-      surface: 'bg-[#f4fbff]'
+      border: 'border-[#2563eb] hover:border-[#2563eb]',
+      iconBg: 'bg-[#f7f9fb] text-[#2563eb] border-[#dbeafe]',
+      btnColor: 'btn-3d-green',
+      surface: 'bg-[#ffffff]'
     },
     {
-      border: 'border-[#a570ff] hover:border-[#a570ff]',
-      iconBg: 'bg-[#f5eefc] text-[#8247df] border-[#d8c2ff]',
-      btnColor: 'btn-3d-purple',
-      surface: 'bg-[#fbf7ff]'
+      border: 'border-[#2563eb] hover:border-[#2563eb]',
+      iconBg: 'bg-[#f7f9fb] text-[#2563eb] border-[#dbeafe]',
+      btnColor: 'btn-3d-green',
+      surface: 'bg-[#ffffff]'
     }
   ];
 
@@ -797,7 +797,7 @@ function App() {
       {/* Curved wave transition divider to soft footer (homepage only) */}
       {currentModule === null && (
         <div className="w-full overflow-hidden leading-[0] bg-white select-none">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#f7fbff]">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] fill-[#ffffff]">
             <path d="M0,0 C150,90 350,120 600,100 C850,80 1050,110 1200,90 L1200,120 L0,120 Z"></path>
           </svg>
         </div>
