@@ -2560,7 +2560,7 @@ html:has(.landing-scroll) {
     radial-gradient(circle at 74% 30%, rgb(28 176 246 / 0.12), transparent 38%);
   padding: 0;
   perspective: 1000px;
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 .duo-feature-board::before {
@@ -2580,7 +2580,7 @@ html:has(.landing-scroll) {
   height: 318px;
   display: grid;
   place-items: center;
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 .duo-plan-card {
@@ -2599,8 +2599,12 @@ html:has(.landing-scroll) {
   box-shadow: 0 28px 48px rgb(121 91 0 / 0.14);
   cursor: pointer;
   text-align: left;
-  transform-style: preserve-3d;
+  transform-style: flat;
   will-change: transform, opacity, filter;
+}
+
+.duo-plan-card.is-active {
+  box-shadow: 0 34px 58px rgb(121 91 0 / 0.18);
 }
 
 .duo-plan-card::before {

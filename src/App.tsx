@@ -463,7 +463,7 @@ function App() {
                           <motion.button
                             key={plan.day}
                             type="button"
-                            className={`duo-plan-card duo-plan-card-${plan.tone}`}
+                            className={`duo-plan-card duo-plan-card-${plan.tone}${isCenter ? ' is-active' : ''}`}
                             onClick={() => setFeaturePlanIndex(index)}
                             animate={{
                               x: `${position * 33}%`,
@@ -481,7 +481,7 @@ function App() {
                                   damping: 34,
                                   mass: 0.62
                                 }}
-                            style={{ zIndex: isCenter ? 10 : 5 - Math.abs(position) }}
+                            style={{ zIndex: isCenter ? 30 : 10 - Math.abs(position) }}
                             aria-pressed={isCenter}
                           >
                             <div className="duo-board-topline">
