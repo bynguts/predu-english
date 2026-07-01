@@ -287,9 +287,6 @@ function App() {
                 <motion.div className="duo-hero-art" data-reveal="pop" aria-hidden="true" {...motionPop(0.04)}>
                   <motion.div
                     className="duo-art-orbit"
-                    initial={reducedMotion ? false : { rotateX: 8, rotateY: -10 }}
-                    animate={reducedMotion ? {} : { rotateX: [8, 3, 8], rotateY: [-10, 8, -10] }}
-                    transition={{ duration: 6, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
                   >
                     <div className="duo-orbit-glow" />
                     <motion.div className="duo-float-card duo-float-card-a" {...floatMotion(0.1, 16)}>A</motion.div>

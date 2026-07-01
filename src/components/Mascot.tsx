@@ -433,14 +433,15 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
   const Face = FACES[mood] || FACES.idle;
   const pixelSize = SIZE_MAP.large;
   const message = speechText ?? '';
-  const calmMotion = className.includes('lesson-coach-mascot');
+  const coachMascot = className.includes('lesson-coach-mascot');
+  const calmBodyMotion = coachMascot || className.includes('duo-hero-mimo');
   const eyeX = useMotionValue(0);
   const eyeY = useMotionValue(0);
   const smoothEyeX = useSpring(eyeX, { stiffness: 260, damping: 24, mass: 0.35 });
   const smoothEyeY = useSpring(eyeY, { stiffness: 260, damping: 24, mass: 0.35 });
 
   React.useEffect(() => {
-    const shouldTrack = !calmMotion && (mood === 'idle' || mood === 'thinking');
+    const shouldTrack = !coachMascot && (mood === 'idle' || mood === 'thinking');
     if (!shouldTrack) {
       eyeX.set(0);
       eyeY.set(0);
@@ -460,14 +461,14 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', handlePointerMove);
-  }, [calmMotion, eyeX, eyeY, mood]);
+  }, [coachMascot, eyeX, eyeY, mood]);
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center p-4 relative ${className}`} style={{ minHeight: '260px' }}>
       <motion.div
-        animate={getVariant(mood, state, calmMotion)}
-        whileHover={calmMotion ? undefined : { scale: 1.08, rotate: 6 }}
-        whileTap={calmMotion ? undefined : { scale: 0.92 }}
+        animate={getVariant(mood, state, calmBodyMotion)}
+        whileHover={calmBodyMotion ? undefined : { scale: 1.08, rotate: 6 }}
+        whileTap={calmBodyMotion ? undefined : { scale: 0.92 }}
         className="cursor-pointer"
         style={{ filter: 'drop-shadow(0px 12px 16px rgba(0,0,0,0.2))', transformOrigin: 'bottom center' }}
       >
