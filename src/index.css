@@ -27,6 +27,8 @@
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --app-header-height: 64px;
+  --landing-language-height: 48px;
+  --landing-scene-height: calc(100dvh - var(--app-header-height));
 }
 
 @theme {
@@ -1916,6 +1918,31 @@ html {
   background: var(--color-silver);
 }
 
+.landing-scroll {
+  background:
+    linear-gradient(180deg,
+      #ffffff 0%,
+      #f8fbff 21%,
+      #ffffff 41%,
+      #e8f8ff 63%,
+      #f8fbff 82%,
+      #2563eb 100%);
+}
+
+html:has(.landing-scroll) {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: var(--app-header-height);
+}
+
+.landing-scroll > section:not(.duo-language-bar),
+.duo-footer {
+  scroll-snap-align: start;
+}
+
+.landing-scroll > section {
+  margin-top: -1px;
+}
+
 /* Background dot grid pattern from taste-skill guidelines */
 .bg-dots {
   background-image: radial-gradient(var(--color-cloud-gray) 1.5px, transparent 1.5px);
@@ -1947,8 +1974,8 @@ html {
     radial-gradient(circle at 82% 16%, rgb(255 247 200 / 0.72), transparent 20%),
     radial-gradient(circle at 76% 72%, rgb(255 235 245 / 0.46), transparent 20%),
     #ffffff;
-  height: calc(100dvh - var(--app-header-height));
-  min-height: 660px;
+  height: calc(var(--landing-scene-height) - var(--landing-language-height));
+  min-height: 0;
   display: flex;
   align-items: stretch;
   border-bottom: 1px solid var(--color-cloud-gray);
@@ -1988,7 +2015,7 @@ html {
   width: min(100%, 1180px);
   margin-inline: auto;
   height: 100%;
-  padding: clamp(26px, 3.8vw, 42px) 24px 0;
+  padding: clamp(18px, 2.6vw, 30px) 24px 0;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
@@ -2004,14 +2031,14 @@ html {
   justify-content: center;
   align-self: end;
   min-height: 0;
-  margin-top: clamp(96px, 11vh, 128px);
+  margin-top: clamp(16px, 4vh, 30px);
   overflow: visible;
 }
 
 .duo-art-orbit {
   position: relative;
   width: min(100%, 940px);
-  height: min(350px, 46dvh);
+  height: min(310px, 43dvh);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -2026,7 +2053,7 @@ html {
   left: 50%;
   bottom: 0;
   width: min(78%, 620px);
-  height: 300px;
+  height: 250px;
   z-index: -1;
   border-radius: 45% 55% 52% 48%;
   background:
@@ -2043,8 +2070,8 @@ html {
   left: 50%;
   bottom: -12px;
   z-index: 0;
-  width: 430px;
-  height: 96px;
+  width: 390px;
+  height: 82px;
   border-radius: 999px;
   background:
     radial-gradient(ellipse at center, rgb(37 99 235 / 0.18), transparent 64%),
@@ -2075,8 +2102,8 @@ html {
 .duo-hero-mimo.duo-hero-mascot {
   position: relative;
   z-index: 8;
-  width: 430px;
-  height: 350px;
+  width: 380px;
+  height: 312px;
   min-height: 0 !important;
   padding: 0;
   transform: none;
@@ -2089,9 +2116,9 @@ html {
 }
 
 .duo-hero-mimo .mimo-mascot {
-  width: 318px;
-  height: 350px;
-  transform: translate3d(0, 64px, 64px);
+  width: 282px;
+  height: 310px;
+  transform: translate3d(0, 54px, 64px);
 }
 
 .duo-hero-mimo .speech-bubble {
@@ -2320,18 +2347,18 @@ html {
   max-width: 860px;
   margin: 0 0 16px;
   color: var(--color-duo-green);
-  font-size: clamp(48px, 5.4vw, 76px);
-  line-height: 0.98;
+  font-size: clamp(40px, 4.6vw, 62px);
+  line-height: 1;
   letter-spacing: 0;
   text-wrap: balance;
 }
 
 .duo-hero-subcopy {
   max-width: 620px;
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   color: var(--color-graphite);
-  font-size: 17px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
 .duo-hero-progress {
@@ -2363,7 +2390,7 @@ html {
   position: relative;
   z-index: 14;
   width: min(100%, 414px);
-  min-height: 58px;
+  min-height: 52px;
 }
 
 .duo-secondary-cta {
@@ -2394,14 +2421,16 @@ html {
 }
 
 .duo-language-bar {
-  background: #ffffff;
-  border-bottom: 1px solid var(--color-cloud-gray);
+  height: var(--landing-language-height);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  border-bottom: 1px solid rgb(229 229 229 / 0.78);
+  scroll-snap-align: none;
 }
 
 .duo-language-inner {
   width: min(100%, 980px);
   margin-inline: auto;
-  min-height: 48px;
+  min-height: var(--landing-language-height);
   padding-inline: 20px;
   display: flex;
   align-items: center;
@@ -2430,8 +2459,9 @@ html {
 
 .duo-feature-section {
   width: 100%;
-  min-height: calc(100dvh - var(--app-header-height));
-  padding: clamp(64px, 8vw, 110px) 24px;
+  height: var(--landing-scene-height);
+  min-height: 0;
+  padding: clamp(34px, 5vw, 58px) 24px;
   display: grid;
   place-items: center;
   position: relative;
@@ -2440,7 +2470,7 @@ html {
   background:
     radial-gradient(circle at 18% 78%, rgb(219 234 254 / 0.46), transparent 24%),
     radial-gradient(circle at 82% 28%, rgb(255 247 200 / 0.62), transparent 22%),
-    #ffffff;
+    linear-gradient(180deg, #f7fbff 0%, #ffffff 18%, #ffffff 78%, #fff9df 100%);
 }
 
 .duo-feature-section::before,
@@ -2477,7 +2507,7 @@ html {
   display: grid;
   grid-template-columns: minmax(360px, 0.88fr) minmax(430px, 1fr);
   align-items: center;
-  gap: clamp(62px, 9vw, 132px);
+  gap: clamp(38px, 7vw, 92px);
 }
 
 .duo-feature-copyblock {
@@ -2485,7 +2515,7 @@ html {
 }
 
 .duo-section-label {
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   color: var(--color-silver);
   font-family: var(--font-din-round);
   font-size: 12px;
@@ -2494,20 +2524,20 @@ html {
 }
 
 .duo-feature-section h2 {
-  margin: 0 0 22px;
+  margin: 0 0 14px;
   color: var(--color-duo-green);
   font-family: var(--font-feather);
-  font-size: clamp(50px, 5.4vw, 78px);
+  font-size: clamp(42px, 4.6vw, 62px);
   line-height: 1.02;
   letter-spacing: -0.02em;
 }
 
 .duo-feature-copy {
   max-width: 560px;
-  margin: 0 0 26px;
+  margin: 0 0 18px;
   color: var(--color-graphite);
-  font-size: 19px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .duo-feature-visual {
@@ -2520,16 +2550,16 @@ html {
 .duo-feature-board {
   position: relative;
   overflow: hidden;
-  width: min(100%, 430px);
-  min-height: 410px;
+  width: min(100%, 360px);
+  min-height: 336px;
   justify-self: center;
-  border: 8px solid #f0bd4e;
-  border-bottom-width: 18px;
-  border-radius: 34px;
+  border: 6px solid #f0bd4e;
+  border-bottom-width: 14px;
+  border-radius: 28px;
   background:
     radial-gradient(circle at 88% 18%, rgb(255 199 0 / 0.18), transparent 20%),
     linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(247 255 241 / 0.98));
-  padding: 28px;
+  padding: 20px;
   box-shadow: 0 32px 56px rgb(121 91 0 / 0.12);
   animation: duo-card-breathe 5.6s ease-in-out infinite;
   transform-style: preserve-3d;
@@ -2576,12 +2606,12 @@ html {
 .duo-board-path {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
 }
 
 .duo-board-step {
   position: relative;
-  min-height: 128px;
+  min-height: 100px;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -2610,14 +2640,14 @@ html {
 
 .duo-board-step b {
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   place-items: center;
   border-radius: 13px;
   background: var(--color-duo-green);
   color: #ffffff;
   font-family: var(--font-feather);
-  font-size: 22px;
+  font-size: 19px;
   box-shadow: 0 4px 0 var(--color-duo-green-shadow);
 }
 
@@ -2710,21 +2740,21 @@ html {
 .duo-pill-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .duo-pill-row span {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  min-height: 38px;
-  padding: 0 16px;
+  min-height: 34px;
+  padding: 0 13px;
   border: 1.5px solid rgb(88 204 2 / 0.28);
   border-radius: 999px;
   background: rgb(255 255 255 / 0.9);
   color: var(--color-charcoal);
   font-family: var(--font-din-round);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -2741,15 +2771,16 @@ html {
   background:
     radial-gradient(circle at 14% 82%, rgb(255 199 0 / 0.22), transparent 22%),
     radial-gradient(circle at 86% 18%, rgb(165 112 255 / 0.16), transparent 20%),
-    linear-gradient(180deg, #e8f8ff 0%, #dff5ff 100%);
-  min-height: calc(100dvh - var(--app-header-height));
+    linear-gradient(180deg, #f8fbff 0%, #e8f8ff 18%, #dff5ff 78%, #f4fbff 100%);
+  height: var(--landing-scene-height);
+  min-height: 0;
   display: grid;
   grid-template-columns: 1fr;
   align-items: start;
-  gap: 26px;
-  padding: clamp(64px, 7vw, 94px) max(24px, calc((100% - 1180px) / 2));
-  border-top: 1px solid #e8eef7;
-  border-bottom: 1px solid #e8eef7;
+  gap: 20px;
+  padding: clamp(42px, 6vw, 68px) max(24px, calc((100% - 1180px) / 2));
+  border-top: 0;
+  border-bottom: 0;
   overflow: hidden;
 }
 
@@ -2791,7 +2822,7 @@ html {
 
 .duo-anywhere-inner h2 {
   color: #1e3a8a;
-  font-size: clamp(54px, 6vw, 86px);
+  font-size: clamp(44px, 5vw, 68px);
   line-height: 1.08;
   margin-bottom: 18px;
 }
@@ -2800,23 +2831,24 @@ html {
   max-width: 620px;
   margin-inline: auto;
   color: #3f5f7e;
-  font-size: 18px;
-  line-height: 1.58;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .duo-classroom-section {
   width: 100%;
-  min-height: calc(100dvh - var(--app-header-height));
+  height: var(--landing-scene-height);
+  min-height: 0;
   display: grid;
   place-items: center;
-  padding: clamp(72px, 8vw, 118px) 24px;
+  padding: clamp(34px, 5.8vw, 62px) 24px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background:
     radial-gradient(circle at 18% 80%, rgb(255 199 0 / 0.2), transparent 24%),
     radial-gradient(circle at 84% 22%, rgb(219 234 254 / 0.48), transparent 24%),
-    #ffffff;
+    linear-gradient(180deg, #fff9df 0%, #ffffff 18%, #ffffff 78%, #f8fbff 100%);
 }
 
 .duo-classroom-section::before,
@@ -2853,12 +2885,12 @@ html {
   display: grid;
   grid-template-columns: minmax(430px, 1fr) minmax(380px, 0.88fr);
   align-items: center;
-  gap: clamp(64px, 9vw, 136px);
+  gap: clamp(38px, 7vw, 96px);
 }
 
 .duo-classroom-stage {
   position: relative;
-  min-height: 500px;
+  min-height: 390px;
   display: grid;
   place-items: center;
   isolation: isolate;
@@ -2882,13 +2914,13 @@ html {
   position: relative;
   z-index: 2;
   overflow: hidden;
-  width: min(100%, 410px);
-  min-height: 340px;
-  border: 8px solid #2f7df2;
-  border-bottom-width: 18px;
-  border-radius: 32px;
+  width: min(100%, 350px);
+  min-height: 286px;
+  border: 6px solid #2f7df2;
+  border-bottom-width: 14px;
+  border-radius: 28px;
   background: #ffffff;
-  padding: 18px;
+  padding: 16px;
   transform: rotate(-2deg);
   box-shadow: 0 24px 48px rgb(121 91 0 / 0.12);
   animation: duo-screen-wiggle 6s ease-in-out infinite;
@@ -2908,7 +2940,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .duo-screen-header span {
@@ -2927,24 +2959,24 @@ html {
 }
 
 .duo-screen-letter {
-  width: 156px;
-  height: 156px;
-  margin: 8px auto 22px;
+  width: 124px;
+  height: 124px;
+  margin: 6px auto 16px;
   display: grid;
   place-items: center;
   border: 2px solid #dbeafe;
   border-bottom-width: 7px;
-  border-radius: 28px;
+  border-radius: 24px;
   background: var(--color-duo-green);
   color: #ffffff;
   font-family: var(--font-feather);
-  font-size: 96px;
+  font-size: 76px;
   line-height: 1;
   box-shadow: 0 16px 28px rgb(37 99 235 / 0.22);
 }
 
 .duo-screen-answer {
-  min-height: 48px;
+  min-height: 42px;
   display: grid;
   place-items: center;
   border-radius: 14px;
@@ -2990,19 +3022,19 @@ html {
 
 .duo-classroom-copy h2 {
   max-width: 560px;
-  margin: 12px 0 18px;
+  margin: 8px 0 14px;
   color: var(--color-duo-green);
-  font-size: clamp(48px, 5vw, 72px);
+  font-size: clamp(40px, 4.5vw, 58px);
   line-height: 1.03;
   text-wrap: balance;
 }
 
 .duo-classroom-copy p {
   max-width: 62ch;
-  margin: 0 0 24px;
+  margin: 0 0 18px;
   color: var(--color-graphite);
-  font-size: 19px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .duo-classroom-checks {
@@ -3112,29 +3144,29 @@ html {
 .duo-mini-game-strip {
   position: relative;
   z-index: 4;
-  width: min(100%, 800px);
+  width: min(100%, 760px);
   justify-self: center;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 14px;
   margin-top: auto;
-  padding-top: clamp(60px, 9vw, 132px);
+  padding-top: clamp(36px, 6vw, 72px);
 }
 
 .duo-mini-game-card {
   position: relative;
   z-index: 5;
   overflow: hidden;
-  min-height: 104px;
+  min-height: 86px;
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: 58px minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   border: 2px solid #e5e5e5;
   border-bottom-width: 6px;
-  border-radius: 20px;
+  border-radius: 17px;
   background: rgb(255 255 255 / 0.94);
-  padding: 14px 16px;
+  padding: 12px 14px;
   box-shadow: 0 18px 32px rgb(75 75 75 / 0.07);
   animation: duo-card-breathe 5.8s ease-in-out infinite;
   transform-style: preserve-3d;
@@ -3153,7 +3185,7 @@ html {
 }
 
 .duo-mini-game-card:nth-child(2) {
-  margin-top: 18px;
+  margin-top: 10px;
   margin-left: 0;
   animation-delay: 0.28s;
 }
@@ -3165,14 +3197,14 @@ html {
 
 .duo-mini-game-card strong {
   display: grid;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   place-items: center;
-  border-radius: 18px;
+  border-radius: 15px;
   background: #eff6ff;
   color: var(--color-duo-green);
   font-family: var(--font-feather);
-  font-size: 28px;
+  font-size: 23px;
 }
 
 .duo-mini-game-card:nth-child(2) strong {
@@ -3188,7 +3220,7 @@ html {
 .duo-mini-game-card span {
   color: #25425d;
   font-family: var(--font-din-round);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 900;
   line-height: 1.25;
 }
@@ -3203,9 +3235,10 @@ html {
     radial-gradient(circle at 12% 20%, rgb(219 234 254 / 0.72), transparent 22%),
     radial-gradient(circle at 88% 26%, rgb(243 236 255 / 0.78), transparent 24%),
     radial-gradient(circle at 50% 92%, rgb(255 247 200 / 0.5), transparent 28%),
-    linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  min-height: calc(100dvh - var(--app-header-height));
-  padding: 36px 24px 34px;
+    linear-gradient(180deg, #f4fbff 0%, #ffffff 18%, #f8fbff 100%);
+  height: var(--landing-scene-height);
+  min-height: 0;
+  padding: 24px 24px 22px;
   display: flex;
   align-items: center;
 }
@@ -3238,19 +3271,19 @@ html {
 }
 
 .duo-course-inner {
-  width: min(100%, 980px);
+  width: min(100%, 960px);
   margin-inline: auto;
 }
 
 .duo-course-header {
   max-width: 620px;
-  margin: 0 auto 24px;
+  margin: 0 auto 16px;
   text-align: center;
 }
 
 .duo-course-header span {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: var(--color-silver);
   font-family: var(--font-din-round);
   font-size: 12px;
@@ -3259,10 +3292,10 @@ html {
 }
 
 .duo-course-header h2 {
-  margin: 0 0 10px;
+  margin: 0 0 7px;
   color: var(--color-charcoal);
   font-family: var(--font-feather);
-  font-size: 40px;
+  font-size: 34px;
   line-height: 1.06;
   text-wrap: balance;
 }
@@ -3270,15 +3303,15 @@ html {
 .duo-course-header p {
   margin: 0;
   color: var(--color-graphite);
-  font-size: 15px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.35;
   text-wrap: pretty;
 }
 
 .duo-course-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -3286,13 +3319,13 @@ html {
   position: relative;
   overflow: hidden;
   display: flex;
-  min-height: 398px;
+  min-height: 348px;
   flex-direction: column;
   border: 2px solid var(--color-cloud-gray);
   border-bottom-width: 6px;
   border-radius: 16px;
   background: #ffffff;
-  padding: 18px;
+  padding: 16px;
   text-align: left;
   scale: 1;
   transition: scale 110ms ease-out, transform 110ms ease-out, border-color 140ms ease-out, box-shadow 140ms ease-out;
@@ -3305,8 +3338,8 @@ html {
   z-index: 0;
   right: -42px;
   top: -38px;
-  width: 132px;
-  height: 132px;
+  width: 112px;
+  height: 112px;
   border-radius: 999px;
   opacity: 0.62;
   pointer-events: none;
@@ -3370,19 +3403,19 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .duo-course-badge {
   display: inline-flex;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   align-items: center;
   justify-content: center;
   border: 2px solid rgb(0 0 0 / 0.07);
   border-radius: 14px;
   font-family: var(--font-feather);
-  font-size: 25px;
+  font-size: 23px;
   line-height: 1;
   transition: transform 160ms var(--ease-out-quint);
 }
@@ -3406,8 +3439,8 @@ html {
 }
 
 .duo-course-topic {
-  min-height: 36px;
-  margin: 0 0 8px;
+  min-height: 30px;
+  margin: 0 0 6px;
   color: var(--color-silver);
   font-family: var(--font-din-round);
   font-size: 12px;
@@ -3416,8 +3449,8 @@ html {
 }
 
 .duo-course-card h3 {
-  min-height: 58px;
-  margin: 0 0 10px;
+  min-height: 50px;
+  margin: 0 0 8px;
   color: var(--color-graphite);
   font-family: var(--font-feather);
   font-size: 22px;
@@ -3429,7 +3462,7 @@ html {
   margin: 0;
   color: var(--color-graphite);
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.35;
   text-wrap: pretty;
 }
 
@@ -3437,13 +3470,13 @@ html {
   display: grid;
   grid-template-columns: 1fr;
   gap: 7px;
-  margin: auto 0 14px;
-  padding-top: 14px;
+  margin: auto 0 12px;
+  padding-top: 12px;
 }
 
 .duo-course-meta span {
   display: inline-flex;
-  min-height: 31px;
+  min-height: 28px;
   align-items: center;
   border: 1px solid #e5e5e5;
   border-radius: 999px;
@@ -3457,7 +3490,7 @@ html {
 
 .duo-course-button {
   width: 100%;
-  min-height: 48px;
+  min-height: 44px;
   padding: 0 18px;
   font-size: 13px;
   white-space: nowrap;

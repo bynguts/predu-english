@@ -312,7 +312,7 @@ function App() {
         {currentModule === null ? (
           
           /* Redesigned language-learning homepage dashboard - full bleed modular layout */
-          <div className="w-full flex flex-col">
+          <div className="landing-scroll w-full flex flex-col">
             <section className="duo-hero">
               <div className="duo-hero-inner">
                 <motion.div className="duo-hero-art" data-reveal="pop" aria-hidden="true" {...motionPop(0.04)}>
