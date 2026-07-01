@@ -342,7 +342,7 @@ function App() {
 
                 <motion.div className="duo-cta-panel" data-reveal="rise" {...motionPop(0.12)}>
                   <span className="duo-hero-kicker">Predu English classroom</span>
-                  <h1>Belajar English jadi berani, seru, dan terarah.</h1>
+                  <h1>Belajar English dengan Predu</h1>
                   <p className="duo-hero-subcopy">
                     Lesson path untuk anak-anak: huruf, kata, suara, mini game, lalu review bareng di layar laptop.
                   </p>
