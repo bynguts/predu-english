@@ -315,8 +315,6 @@ function App() {
                     onClick={scrollToCurriculum}
                     className="btn-3d btn-3d-green duo-main-cta"
                     type="button"
-                    whileHover={reducedMotion ? undefined : { scale: 1.03, y: -2 }}
-                    whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                   >
                     Get Started
                   </motion.button>
@@ -324,8 +322,6 @@ function App() {
                     onClick={handleTestSpeech}
                     className="btn-3d btn-3d-outline duo-secondary-cta"
                     type="button"
-                    whileHover={reducedMotion ? undefined : { scale: 1.02, y: -1 }}
-                    whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                   >
                     Test Voice
                   </motion.button>
@@ -549,8 +545,6 @@ function App() {
                           onClick={() => handleStartModule(module.id)}
                           className={`btn-3d ${style.btnColor} duo-course-button`}
                           type="button"
-                          whileHover={reducedMotion ? undefined : { scale: 1.02 }}
-                          whileTap={reducedMotion ? undefined : { scale: 0.98, y: 2 }}
                         >
                           Mulai Belajar
                         </motion.button>
