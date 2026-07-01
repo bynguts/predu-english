@@ -563,9 +563,23 @@ function App() {
                         className={`duo-course-card duo-course-card-${idx + 1}`}
                         data-reveal="pop"
                         style={revealDelay(idx)}
-                        {...motionPop(idx * 0.08)}
-                        whileHover={reducedMotion ? undefined : { y: -10, scale: 1.045, rotateX: 2, rotateY: idx === 1 ? 0 : idx === 0 ? -2 : 2 }}
-                        whileTap={reducedMotion ? undefined : { scale: 0.99 }}
+                        initial={reducedMotion ? undefined : { opacity: 0, y: 24, scale: 0.98 }}
+                        animate={reducedMotion ? undefined : { opacity: 1, y: 0, scale: 1, rotateX: 0, rotateY: 0 }}
+                        transition={reducedMotion ? undefined : {
+                          opacity: { duration: 0.42, delay: idx * 0.08, ease: easeOutExpo },
+                          y: { type: 'spring', stiffness: 620, damping: 38, mass: 0.55 },
+                          scale: { type: 'spring', stiffness: 620, damping: 40, mass: 0.55 },
+                          rotateX: { type: 'spring', stiffness: 620, damping: 42, mass: 0.55 },
+                          rotateY: { type: 'spring', stiffness: 620, damping: 42, mass: 0.55 }
+                        }}
+                        whileHover={reducedMotion ? undefined : {
+                          y: -4,
+                          scale: 1.014,
+                          rotateX: 1,
+                          rotateY: idx === 1 ? 0 : idx === 0 ? -1 : 1,
+                          transition: { type: 'spring', stiffness: 780, damping: 48, mass: 0.42 }
+                        }}
+                        whileTap={reducedMotion ? undefined : { scale: 0.992, transition: { duration: 0.08 } }}
                       >
                         <div className="duo-course-topline">
                           <div className={`duo-course-badge ${style.iconBg}`}>{module.id}</div>
