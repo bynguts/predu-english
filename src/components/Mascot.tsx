@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, type TargetAndTransition } from 'framer-motion';
+import { motion, useMotionValue, useSpring, type MotionValue, type TargetAndTransition } from 'framer-motion';
 import type { MascotState } from '../store';
 
 // ============================================================================
@@ -15,6 +15,8 @@ interface MascotProps {
 }
 
 type SourceMood = 'idle' | 'happy' | 'sad' | 'thinking';
+type EyeMotion = { x: MotionValue<number>; y: MotionValue<number> };
+type FaceProps = { eyeMotion: EyeMotion };
 
 const SIZE_MAP: Record<'small' | 'medium' | 'large', number> = {
   small: 90,
@@ -227,7 +229,7 @@ const MimoBody = ({ children }: { children: React.ReactNode }) => (
 );
 
 // ---- Per-mood face content ----
-const FaceIdle = () => (
+const FaceIdle = ({ eyeMotion }: FaceProps) => (
   <>
     <ellipse cx="58" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)" />
     <ellipse cx="142" cy="111" rx="14" ry="10" fill="url(#mimo-cheekBlush)" />
@@ -238,10 +240,12 @@ const FaceIdle = () => (
       <g transform="translate(-75, -95)">
         <ellipse cx="75" cy="95" rx="17" ry="20" fill="url(#mimo-eyeShine)" />
         <ellipse cx="75" cy="95" rx="17" ry="20" fill="none" stroke="#2B7A91" strokeWidth="1.5" />
-        <ellipse cx="77" cy="99" rx="10" ry="12" fill="#1E5266" opacity="0.85" />
-        <ellipse cx="81" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.95" />
-        <circle cx="70" cy="102" r="3" fill="#FFFFFF" opacity="0.85" />
-        <circle cx="82" cy="105" r="1.5" fill="#FFFFFF" opacity="0.9" />
+        <motion.g style={{ x: eyeMotion.x, y: eyeMotion.y }}>
+          <ellipse cx="77" cy="99" rx="10" ry="12" fill="#1E5266" opacity="0.85" />
+          <ellipse cx="81" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.95" />
+          <circle cx="70" cy="102" r="3" fill="#FFFFFF" opacity="0.85" />
+          <circle cx="82" cy="105" r="1.5" fill="#FFFFFF" opacity="0.9" />
+        </motion.g>
       </g>
     </g>
 
@@ -251,10 +255,12 @@ const FaceIdle = () => (
       <g transform="translate(-125, -95)">
         <ellipse cx="125" cy="95" rx="17" ry="20" fill="url(#mimo-eyeShine)" />
         <ellipse cx="125" cy="95" rx="17" ry="20" fill="none" stroke="#2B7A91" strokeWidth="1.5" />
-        <ellipse cx="123" cy="99" rx="10" ry="12" fill="#1E5266" opacity="0.85" />
-        <ellipse cx="119" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.95" />
-        <circle cx="130" cy="102" r="3" fill="#FFFFFF" opacity="0.85" />
-        <circle cx="118" cy="105" r="1.5" fill="#FFFFFF" opacity="0.9" />
+        <motion.g style={{ x: eyeMotion.x, y: eyeMotion.y }}>
+          <ellipse cx="123" cy="99" rx="10" ry="12" fill="#1E5266" opacity="0.85" />
+          <ellipse cx="119" cy="86" rx="6" ry="7" fill="#FFFFFF" opacity="0.95" />
+          <circle cx="130" cy="102" r="3" fill="#FFFFFF" opacity="0.85" />
+          <circle cx="118" cy="105" r="1.5" fill="#FFFFFF" opacity="0.9" />
+        </motion.g>
       </g>
     </g>
 
@@ -263,7 +269,7 @@ const FaceIdle = () => (
   </>
 );
 
-const FaceHappy = () => (
+const FaceHappy = (_props: FaceProps) => (
   <>
     <ellipse cx="58" cy="106" rx="15" ry="11" fill="url(#mimo-cheekBlush)" />
     <ellipse cx="142" cy="106" rx="15" ry="11" fill="url(#mimo-cheekBlush)" />
@@ -291,7 +297,7 @@ const FaceHappy = () => (
   </>
 );
 
-const FaceSad = () => (
+const FaceSad = (_props: FaceProps) => (
   <>
     <path d="M62 92 Q76 86 90 94" fill="none" stroke="#3A3F4B" strokeWidth="2.5" strokeLinecap="round" opacity="0.5" />
     <ellipse cx="76" cy="98" rx="15" ry="15" fill="url(#mimo-eyeShine)" opacity="0.8" />
@@ -319,7 +325,7 @@ const FaceSad = () => (
   </>
 );
 
-const FaceThinking = () => (
+const FaceThinking = ({ eyeMotion }: FaceProps) => (
   <>
     <ellipse cx="58" cy="110" rx="14" ry="10" fill="url(#mimo-cheekBlush)" opacity="0.7" />
     <ellipse cx="142" cy="110" rx="14" ry="10" fill="url(#mimo-cheekBlush)" opacity="0.7" />
@@ -329,9 +335,11 @@ const FaceThinking = () => (
       <g transform="translate(-76, -94)">
         <ellipse cx="76" cy="94" rx="16" ry="18" fill="url(#mimo-eyeShine)" />
         <ellipse cx="76" cy="94" rx="16" ry="18" fill="none" stroke="#2B7A91" strokeWidth="1.5" />
-        <ellipse cx="80" cy="92" rx="9" ry="11" fill="#1E5266" opacity="0.85" />
-        <circle cx="83" cy="85" r="5" fill="#FFFFFF" />
-        <circle cx="74" cy="100" r="2" fill="#FFFFFF" />
+        <motion.g style={{ x: eyeMotion.x, y: eyeMotion.y }}>
+          <ellipse cx="80" cy="92" rx="9" ry="11" fill="#1E5266" opacity="0.85" />
+          <circle cx="83" cy="85" r="5" fill="#FFFFFF" />
+          <circle cx="74" cy="100" r="2" fill="#FFFFFF" />
+        </motion.g>
       </g>
     </g>
 
@@ -340,9 +348,11 @@ const FaceThinking = () => (
       <g transform="translate(-124, -94)">
         <ellipse cx="124" cy="94" rx="16" ry="18" fill="url(#mimo-eyeShine)" />
         <ellipse cx="124" cy="94" rx="16" ry="18" fill="none" stroke="#2B7A91" strokeWidth="1.5" />
-        <ellipse cx="128" cy="92" rx="9" ry="11" fill="#1E5266" opacity="0.85" />
-        <circle cx="131" cy="85" r="5" fill="#FFFFFF" />
-        <circle cx="122" cy="100" r="2" fill="#FFFFFF" />
+        <motion.g style={{ x: eyeMotion.x, y: eyeMotion.y }}>
+          <ellipse cx="128" cy="92" rx="9" ry="11" fill="#1E5266" opacity="0.85" />
+          <circle cx="131" cy="85" r="5" fill="#FFFFFF" />
+          <circle cx="122" cy="100" r="2" fill="#FFFFFF" />
+        </motion.g>
       </g>
     </g>
 
@@ -354,7 +364,7 @@ const FaceThinking = () => (
   </>
 );
 
-const FACES: Record<SourceMood, React.FC> = {
+const FACES: Record<SourceMood, React.FC<FaceProps>> = {
   idle: FaceIdle,
   happy: FaceHappy,
   sad: FaceSad,
@@ -424,6 +434,33 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
   const pixelSize = SIZE_MAP.large;
   const message = speechText ?? '';
   const calmMotion = className.includes('lesson-coach-mascot');
+  const eyeX = useMotionValue(0);
+  const eyeY = useMotionValue(0);
+  const smoothEyeX = useSpring(eyeX, { stiffness: 260, damping: 24, mass: 0.35 });
+  const smoothEyeY = useSpring(eyeY, { stiffness: 260, damping: 24, mass: 0.35 });
+
+  React.useEffect(() => {
+    const shouldTrack = !calmMotion && (mood === 'idle' || mood === 'thinking');
+    if (!shouldTrack) {
+      eyeX.set(0);
+      eyeY.set(0);
+      return;
+    }
+
+    const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+    const handlePointerMove = (event: PointerEvent) => {
+      const originX = window.innerWidth * 0.38;
+      const originY = window.innerHeight * 0.42;
+      const normalizedX = (event.clientX - originX) / Math.max(originX, window.innerWidth - originX);
+      const normalizedY = (event.clientY - originY) / Math.max(originY, window.innerHeight - originY);
+
+      eyeX.set(clamp(normalizedX * 5.5, -4.8, 4.8));
+      eyeY.set(clamp(normalizedY * 3.8, -3.2, 3.2));
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    return () => window.removeEventListener('pointermove', handlePointerMove);
+  }, [calmMotion, eyeX, eyeY, mood]);
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center p-4 relative ${className}`} style={{ minHeight: '260px' }}>
@@ -446,7 +483,7 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
         >
           <MimoDefs />
           <MimoBody>
-            <Face />
+            <Face eyeMotion={{ x: smoothEyeX, y: smoothEyeY }} />
           </MimoBody>
         </svg>
 
