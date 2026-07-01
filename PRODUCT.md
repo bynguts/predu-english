@@ -6,7 +6,7 @@ product
 
 ## Users
 
-PreEdu EngKids is used by a volunteer facilitator operating a laptop in front of a small classroom. The learner audience is a mixed-age group of children, roughly kindergarten through elementary school, watching through a projector and answering aloud or taking turns at the laptop.
+Predu English is used by a volunteer facilitator operating a laptop in front of a small classroom. The learner audience is a mixed-age group of children, roughly kindergarten through elementary school, watching through a projector and answering aloud or taking turns at the laptop.
 
 ## Product Purpose
 
