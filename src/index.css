@@ -2549,10 +2549,46 @@ html:has(.landing-scroll) {
 
 .duo-feature-board {
   position: relative;
-  overflow: hidden;
-  width: min(100%, 360px);
+  overflow: visible;
+  width: min(100%, 430px);
   min-height: 336px;
   justify-self: center;
+  border: 0;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 50% 52%, rgb(255 199 0 / 0.18), transparent 42%),
+    radial-gradient(circle at 74% 30%, rgb(28 176 246 / 0.12), transparent 38%);
+  padding: 0;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.duo-feature-board::before {
+  content: "";
+  position: absolute;
+  inset: auto 44px -10px;
+  height: 34px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgb(37 99 235 / 0.16), transparent 72%);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.duo-plan-stack {
+  position: relative;
+  width: min(100%, 430px);
+  height: 318px;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+}
+
+.duo-plan-card {
+  position: absolute;
+  width: min(78%, 330px);
+  min-height: 292px;
+  display: flex;
+  flex-direction: column;
   border: 6px solid #f0bd4e;
   border-bottom-width: 14px;
   border-radius: 28px;
@@ -2560,22 +2596,56 @@ html:has(.landing-scroll) {
     radial-gradient(circle at 88% 18%, rgb(255 199 0 / 0.18), transparent 20%),
     linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(247 255 241 / 0.98));
   padding: 20px;
-  box-shadow: 0 32px 56px rgb(121 91 0 / 0.12);
-  animation: duo-card-breathe 5.6s ease-in-out infinite;
+  box-shadow: 0 28px 48px rgb(121 91 0 / 0.14);
+  cursor: pointer;
+  text-align: left;
   transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
 }
 
-.duo-feature-board::before {
-  content: "";
+.duo-plan-card:focus-visible {
+  outline: 4px solid rgb(28 176 246 / 0.36);
+  outline-offset: 5px;
+}
+
+.duo-plan-card-sky {
+  border-color: #58ccf5;
+  background:
+    radial-gradient(circle at 88% 18%, rgb(28 176 246 / 0.18), transparent 22%),
+    linear-gradient(180deg, #ffffff 0%, #eefaff 100%);
+  box-shadow: 0 28px 48px rgb(28 176 246 / 0.15);
+}
+
+.duo-plan-card-purple {
+  border-color: #a570ff;
+  background:
+    radial-gradient(circle at 88% 18%, rgb(165 112 255 / 0.16), transparent 22%),
+    linear-gradient(180deg, #ffffff 0%, #f5eefc 100%);
+  box-shadow: 0 28px 48px rgb(130 71 223 / 0.13);
+}
+
+.duo-plan-dots {
   position: absolute;
-  width: 136px;
-  height: 76px;
-  right: -42px;
-  top: -24px;
+  left: 50%;
+  bottom: -18px;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
+.duo-plan-dots button {
+  width: 8px;
+  height: 8px;
+  border: 0;
   border-radius: 999px;
-  background: rgb(28 176 246 / 0.1);
-  transform: rotate(-15deg);
-  pointer-events: none;
+  background: #d1d5db;
+  padding: 0;
+}
+
+.duo-plan-dots button.is-active {
+  width: 22px;
+  background: var(--color-duo-green);
 }
 
 .duo-board-topline {
@@ -2583,7 +2653,7 @@ html:has(.landing-scroll) {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .duo-board-topline span,
@@ -2611,7 +2681,7 @@ html:has(.landing-scroll) {
 
 .duo-board-step {
   position: relative;
-  min-height: 100px;
+  min-height: 92px;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -2621,7 +2691,6 @@ html:has(.landing-scroll) {
   border-radius: 16px;
   background: #ffffff;
   text-align: center;
-  animation: duo-card-breathe 5s ease-in-out infinite;
   box-shadow: 0 10px 18px rgb(75 75 75 / 0.05);
   transform-style: preserve-3d;
 }

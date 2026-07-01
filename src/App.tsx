@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import { useAppStore } from './store';
 import { modulesData } from './data/modules';
@@ -37,6 +37,7 @@ function App() {
   } = useAppStore();
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [featurePlanIndex, setFeaturePlanIndex] = useState(0);
   const reducedMotion = useReducedMotion();
   const heroPointerX = useMotionValue(0);
   const heroPointerY = useMotionValue(0);
@@ -165,6 +166,42 @@ function App() {
       iconBg: 'bg-[#f3ecff] text-[#6d35c9] border-[#d8c2ff]',
       btnColor: 'btn-3d-purple',
       surface: 'bg-[#f8f4ff]'
+    }
+  ];
+
+  const lessonPlanCards = [
+    {
+      day: 'Today',
+      time: '45 min class',
+      tone: 'blue',
+      steps: [
+        ['1', 'Warm up'],
+        ['2', 'Listen'],
+        ['3', 'Play'],
+        ['4', 'Review']
+      ]
+    },
+    {
+      day: 'Tomorrow',
+      time: '50 min class',
+      tone: 'sky',
+      steps: [
+        ['1', 'Numbers'],
+        ['2', 'Colors'],
+        ['3', 'Match'],
+        ['4', 'Speak']
+      ]
+    },
+    {
+      day: 'Next 2 Days',
+      time: '60 min class',
+      tone: 'purple',
+      steps: [
+        ['1', 'Animals'],
+        ['2', 'Objects'],
+        ['3', 'Sentence'],
+        ['4', 'Review']
+      ]
     }
   ];
 
@@ -413,26 +450,65 @@ function App() {
                 </div>
 
                 <div className="duo-feature-visual" data-reveal="slide-right" aria-label="Classroom learning metrics">
-                  <div className="duo-feature-board">
-                    <div className="duo-board-topline">
-                      <span>Today</span>
-                      <strong>45 min class</strong>
+                  <div className="duo-feature-board" aria-label="Three day lesson plan carousel">
+                    <div className="duo-plan-stack">
+                      {lessonPlanCards.map((plan, index) => {
+                        const total = lessonPlanCards.length;
+                        let position = (index - featurePlanIndex + total) % total;
+                        if (position > Math.floor(total / 2)) position -= total;
+                        const isCenter = position === 0;
+                        const isLeft = position < 0;
+
+                        return (
+                          <motion.button
+                            key={plan.day}
+                            type="button"
+                            className={`duo-plan-card duo-plan-card-${plan.tone}`}
+                            onClick={() => setFeaturePlanIndex(index)}
+                            animate={{
+                              x: `${position * 33}%`,
+                              scale: isCenter ? 1 : 0.86,
+                              rotateY: position * -9,
+                              rotateZ: isCenter ? 0 : isLeft ? -2.5 : 2.5,
+                              opacity: isCenter ? 1 : 0.62,
+                              filter: isCenter ? 'blur(0px)' : 'blur(1.6px)'
+                            }}
+                            transition={reducedMotion
+                              ? { duration: 0 }
+                              : {
+                                  type: 'spring',
+                                  stiffness: 420,
+                                  damping: 34,
+                                  mass: 0.62
+                                }}
+                            style={{ zIndex: isCenter ? 10 : 5 - Math.abs(position) }}
+                            aria-pressed={isCenter}
+                          >
+                            <div className="duo-board-topline">
+                              <span>{plan.day}</span>
+                              <strong>{plan.time}</strong>
+                            </div>
+                            <div className="duo-board-path">
+                              {plan.steps.map(([step, label]) => (
+                                <div className="duo-board-step" key={`${plan.day}-${label}`}>
+                                  <b>{step}</b>
+                                  <span>{label}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </motion.button>
+                        );
+                      })}
                     </div>
-                    <div className="duo-board-path">
-                      {[
-                        ['1', 'Warm up'],
-                        ['2', 'Listen'],
-                        ['3', 'Play'],
-                        ['4', 'Review']
-                      ].map(([step, label], idx) => (
-                        <motion.div
-                          className="duo-board-step"
-                          key={label}
-                          {...floatMotion(idx * 0.08, idx % 2 === 0 ? 4 : 7)}
-                        >
-                          <b>{step}</b>
-                          <span>{label}</span>
-                        </motion.div>
+                    <div className="duo-plan-dots" aria-hidden="true">
+                      {lessonPlanCards.map((plan, index) => (
+                        <button
+                          key={plan.day}
+                          type="button"
+                          className={index === featurePlanIndex ? 'is-active' : ''}
+                          onClick={() => setFeaturePlanIndex(index)}
+                          tabIndex={-1}
+                        />
                       ))}
                     </div>
                   </div>
