@@ -2194,23 +2194,24 @@ html {
 }
 
 .duo-secondary-cta.btn-3d-outline {
-  background-color: var(--color-duo-green);
-  color: var(--color-snow-white);
-  border: none;
-  box-shadow: 0 4px 0 var(--color-duo-green-shadow);
-  padding: 14px 28px;
+  background-color: var(--color-snow-white);
+  color: var(--color-sky-blue);
+  border: 2px solid var(--color-cloud-gray);
+  box-shadow: 0 4px 0 var(--color-cloud-gray);
+  padding: 12px 26px;
 }
 
 .duo-secondary-cta.btn-3d-outline:hover:not(:disabled) {
-  background-color: var(--color-duo-green);
+  background-color: #f7fbff;
+  border-color: #bfdbfe;
   transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--color-duo-green-shadow);
-  filter: brightness(1.04);
+  box-shadow: 0 2px 0 #bfdbfe;
+  filter: brightness(1.01);
 }
 
 .duo-secondary-cta.btn-3d-outline:active:not(:disabled) {
   transform: translateY(4px);
-  box-shadow: 0 0 0 var(--color-duo-green-shadow);
+  box-shadow: 0 0 0 #bfdbfe;
   filter: brightness(0.98);
 }
 
@@ -2865,17 +2866,17 @@ html {
 
 .duo-course-card-1 {
   background:
-    linear-gradient(180deg, #eff6ff 0%, #ffffff 68%);
+    linear-gradient(180deg, #eaf3ff 0%, #ffffff 66%);
 }
 
 .duo-course-card-2 {
   background:
-    linear-gradient(180deg, #f4f9ff 0%, #ffffff 68%);
+    linear-gradient(180deg, #e6f8ff 0%, #ffffff 66%);
 }
 
 .duo-course-card-3 {
   background:
-    linear-gradient(180deg, #f7faff 0%, #ffffff 68%);
+    linear-gradient(180deg, #f3ecff 0%, #ffffff 66%);
 }
 
 .duo-course-topline {

@@ -124,16 +124,16 @@ function App() {
       surface: 'bg-[#eff6ff]'
     },
     {
-      border: 'border-[#2563eb] hover:border-[#2563eb]',
-      iconBg: 'bg-[#e0f2fe] text-[#1d4ed8] border-[#bfdbfe]',
-      btnColor: 'btn-3d-green',
-      surface: 'bg-[#f4f9ff]'
+      border: 'border-[#1cb0f6] hover:border-[#1cb0f6]',
+      iconBg: 'bg-[#e0f7ff] text-[#087cad] border-[#94ddff]',
+      btnColor: 'btn-3d-blue',
+      surface: 'bg-[#eefaff]'
     },
     {
-      border: 'border-[#2563eb] hover:border-[#2563eb]',
-      iconBg: 'bg-[#eef2ff] text-[#1e40af] border-[#c7d2fe]',
-      btnColor: 'btn-3d-green',
-      surface: 'bg-[#f7faff]'
+      border: 'border-[#a570ff] hover:border-[#a570ff]',
+      iconBg: 'bg-[#f3ecff] text-[#6d35c9] border-[#d8c2ff]',
+      btnColor: 'btn-3d-purple',
+      surface: 'bg-[#f8f4ff]'
     }
   ];
 
