@@ -359,7 +359,7 @@ main {
 
 .lesson-coach-mascot .speech-bubble {
   max-width: 235px;
-  top: 108px !important;
+  top: -250px !important;
 }
 
 .lesson-coach-mascot .speech-bubble p {
@@ -2002,6 +2002,25 @@ html {
   animation: duo-rive-pop 720ms var(--ease-out-expo) 120ms both;
 }
 
+.duo-hero-mimo.duo-hero-mascot {
+  width: 430px;
+  height: 430px;
+  min-height: 0 !important;
+  padding: 0;
+  transform: none;
+  animation: duo-rive-pop 720ms var(--ease-out-expo) 120ms both;
+  pointer-events: none;
+}
+
+.duo-hero-mimo .mimo-mascot {
+  width: 330px;
+  height: 363px;
+}
+
+.duo-hero-mimo .speech-bubble {
+  display: none;
+}
+
 .hero-rive-mascot {
   display: grid;
   place-items: center;
@@ -3171,6 +3190,16 @@ html {
   .hero-rive-mascot.duo-hero-mascot {
     width: 330px;
     height: 330px;
+  }
+
+  .duo-hero-mimo.duo-hero-mascot {
+    width: 330px;
+    height: 330px;
+  }
+
+  .duo-hero-mimo .mimo-mascot {
+    width: 238px;
+    height: 262px;
   }
 
   .duo-float-card {

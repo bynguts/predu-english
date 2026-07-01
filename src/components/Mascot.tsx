@@ -279,13 +279,6 @@ const FaceHappy = () => (
     <path d="M80 116 Q100 140 120 116" fill="none" stroke="#7A7F8C" strokeWidth="2" strokeLinecap="round" />
     <ellipse cx="100" cy="122" rx="7" ry="4" fill="#FF8A7D" />
 
-    {/* ⚡ LIGHTNING BOLTS around head - Cool effect! */}
-    <g opacity="0.8">
-      <animateTransform attributeName="transform" type="scale" values="1; 1.2; 1" dur="0.8s" repeatCount="indefinite" />
-      <path d="M 40 60 L 45 55 L 43 65 L 48 62" stroke="#FFD700" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-      <path d="M 160 60 L 155 55 L 157 65 L 152 62" stroke="#FFD700" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-    </g>
-
     {/* 😎 SUNGLASSES (appears in happy mood!) */}
     <g>
       <ellipse cx="75" cy="95" rx="20" ry="15" fill="#1A202C" stroke="#2D3748" strokeWidth="2" />
@@ -358,23 +351,6 @@ const FaceThinking = () => (
     <path d="M93 116 Q100 112 107 116 Q103 122 100 123 Q97 122 93 116 Z" fill="#FF9E92" />
     <ellipse cx="100" cy="125" rx="4.5" ry="3.5" fill="none" stroke="#7A7F8C" strokeWidth="2" strokeLinecap="round" />
 
-    {/* ⚙️ GEAR in Thought Bubbles - More techy for boys! */}
-    <circle cx="148" cy="28" r="3.5" fill="#C9CDD4" opacity="0.8">
-      <animate attributeName="cy" values="28; 24; 28" dur="2s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="158" cy="18" r="2.5" fill="#C9CDD4" opacity="0.6">
-      <animate attributeName="cy" values="18; 14; 18" dur="2s" begin="0.3s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="166" cy="9" r="1.7" fill="#C9CDD4" opacity="0.45">
-      <animate attributeName="cy" values="9; 5; 9" dur="2s" begin="0.6s" repeatCount="indefinite" />
-    </circle>
-    
-    {/* Lightbulb moment */}
-    <g transform="translate(170, 5)">
-      <animate attributeName="opacity" values="0.6; 1; 0.6" dur="1.5s" repeatCount="indefinite" />
-      <circle cx="0" cy="0" r="4" fill="#FFD700" />
-      <path d="M 0 -4 L 0 -6 M -3 -3 L -4 -4 M 3 -3 L 4 -4" stroke="#FFD700" strokeWidth="1" strokeLinecap="round" />
-    </g>
   </>
 );
 
@@ -392,7 +368,18 @@ const mapStateToMood = (state?: MascotState): SourceMood => {
   return 'idle';
 };
 
-const getVariant = (mood: SourceMood, state?: MascotState): TargetAndTransition => {
+const getVariant = (mood: SourceMood, state?: MascotState, calm = false): TargetAndTransition => {
+  if (calm) {
+    return {
+      scale: 1,
+      scaleX: 1,
+      scaleY: 1,
+      y: 0,
+      rotate: 0,
+      transition: { duration: 0.18, ease: 'easeOut' as const }
+    };
+  }
+
   if (state === 'achievement') {
     return {
       scale: [1, 1.3, 1.08, 1.2, 1.08],
@@ -436,13 +423,14 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
   const Face = FACES[mood] || FACES.idle;
   const pixelSize = SIZE_MAP.large;
   const message = speechText ?? '';
+  const calmMotion = className.includes('lesson-coach-mascot');
 
   return (
     <div className={`mimo-stage flex flex-col items-center justify-center p-4 relative ${className}`} style={{ minHeight: '260px' }}>
       <motion.div
-        animate={getVariant(mood, state)}
-        whileHover={{ scale: 1.08, rotate: 6 }}
-        whileTap={{ scale: 0.92 }}
+        animate={getVariant(mood, state, calmMotion)}
+        whileHover={calmMotion ? undefined : { scale: 1.08, rotate: 6 }}
+        whileTap={calmMotion ? undefined : { scale: 0.92 }}
         className="cursor-pointer"
         style={{ filter: 'drop-shadow(0px 12px 16px rgba(0,0,0,0.2))', transformOrigin: 'bottom center' }}
       >
