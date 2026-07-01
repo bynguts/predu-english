@@ -561,8 +561,6 @@ function App() {
                         key={module.id}
                         id={`lesson-${module.id}`}
                         className={`duo-course-card duo-course-card-${idx + 1}`}
-                        data-reveal="pop"
-                        style={revealDelay(idx)}
                         initial={reducedMotion ? undefined : { opacity: 0, y: 24, scale: 0.98 }}
                         animate={reducedMotion ? undefined : { opacity: 1, y: 0, scale: 1, rotateX: 0, rotateY: 0 }}
                         transition={reducedMotion ? undefined : {
