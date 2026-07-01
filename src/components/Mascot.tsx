@@ -392,10 +392,12 @@ const getVariant = (mood: SourceMood, state?: MascotState, calm = false): Target
 
   if (state === 'achievement') {
     return {
-      scale: [1, 1.3, 1.08, 1.2, 1.08],
-      y: [0, -34, 4, -14, 0],
-      rotate: [0, 18, 360, 372, 360],
-      transition: { duration: 1.25, repeat: Infinity, repeatDelay: 0.9, ease: 'easeInOut' as const }
+      scale: [1, 1.22, 1.04, 1.12, 1.04],
+      scaleX: [1, 0.96, 1.08, 1.02, 1],
+      scaleY: [1, 1.08, 0.94, 1.04, 1],
+      y: [0, -24, 3, -9, 0],
+      rotate: [0, -4, 4, -2, 0],
+      transition: { duration: 1.05, repeat: Infinity, repeatDelay: 1.1, ease: 'easeInOut' as const }
     };
   }
 
