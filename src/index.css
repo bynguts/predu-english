@@ -349,23 +349,45 @@ main {
 }
 
 .lesson-coach-mascot {
-  min-height: 0 !important;
-  gap: 10px;
+  min-height: 340px !important;
+  gap: 12px;
+  padding: 0 10px 12px !important;
+}
+
+.lesson-coach-mascot > .cursor-pointer {
+  position: relative;
+  margin-top: 86px;
 }
 
 .lesson-coach-mascot svg {
-  width: 132px;
-  height: 145px;
+  width: 178px;
+  height: 196px;
 }
 
 .lesson-coach-mascot .speech-bubble {
-  max-width: 235px;
-  top: -250px !important;
+  position: absolute;
+  max-width: 260px;
+  top: -128px !important;
+  border-color: var(--color-cloud-gray);
+  border-bottom-width: 5px;
+  box-shadow: 0 14px 28px rgba(75, 75, 75, 0.14), 0 4px 0 var(--color-cloud-gray);
+  text-align: left;
+  white-space: normal;
+}
+
+.lesson-coach-mascot .speech-bubble::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lesson-coach-mascot .speech-bubble::before {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .lesson-coach-mascot .speech-bubble p {
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 14px;
+  line-height: 1.34;
 }
 
 .mimo-stage {

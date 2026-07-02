@@ -441,6 +441,7 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
   const message = speechText ?? '';
   const coachMascot = className.includes('lesson-coach-mascot');
   const calmBodyMotion = coachMascot || className.includes('duo-hero-mimo');
+  const stageMinHeight = coachMascot ? '340px' : '260px';
   const eyeX = useMotionValue(0);
   const eyeY = useMotionValue(0);
   const smoothEyeX = useSpring(eyeX, { stiffness: 260, damping: 24, mass: 0.35 });
@@ -470,7 +471,7 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
   }, [coachMascot, eyeX, eyeY, mood]);
 
   return (
-    <div className={`mimo-stage flex flex-col items-center justify-center p-4 relative ${className}`} style={{ minHeight: '260px' }}>
+    <div className={`mimo-stage flex flex-col items-center justify-center p-4 relative ${className}`} style={{ minHeight: stageMinHeight }}>
       <motion.div
         animate={getVariant(mood, state, calmBodyMotion)}
         whileHover={calmBodyMotion ? undefined : { scale: 1.08, rotate: 6 }}
@@ -498,10 +499,9 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="speech-bubble speech-bubble-mimo absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-xl shadow-xl border-3 border-orange-500 whitespace-nowrap z-20"
+            className="speech-bubble speech-bubble-mimo absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
           >
             <p className="text-sm font-bold text-gray-700">{message}</p>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-b-3 border-r-3 border-orange-500 rotate-45"></div>
           </motion.div>
         )}
       </motion.div>
