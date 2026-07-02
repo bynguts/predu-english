@@ -3180,8 +3180,8 @@ html:has(.landing-scroll) {
 }
 
 .duo-anywhere-float-c {
-  right: 22%;
-  bottom: 18%;
+  right: 5%;
+  bottom: 34%;
   color: var(--color-grape-soda-shadow);
   border-color: rgb(165 112 255 / 0.26);
   background: #f5eefc;
@@ -3217,15 +3217,15 @@ html:has(.landing-scroll) {
 }
 
 .duo-anywhere-device-right {
-  right: 6%;
-  bottom: 18px;
+  right: -18px;
+  bottom: 8px;
   transform: rotate(13deg);
   animation-delay: 1200ms;
 }
 
 .duo-mini-game-strip {
   position: relative;
-  z-index: 4;
+  z-index: 6;
   width: min(100%, 760px);
   justify-self: center;
   display: grid;
@@ -3240,6 +3240,7 @@ html:has(.landing-scroll) {
   z-index: 5;
   overflow: hidden;
   min-height: 86px;
+  height: 86px;
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   align-items: center;
@@ -3247,7 +3248,7 @@ html:has(.landing-scroll) {
   border: 2px solid #e5e5e5;
   border-bottom-width: 6px;
   border-radius: 17px;
-  background: rgb(255 255 255 / 0.94);
+  background: #ffffff;
   padding: 12px 14px;
   box-shadow: 0 18px 32px rgb(75 75 75 / 0.07);
   animation: duo-card-breathe 5.8s ease-in-out infinite;
@@ -3267,7 +3268,7 @@ html:has(.landing-scroll) {
 }
 
 .duo-mini-game-card:nth-child(2) {
-  margin-top: 10px;
+  margin-top: 0;
   margin-left: 0;
   animation-delay: 0.28s;
 }
@@ -3300,11 +3301,15 @@ html:has(.landing-scroll) {
 }
 
 .duo-mini-game-card span {
+  min-width: 0;
   color: #25425d;
   font-family: var(--font-din-round);
   font-size: 13px;
   font-weight: 900;
   line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .duo-course-section {
