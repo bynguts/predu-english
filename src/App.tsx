@@ -217,7 +217,7 @@ function App() {
             className="app-header-brand"
           >
             <span className="app-header-logo">
-              PreE-du english
+              PreE-du English
             </span>
           </div>
 
