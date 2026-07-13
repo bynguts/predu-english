@@ -376,6 +376,7 @@ main {
   top: auto !important;
   left: auto;
   transform: none;
+  translate: none;
   margin: 0 auto;
   border-color: var(--color-cloud-gray);
   border-bottom-width: 5px;
