@@ -499,7 +499,11 @@ export const Mascot: React.FC<MascotProps> = ({ state = 'idle', speechText = nul
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="speech-bubble speech-bubble-mimo absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
+            className={
+              coachMascot
+                ? 'speech-bubble speech-bubble-mimo z-20'
+                : 'speech-bubble speech-bubble-mimo absolute -top-16 left-1/2 transform -translate-x-1/2 z-20'
+            }
           >
             <p className="text-sm font-bold text-gray-700">{message}</p>
           </motion.div>
