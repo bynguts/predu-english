@@ -99,7 +99,7 @@ function App() {
   };
 
   const handleTestSpeech = () => {
-    speakEnglish("Hello children! Welcome to Predu English!", audioMuted);
+    speakEnglish("Hello children! Welcome to PreE-du English!", audioMuted);
   };
 
   const scrollToCurriculum = () => {
@@ -217,7 +217,7 @@ function App() {
             className="app-header-brand"
           >
             <span className="app-header-logo">
-              predu english
+              PreE-du english
             </span>
           </div>
 
@@ -378,8 +378,8 @@ function App() {
                 </motion.div>
 
                 <motion.div className="duo-cta-panel" data-reveal="rise" {...motionPop(0.12)}>
-                  <span className="duo-hero-kicker">Predu English classroom</span>
-                  <h1>Belajar English dengan Predu</h1>
+                  <span className="duo-hero-kicker">PreE-du English classroom</span>
+                  <h1>Belajar English dengan PreE-du</h1>
                   <p className="duo-hero-subcopy">
                     Lesson path untuk anak-anak: huruf, kata, suara, mini game, lalu review bareng di layar laptop.
                   </p>
@@ -438,7 +438,7 @@ function App() {
                   <div className="duo-section-label">Projector ready lessons</div>
                   <h2>free. fun. effective.</h2>
                   <p className="duo-feature-copy">
-                    Learning with Predu English is guided, visual, and ready for a laptop classroom.
+                    Learning with PreE-du English is guided, visual, and ready for a laptop classroom.
                     Every section gives the facilitator a clear action and gives children a big moment to answer together.
                   </p>
 
@@ -695,7 +695,7 @@ function App() {
                     free. fun. effective.
                   </h1>
                   <p className="text-lg md:text-xl text-gray-500 font-din leading-relaxed mb-8 max-w-xl">
-                    Belajar Bahasa Inggris bersama Predu English sangat menyenangkan! Dengan metode interaktif tatap muka, bantu anak-anak menguasai kosakata dasar dengan gembira.
+                    Belajar Bahasa Inggris bersama PreE-du English sangat menyenangkan! Dengan metode interaktif tatap muka, bantu anak-anak menguasai kosakata dasar dengan gembira.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <button
@@ -930,7 +930,7 @@ function App() {
           <div className="duo-footer-inner">
             <div className="duo-footer-cta" data-reveal="rise">
               <div>
-                <h2>predu english</h2>
+                <h2>PreE-du english</h2>
                 <p>
                   Materi Bahasa Inggris untuk kelas anak: jelas di laptop, mudah dipandu guru,
                   dan cukup ringan untuk sesi belajar bersama.
@@ -964,7 +964,7 @@ function App() {
             </div>
 
             <div className="duo-footer-bottom">
-              <span>2026 Predu English</span>
+              <span>2026 PreE-du English</span>
               <span>Alphabet, kosakata, pronunciation, dan mini-game kelas.</span>
             </div>
           </div>
@@ -1016,13 +1016,13 @@ function App() {
             </div>
           </div>
           <div className="max-w-[1140px] mx-auto pt-6 text-center text-xs text-white/60">
-            <p>© 2026 Predu English — Dibuat dengan kasih untuk pendidikan bahasa Inggris anak-anak panti asuhan.</p>
+            <p>© 2026 PreE-du English — Dibuat dengan kasih untuk pendidikan bahasa Inggris anak-anak panti asuhan.</p>
           </div>
         </footer>
       ) : (
         /* Small Flat Footer inside quiz viewport */
         <footer className="hidden">
-          <p>© 2026 Predu English — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
+          <p>© 2026 PreE-du English — Dibuat dengan kasih untuk pendidikan bahasa Inggris.</p>
         </footer>
       )}
     </div>

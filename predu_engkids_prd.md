@@ -1,4 +1,4 @@
-# PRD — Predu English: Interactive English Teaching Tool
+# PRD — PreE-du English: Interactive English Teaching Tool
 **Version:** 1.0  
 **Tanggal:** Juni 2026  
 **Status:** Draft
@@ -305,5 +305,5 @@ Karena ini proyek sosial dengan pertemuan terbatas, metrik suksesnya bersifat ku
 
 ---
 
-*PRD Version 1.0 — Predu English Interactive Teaching Tool*  
+*PRD Version 1.0 — PreE-du English Interactive Teaching Tool*
 *Dibuat untuk proyek sosial pendidikan bahasa Inggris anak-anak panti asuhan*

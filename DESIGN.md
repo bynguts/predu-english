@@ -1,4 +1,4 @@
-# Predu English - Style Reference
+# PreE-du English - Style Reference
 > Playground Starter Kit
 
 **Theme:** light
@@ -159,7 +159,7 @@ The site uses a centered, max-width layout (approx. 1140px) on an expansive whit
 
 - **Headspace** — Nearly identical philosophy of using friendly, rounded illustrations and a soft, approachable UI to demystify a complex topic.
 - **Kahoot!** — Shares the gamified learning aesthetic, with bold primary colors, simple UI, and a focus on fun.
-- **Mailchimp** — Pioneered the use of quirky, brand-defining illustrations and a single-color identity (yellow) in a similar way Predu English uses blue.
+- **Mailchimp** — Pioneered the use of quirky, brand-defining illustrations and a single-color identity (yellow) in a similar way PreE-du English uses blue.
 - **Discord** — Employs a custom super-rounded font ('gg sans') and mascot-driven illustrations to create a similarly playful and community-focused atmosphere.
 
 ## Quick Start

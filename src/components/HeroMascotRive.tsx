@@ -32,7 +32,7 @@ const AlfaFallback: React.FC = () => {
       className="hero-alfa-svg"
       viewBox="0 0 320 320"
       role="img"
-      aria-label="Alfa, maskot kucing Predu English"
+      aria-label="Alfa, maskot kucing PreE-du English"
       initial={false}
       animate={mascotMotion}
       transition={{ duration: 3.4, repeat: reducedMotion ? 0 : Infinity, ease: 'easeInOut' }}
@@ -214,7 +214,7 @@ export const HeroMascotRive: React.FC<HeroMascotRiveProps> = ({ className = '' }
   }, []);
 
   return (
-    <div className={`hero-rive-mascot ${className}`} aria-label="Alfa, maskot kucing Predu English">
+    <div className={`hero-rive-mascot ${className}`} aria-label="Alfa, maskot kucing PreE-du English">
       {riveReady ? (
         <Suspense fallback={<AlfaFallback />}>
           <HeroRiveCanvas
