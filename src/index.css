@@ -357,6 +357,7 @@ main {
 .lesson-coach-mascot > .cursor-pointer {
   position: relative;
   margin-top: 0;
+  width: 100%;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -371,10 +372,11 @@ main {
 .lesson-coach-mascot .speech-bubble {
   position: relative;
   max-width: 100%;
+  width: fit-content;
   top: auto !important;
   left: auto;
   transform: none;
-  margin: 0;
+  margin: 0 auto;
   border-color: var(--color-cloud-gray);
   border-bottom-width: 5px;
   box-shadow: 0 14px 28px rgba(75, 75, 75, 0.14), 0 4px 0 var(--color-cloud-gray);
