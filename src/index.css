@@ -4281,3 +4281,295 @@ html:has(.landing-scroll) {
     transform: scale(1.05) !important;
   }
 }
+
+/* ============================================================================
+   Mobile View Styles for Interactive Learning Modules (PreE-du English)
+   ============================================================================ */
+@media (max-width: 768px) {
+  .lesson-page {
+    padding: 12px 10px !important;
+  }
+
+  /* Grid layout stacking and contents re-ordering */
+  .lesson-shell {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto !important;
+    gap: 12px !important;
+    min-height: auto !important;
+  }
+
+  .lesson-coach-panel {
+    display: contents !important;
+  }
+
+  .lesson-coach-card {
+    order: 1 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    min-height: auto !important;
+    padding: 10px 12px !important;
+  }
+
+  .lesson-stage-panel {
+    order: 2 !important;
+  }
+
+  .lesson-module-note {
+    order: 3 !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Compact Mimo Coach Layout */
+  .lesson-coach-heading {
+    display: none !important;
+  }
+
+  .lesson-coach-mascot {
+    min-height: auto !important;
+    width: 100% !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 0 !important;
+  }
+
+  .lesson-coach-mascot > .cursor-pointer {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 14px !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .lesson-coach-mascot svg {
+    width: 68px !important;
+    height: 75px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Horizontal Speech Bubble Placement */
+  .lesson-coach-mascot .speech-bubble {
+    position: relative !important;
+    max-width: none !important;
+    flex-grow: 1 !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    translate: none !important;
+    margin: 0 !important;
+    width: auto !important;
+    padding: 10px 14px !important;
+    border-radius: 16px !important;
+    font-size: 14px !important;
+    line-height: 1.34 !important;
+  }
+
+  .lesson-coach-mascot .speech-bubble p {
+    font-size: 13px !important;
+  }
+
+  /* Redefine Arrow pointing to the left (toward Mimo) */
+  .lesson-coach-mascot .speech-bubble::before,
+  .lesson-coach-mascot .speech-bubble::after {
+    left: auto !important;
+    bottom: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .lesson-coach-mascot .speech-bubble::before {
+    content: '' !important;
+    position: absolute !important;
+    left: -11px !important;
+    border-width: 7px 11px 7px 0 !important;
+    border-style: solid !important;
+    border-color: transparent var(--color-cloud-gray) transparent transparent !important;
+    display: block !important;
+    width: 0 !important;
+    z-index: 1 !important;
+  }
+
+  .lesson-coach-mascot .speech-bubble::after {
+    content: '' !important;
+    position: absolute !important;
+    left: -8px !important;
+    border-width: 6px 10px 6px 0 !important;
+    border-style: solid !important;
+    border-color: transparent var(--color-snow-white) transparent transparent !important;
+    display: block !important;
+    width: 0 !important;
+    z-index: 2 !important;
+  }
+
+  /* Topline Sizing */
+  .lesson-stage-topline {
+    min-height: auto !important;
+    padding: 8px 12px !important;
+    border-radius: 12px !important;
+  }
+
+  .lesson-stage-topline span {
+    font-size: 10px !important;
+  }
+
+  .lesson-stage-topline strong {
+    font-size: 14px !important;
+  }
+
+  .lesson-stage-topline em {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+  }
+
+  /* Stage Content Sizing */
+  .lesson-stage-card {
+    padding: 12px !important;
+    border-radius: 12px !important;
+  }
+
+  .lesson-stage-content {
+    padding: 2px 2px 8px !important;
+  }
+
+  .lesson-stage-content h2 {
+    font-size: 20px !important;
+  }
+
+  .lesson-stage-content p {
+    font-size: 13px !important;
+  }
+
+  /* Intro (Warm up) Stacking */
+  .lesson-intro-scene {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 16px !important;
+    padding: 10px 4px !important;
+  }
+
+  .legacy-intro-visual {
+    margin: 0 auto !important;
+    width: 170px !important;
+    height: 170px !important;
+  }
+
+  .legacy-intro-visual::before {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 38px !important;
+    line-height: 80px !important;
+  }
+
+  /* Alphabet Card Sizing */
+  .lesson-alphabet-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    max-height: none !important;
+  }
+
+  .lesson-alphabet-grid .card-3d {
+    min-height: auto !important;
+    padding: 10px 8px !important;
+  }
+
+  .lesson-alphabet-grid .w-16 {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .lesson-alphabet-grid .w-24 {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 2.5rem !important;
+  }
+
+  /* Vowel Grid Sizing */
+  .lesson-vowel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .lesson-vowel-card {
+    min-height: auto !important;
+    padding: 8px !important;
+    gap: 4px !important;
+  }
+
+  .lesson-vowel-letter {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 26px !important;
+  }
+
+  .lesson-vowel-sound {
+    font-size: 9px !important;
+    padding: 3px 6px !important;
+  }
+
+  .lesson-vowel-examples {
+    min-height: auto !important;
+    padding: 4px 6px !important;
+  }
+
+  .lesson-vowel-examples p {
+    font-size: 11px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .lesson-vowel-examples p:not(:first-child) {
+    font-size: 10px !important;
+  }
+
+  .lesson-vowel-audio .speaker-button {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Word Builder / Sentence Builder Sizing */
+  .lesson-stage-content .text-8xl {
+    font-size: 3.5rem !important;
+  }
+
+  .lesson-stage-content .text-6xl {
+    font-size: 2.5rem !important;
+  }
+
+  .lesson-stage-content .w-16.h-16 {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 20px !important;
+  }
+
+  .lesson-stage-content .px-6.py-3 {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+  }
+
+  /* Nav Buttons */
+  .lesson-stage-nav {
+    gap: 8px !important;
+    padding-top: 8px !important;
+  }
+
+  .lesson-nav-button {
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .lesson-quiz-options {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .lesson-quiz-options .card-3d {
+    min-height: auto !important;
+    padding: 10px 12px !important;
+  }
+}
