@@ -3904,7 +3904,13 @@ html:has(.landing-scroll) {
   }
 
   .duo-hero {
-    min-height: auto;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .duo-hero::before,
+  .duo-hero::after {
+    display: none !important;
   }
 
   .duo-hero-inner {
@@ -4020,7 +4026,9 @@ html:has(.landing-scroll) {
   }
 
   .duo-feature-section {
-    padding: 56px 18px;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 56px 18px !important;
   }
 
   .duo-feature-grid,
@@ -4051,7 +4059,9 @@ html:has(.landing-scroll) {
   }
 
   .duo-classroom-section {
-    padding: 56px 18px;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 56px 18px !important;
   }
 
   .duo-classroom-stage {
@@ -4075,7 +4085,9 @@ html:has(.landing-scroll) {
   }
 
   .duo-anywhere-section {
-    padding: 58px 18px;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 58px 18px !important;
   }
 
   .duo-anywhere-inner {
@@ -4122,7 +4134,9 @@ html:has(.landing-scroll) {
   }
 
   .duo-course-section {
-    padding: 58px 18px 68px;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 58px 18px 68px !important;
   }
 
   .duo-course-header h2 {
